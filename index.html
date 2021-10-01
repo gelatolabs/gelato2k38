@@ -7,11 +7,21 @@
         <script src="node_modules/xterm/lib/xterm.js"></script>
     </head>
     <body>
-        <div id="terminal"></div>
+        <button onclick="spawnTerm()">GelatoTerm</button>
         <script>
-            var term = new Terminal();
-            term.open(document.getElementById('terminal'));
-            term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+            function spawnTerm() {
+                var term = new Terminal();
+                var termWin = new WinBox({
+                    title: 'GelatoTerm',
+                    width: '400',
+                    height: '300',
+                    background: '#00ff00',
+                    html: '<div class="term"></div>'
+                });
+                term.open(termWin.body.firstChild);
+                term.write('Hello from \x1B[1;3;31mGelatoTerm\x1B[0m $ ');
+                return termWin;
+            }
         </script>
     </body>
 </html>
