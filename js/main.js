@@ -19,7 +19,7 @@ function spawnTerm() {
 
     term.open(termWin.body.firstChild);
     termFit.fit();
-    term.write("root> ");
+    term.write("/> ");
     term.focus();
 
     var input = "";
@@ -37,18 +37,18 @@ function spawnTerm() {
             // Up arrow
             historyIndex = Math.max(historyIndex - 1, 0);
             input = history[historyIndex];
-            term.write('\x9B2K\rroot> ' + input);
+            term.write('\x9B2K\r' + pwd + '> ' + input);
         }
         else if (e.key == '\x1b[B') {
             // Down arrow
             historyIndex++;
             if (historyIndex < history.length) {
                 input = history[historyIndex];
-                term.write('\x9B2K\rroot> ' + input);
+                term.write('\x9B2K\r' + pwd + '> ' + input);
             } else {
                 historyIndex = history.length;
                 input = "";
-                term.write('\x9B2K\rroot> ');
+                term.write('\x9B2K\r' + pwd + '> ');
             }
         }
         else if (e.key == '\r') {
@@ -144,7 +144,7 @@ function spawnTerm() {
                     term.write(cmd + ": command not found. If you are lost, type 'help'\n")
             }
 
-            term.write("\rroot> ");
+            term.write('\r' + pwd + '> ');
             if (input.length > 0) {
                 history.push(input);
                 historyIndex = history.length;
@@ -256,7 +256,7 @@ function termKeyEvent(e) {
     if (e.key == '\r') {
         term.write('\n');
         commandHandler(inputString);
-        term.write('\n\rroot> ');
+        term.write('\n\r/> ');
         inputString = "";
     }
 }
