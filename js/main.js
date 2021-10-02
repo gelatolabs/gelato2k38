@@ -5,6 +5,8 @@ function spawnTerm() {
 
     var termWin = new WinBox({
         title: 'GelatoTerm',
+        x: '44',
+        y: '100',
         width: '400',
         height: '300',
         onresize: termFit.fit(), // doesn't work
@@ -21,6 +23,8 @@ function spawnTerm() {
 function spawnBrowser() {
     var browserWin = new WinBox({
         title: 'Mozzarella',
+        x: '44',
+        y: '100',
         width: '600',
         height: '400',
         html: `<div class="browser">

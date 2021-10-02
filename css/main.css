@@ -34,13 +34,17 @@ html, body {
 .gde-taskbar {
     background: silver;
     box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
-    width:calc(100% - 10px);
-    padding:5px;
-    height:30px;
+    width: calc(100% - 10px);
+    padding: 5px;
+    height: 45px;
 }
 
 .gde-logo-icon {
-    height: 25px;
+    height: 44px;
     vertical-align: bottom;
     padding-right: 5px;
+}
+
+.gde-taskbar button {
+    height: 43px;
 }

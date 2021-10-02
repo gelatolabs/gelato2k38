@@ -90,6 +90,7 @@
 
 .winbox.min {
     border-radius: 0;
+    box-shadow: none;
 }
 
 .wb-body {
@@ -97,6 +98,9 @@
     margin: 4px;
     color: #fff;
     background: #131820;
+}
+.winbox.min .wb-body {
+    background: none;
 }
 
 .wb-min {
