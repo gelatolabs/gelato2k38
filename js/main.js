@@ -65,7 +65,7 @@ function spawnBrowser() {
                    <form>
                        <button class="home" type="button" onclick="return browserHome(this)">Home</button><input type="text" placeholder="Enter a URL"><button class="go" onclick="return browserNav(this)">Go</button>
                    </form>
-                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="../docs/index.html"></iframe>
+                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="https://2k38wiki.gelatolabs.xyz/start"></iframe>
                </div>`
     });
 }
@@ -80,7 +80,7 @@ function browserNav(browser) {
     return false; // don't submit form
 }
 function browserHome(browser) {
-    browser.parentElement.nextSibling.nextSibling.src = '../docs/index.html';
+    browser.parentElement.nextSibling.nextSibling.src = "https://2k38wiki.gelatolabs.xyz/start";
     return false;
 }
 
@@ -96,8 +96,7 @@ function spawnPhotoView(file) {
     const imgObj = document.querySelector('#'+photoID);
     photoWin.width = imgObj.offsetWidth;
     photoWin.height = imgObj.offsetHeight;
-    photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35)
-
+    photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
 }
 
 function toggleStart() {
@@ -161,13 +160,8 @@ function termKeyEvent(e, term) {
             term.write('\x9B2K\r' + term.pwd + '> ');
         }
     }
-    else {
-        term.input += e.key;
-        term.write(e.key);
-    }
-    if (e.key == '\r') {
+    else if (e.key == '\r') {
         term.write('\r\n');
-        term.input = term.input.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
         commandHandler(term);
         if (term.input.length > 0) {
             term.history.push(term.input);
@@ -175,6 +169,10 @@ function termKeyEvent(e, term) {
         }
         term.write('\r' + term.pwd + '> ');
         term.input = "";
+    }
+    else {
+        term.input += e.key;
+        term.write(e.key);
     }
     return term.input;
 }
@@ -227,7 +225,7 @@ IMPLEMENTATION\r
                     break;
 
                 default:
-                    term.write("Type 'help' followed by a command to learn more about it,\n\re.g. 'help cd'\n\n\rcd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rrm: remove files or directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
+                    term.write("Type 'help' followed by a command to learn more about it,\n\re.g. 'help cd'\n\n\rcd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rrm: remove files or directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n\rpview: view image files\n");
                     break;
             }
             break;
@@ -357,14 +355,16 @@ IMPLEMENTATION\r
             if (args.length == 0) {
                 term.write("pview: please enter an image filename to open\n");
             }
-            else if (localStorage.getItem(term.pwd+'/'+args[0]) == ["f", "image"]) {
-                spawnPhotoView(args[0]);
-                break;
-            }
             else {
-                term.write("pview: Not a recognized filetype.\n");
+                file = traversePath(term.pwd, args[0].split("/"));
+                if (localStorage.getItem(file) == ["f", "image"]) {
+                    spawnPhotoView(file);
+                }
+                else {
+                    term.write("pview: Filetype not recognized or file does not exist.\n");
+                }
             }
-        
+            break;
 
         case "":
             break;
