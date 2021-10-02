@@ -84,6 +84,22 @@ function browserHome(browser) {
     return false;
 }
 
+function spawnPhotoView(file) {
+    var photoURL = "fs_elements/" + file;
+    var photoID = file.split('.')[0]
+    var photoWin = new WinBox({
+        title: 'Wandering Eye',
+        x: '200',
+        y: '300',
+        html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
+    })
+    const imgObj = document.querySelector('#'+photoID);
+    photoWin.width = imgObj.offsetWidth;
+    photoWin.height = imgObj.offsetHeight;
+    photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35)
+
+}
+
 function toggleStart() {
     var startmenu = document.getElementById('gde-startmenu');
     if (startmenu.style.display == "block") {
@@ -154,7 +170,6 @@ function termKeyEvent(e, term) {
         term.input = term.input.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
         commandHandler(term);
         if (term.input.length > 0) {
-            console.log(typeof term.history);
             term.history.push(term.input);
             term.historyIndex = term.history.length;
         }
@@ -264,6 +279,10 @@ function commandHandler(term) {
                 term.write(term.history[i] + "\n\r");
             }
             break;
+
+        case "pview":
+            spawnPhotoView(args[0]);
+        
 
         case "":
             break;
