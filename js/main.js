@@ -19,10 +19,30 @@ function spawnTerm() {
 
     term.open(termWin.body.firstChild);
     termFit.fit();
-    term.write("$ ");
+    term.write("root> ");
     term.focus();
     var inputString = "";
-    term.onKey(e => {termKeyEvent(e)});
+    term.onKey(e => {
+        if (e.key.charCodeAt(0) == 127) {
+            term.write('\b\x1b[1;P');
+            inputString = inputString.slice(0,inputString.length - 1);
+        }
+        else {
+            inputString += e.key;
+            term.write(e.key);
+        }
+        if (e.key == '\r') {
+            term.write('\n');
+            if (inputString.toLowerCase().startsWith("help")) {
+                term.write("there is no help, only gelato");
+            }
+            else {
+                term.write("Unrecognized Command. If you are lost, type 'help'")
+            }
+            term.write('\n\rroot> ');
+            inputString = "";
+        }
+    });
 }
 
 function spawnBrowser() {
