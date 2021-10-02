@@ -62,7 +62,11 @@
     --border-field: inset -1px -1px var(--button-highlight),
       inset 1px 1px var(--button-shadow), inset -2px -2px var(--button-face),
       inset 2px 2px var(--window-frame);
-  }
+}
+
+.window {
+    box-shadow: inset -1px -1px #0a0a0a,inset 1px 1px #dfdfdf,inset -2px -2px grey,inset 2px 2px #fff !important;
+}
   
 .wb-header {
     font-weight: bold;
@@ -89,6 +93,9 @@
     margin: 4px;
     color: #fff;
     background: #131820;
+}
+.winbox.min .wb-header {
+    height: 33px;
 }
 .winbox.min .wb-body {
     background: none;
