@@ -16,3 +16,29 @@ function loadFile(filePath) {
    
     return result;
 }
+
+function termKeyEvent(e) {
+    if (e.key.charCodeAt(0) == 127) {
+        term.write('\b\x1b[1;P');
+        inputString = inputString.slice(0,inputString.length - 1);
+    }
+    else {
+        inputString += e.key;
+        term.write(e.key);
+    }
+    if (e.key == '\r') {
+        term.write('\n');
+        commandHandler(inputString);
+        term.write('\n\rroot> ');
+        inputString = "";
+    }
+}
+
+function commandHandler(input) {
+    if (input.toLowerCase().startsWith("help")) {
+        term.write("there is no help, only gelato");
+    }
+    else{
+        term.write("Unrecognized Command. If you are lost, type 'help'")
+    }
+}

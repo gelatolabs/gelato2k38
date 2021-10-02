@@ -2,3 +2,10 @@ html, body {
     margin:0px;
     height:100%;
   }
+
+  @font-face {
+    font-family: "VGA";
+    src: url("assets\fonts\Web437_IBM_VGA_9x16.woff") format("ttf");
+    font-weight: normal;
+    font-style: normal;
+  }
