@@ -63,7 +63,7 @@ function spawnTerm() {
 
             switch(cmd) {
                 case "help":
-                    term.write("cd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rls: list directory contents\n\rhistory: return command history\n");
+                    term.write("cd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
                     break;
 
                 case "cd":
@@ -134,6 +134,23 @@ function spawnTerm() {
                             term.write("ls: cannot access '" + paths[i] + "': No such file or directory\n");
                         }
                     }
+                    break;
+
+                case "screenfetch":
+                    term.write(`
+[0m[1;30m         #####              [0m[37m root[0m[1m@[0m[0m[37mgelato[0m[0m\r
+[0m[1;30m        #######             [0m[37m OS:[0m Gelato System 2k38 [0m[0m\r
+[0m[1;30m        ##[0m[1;37mO[0m[1;30m#[0m[1;37mO[0m[1;30m##             [0m[37m Kernel:[0m gelato 2.4.20-uc0[0m\r
+[0m[1;30m        #[0m[1;33m#####[0m[1;30m#             [0m[37m Uptime:[0m `+uptime()+`[0m[0m\r
+[0m[1;30m      ##[0m[1;37m##[0m[1;33m###[0m[1;37m##[0m[1;30m##           [0m[37m Shell:[0m gsh[0m[0m\r
+[0m[1;30m     #[0m[1;37m##########[0m[1;30m##          [0m[37m Resolution:[0m `+window.innerWidth+`x`+window.innerHeight+`[0m[0m\r
+[0m[1;30m    #[0m[1;37m############[0m[1;30m##         [0m[37m WM:[0m WinBox.js[0m[0m\r
+[0m[1;30m    #[0m[1;37m############[0m[1;30m###        [0m[37m CSS Theme:[0m 98.css [0m\r
+[0m[1;33m   ##[0m[1;30m#[0m[1;37m###########[0m[1;30m##         [0m[37m Terminal:[0m Xterm.js[0m[0m\r
+[0m[1;33m ######[0m[1;30m#[0m[1;37m#######[0m[1;30m#[0m[1;33m######      [0m[37m Font:[0m Pixelated MS Sans Serif 11[0m[0m\r
+[0m[1;33m #######[0m[1;30m#[0m[1;37m#####[0m[1;30m#[0m[1;33m#######      [0m[37m CPU:[0m RED SUS PT69 revision 1[0m\r
+[0m[1;33m   #####[0m[1;30m#######[0m[1;33m#####        [0m[37m GPU:[0m Chlamydia GooForce STI4090[0m\r
+                               \n`);
                     break;
 
                 case "history":
@@ -274,6 +291,26 @@ function commandHandler(input) {
         term.write("Unrecognized Command. If you are lost, type 'help'")
     }
 }
+
+function uptime() {
+    var delta = Math.abs(boottime - new Date()) / 1000;
+    var days = Math.floor(delta / 86400);
+    delta -= days * 86400;
+    var hours = Math.floor(delta / 3600) % 24;
+    delta -= hours * 3600;
+    var minutes = Math.floor(delta / 60) % 60;
+    delta -= minutes * 60;
+    var seconds = Math.floor(delta % 60);
+
+    result = "";
+    if (days > 0) { result += days + "d " }
+    if (hours > 0) { result += hours + "h " }
+    if (minutes > 0) { result += minutes  + "m " }
+    if (seconds > 0) { result += seconds + "s " }
+    return result;
+}
+
+const boottime = new Date();
 
 updateClock();
 setInterval(updateClock, 1000);
