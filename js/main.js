@@ -86,17 +86,20 @@ function browserHome(browser) {
 
 function spawnPhotoView(file) {
     var photoURL = "fs_elements/" + file;
-    var photoID = file.split('.')[0]
+    var photoPath = file.split('/');
+    var photoID = photoPath[photoPath.length - 1].split('.')[0]
     var photoWin = new WinBox({
         title: 'Wandering Eye',
         x: '200',
         y: '300',
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
     })
-    const imgObj = document.querySelector('#'+photoID);
-    photoWin.width = imgObj.offsetWidth;
-    photoWin.height = imgObj.offsetHeight;
+    var imgObj = document.querySelector('#'+photoID);
     photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
+    while (imgObj.offsetHeight == 0) { // fix potential race condition
+        photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
+        var imgObj = document.querySelector('#'+photoID);
+    }
 }
 
 function toggleStart() {
