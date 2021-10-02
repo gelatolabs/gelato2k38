@@ -184,7 +184,52 @@ function commandHandler(term) {
     cmd = args.shift();
     switch(cmd) {
         case "help":
-            term.write("cd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
+            switch(args[0]) {
+                case "cd":
+                    term.write(`NAME\r
+    cd - Change the shell working directory.\r
+\r
+SYNOPSIS\r
+    cd [dir]\r
+\r
+DESCRIPTION\r
+    Change the shell working directory.\r
+    \r
+    Change the current directory to [dir].  If omitted, the\r
+    default [dir] is the root of the filesystem, '/'.\r
+    \r
+    If [dir] begins with a slash (/), it is interpreted as an\r
+    absolute path. If not, it is interpreted relative to the\r
+    current working directory.\r
+\r
+    '..' in [dir] moved to the parent directory.\r
+\r
+EXAMPLES\r
+    > pwd\r
+    /starting_directory\r
+    > cd child/directories\r
+    > pwd\r
+    /starting_directory/child/directories\r
+    > cd ..\r
+    > pwd\r
+    /starting_directory/child\r
+    > cd /somewhere/else\r
+    > pwd\r
+    /somewhere/else\r
+    \r
+SEE ALSO\r
+    help pwd\r
+\r
+IMPLEMENTATION\r
+    Gelato gsh, version 5.0.17(1)-release\r
+    Copyright (C) 2021 Gelato Labs\r
+    Distributed under the ISC license\n`);
+                    break;
+
+                default:
+                    term.write("Type 'help' followed by a command to learn more about it,\n\re.g. 'help cd'\n\n\rcd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rrm: remove files or directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
+                    break;
+            }
             break;
 
         case "cd":
@@ -218,6 +263,33 @@ function commandHandler(term) {
                 } else {
                     term.write("mkdir: cannot create directory '" + args[i] + "': No such file or directory\n");
                 }
+            }
+            break;
+
+        case "rm":
+            var files = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                files.push(localStorage.key(i));
+            }
+
+            var opwd = term.pwd;
+            var paths = args;
+            if (paths.length > 0) {
+                for (var i = 0; i < paths.length; i++) {
+                    var path = traversePath(opwd, paths[i].split("/"));
+                    localStorage.removeItem(path);
+                    for (var j = 0; j < files.length; j++) {
+                        file = files[j];
+                        if (file.startsWith(path.replace(/([^\/])$/, '$1/'))) {
+                            localStorage.removeItem(file);
+                        }
+                    }
+                    while (term.pwd.startsWith(path)) {
+                        term.pwd = term.pwd.substr(0, term.pwd.lastIndexOf("/"));
+                    }
+                }
+            } else {
+                term.write("rm: missing operand\n");
             }
             break;
 
