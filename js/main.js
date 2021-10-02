@@ -22,12 +22,14 @@ function spawnTerm() {
     term.write("/> ");
     term.focus();
 
-    var input = "";
     var history = [];
     var historyIndex = 0;
     var pwd = "/";
+    var inputString = ""
 
-    term.onKey(e => {
+    term.onKey(e => {inputString = termKeyEvent(e, term, inputString)})
+
+    /*term.onKey(e => {
         if (e.key.charCodeAt(0) == 127) {
             // Backspace
             term.write('\b\x1b[1;P');
@@ -177,7 +179,7 @@ function spawnTerm() {
             input += e.key;
             term.write(e.key);
         }
-    });
+    });*/
 }
 
 function traversePath(pwd, path) {
@@ -266,24 +268,26 @@ function loadFile(filePath) {
     return result;
 }
 
-function termKeyEvent(e) {
+function termKeyEvent(e, localTerm, localInputString) {
     if (e.key.charCodeAt(0) == 127) {
-        term.write('\b\x1b[1;P');
-        inputString = inputString.slice(0,inputString.length - 1);
+        localTerm.write('\b\x1b[1;P');
+        localInputString = localInputString.slice(0,localInputString.length - 1);
     }
     else {
-        inputString += e.key;
-        term.write(e.key);
+        localInputString += e.key;
+        localTerm.write(e.key);
+        console.log(localInputString);
     }
     if (e.key == '\r') {
-        term.write('\n');
-        commandHandler(inputString);
-        term.write('\n\r/> ');
-        inputString = "";
+        localTerm.write('\n');
+        commandHandler(localInputString, localTerm);
+        localTerm.write('\n\r/> ');
+        localInputString = "";
     }
+    return localInputString;
 }
 
-function commandHandler(input) {
+function commandHandler(input, term) {
     if (input.toLowerCase().startsWith("help")) {
         term.write("there is no help, only gelato");
     }

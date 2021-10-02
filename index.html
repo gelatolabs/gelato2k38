@@ -23,10 +23,10 @@
             term.open(document.getElementById('terminal'));
             fitAddon.fit();
             term.write("");
-            slowText(loadFile("assets/text/firstboot.txt"),0,2);
+            //slowText(loadFile("assets/text/firstboot.txt"),0,2);
             term.focus();
             var inputString = "";
-            term.onKey(e => {termKeyEvent(e)})
+            term.onKey(e => {inputString = termKeyEvent(e, term, inputString)})
         </script>
     </body>
 </html>
