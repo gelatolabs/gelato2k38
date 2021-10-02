@@ -47,7 +47,9 @@ html, body {
 }
 
 .gde-taskbar button {
+    width: 50px;
     height: 43px;
+    min-width: 0;
 }
 
 #gde-startmenu {
