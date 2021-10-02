@@ -7,7 +7,8 @@ function spawnTerm() {
         title: 'GelatoTerm',
         width: '400',
         height: '300',
-        html: '<div class="term"></div>',
+        onresize: termFit.fit(), // doesn't work
+        html: '<div class="term"></div>'
     });
 
     term.open(termWin.body.firstChild);
@@ -26,7 +27,7 @@ function spawnBrowser() {
                    <form>
                        <button class="home" type="button" onclick="return browserHome(this)">Home</button><input type="text" placeholder="Enter a URL"><button class="go" onclick="return browserNav(this)">Go</button>
                    </form>
-                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="https://www.google.com/webhp?igu=1"></iframe>
+                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="docs"></iframe>
                </div>`
     });
 }
@@ -41,7 +42,7 @@ function browserNav(browser) {
     return false; // don't submit form
 }
 function browserHome(browser) {
-    browser.parentElement.nextSibling.nextSibling.src = 'https://www.google.com/webhp?igu=1';
+    browser.parentElement.nextSibling.nextSibling.src = 'docs';
     return false;
 }
 

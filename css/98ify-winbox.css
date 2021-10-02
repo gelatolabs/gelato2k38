@@ -126,3 +126,16 @@
     background: #c0c0c0;
     box-shadow: var(--border-raised-outer), var(--border-raised-inner);
 }
+
+.wb-e {
+    cursor: e-resize;
+}
+.wb-se {
+    cursor: se-resize;
+}
+.wb-s {
+    cursor: s-resize;
+}
+.wb-sw {
+    cursor: sw-resize;
+}
