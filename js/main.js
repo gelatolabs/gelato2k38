@@ -212,7 +212,7 @@ IMPLEMENTATION\r
                     break;
 
                 default:
-                    term.write("Type 'help' followed by a command to learn more about it,\n\re.g. 'help cd'\n\n\rcd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
+                    term.write("Type 'help' followed by a command to learn more about it,\n\re.g. 'help cd'\n\n\rcd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rrm: remove files or directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
                     break;
             }
             break;
@@ -248,6 +248,33 @@ IMPLEMENTATION\r
                 } else {
                     term.write("mkdir: cannot create directory '" + args[i] + "': No such file or directory\n");
                 }
+            }
+            break;
+
+        case "rm":
+            var files = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                files.push(localStorage.key(i));
+            }
+
+            var opwd = term.pwd;
+            var paths = args;
+            if (paths.length > 0) {
+                for (var i = 0; i < paths.length; i++) {
+                    var path = traversePath(opwd, paths[i].split("/"));
+                    localStorage.removeItem(path);
+                    for (var j = 0; j < files.length; j++) {
+                        file = files[j];
+                        if (file.startsWith(path.replace(/([^\/])$/, '$1/'))) {
+                            localStorage.removeItem(file);
+                        }
+                    }
+                    while (term.pwd.startsWith(path)) {
+                        term.pwd = term.pwd.substr(0, term.pwd.lastIndexOf("/"));
+                    }
+                }
+            } else {
+                term.write("rm: missing operand\n");
             }
             break;
 
