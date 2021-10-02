@@ -281,7 +281,17 @@ function commandHandler(term) {
             break;
 
         case "pview":
-            spawnPhotoView(args[0]);
+            console.log(term.pwd+'/'+args[0]);
+            if (args.length == 0) {
+                term.write("pview: please enter an image filename to open\n");
+            }
+            else if (localStorage.getItem(term.pwd+'/'+args[0]) == ["f", "image"]) {
+                spawnPhotoView(args[0]);
+                break;
+            }
+            else {
+                term.write("pview: Not a recognized filetype.\n");
+            }
         
 
         case "":
@@ -315,4 +325,6 @@ const boottime = new Date();
 updateClock();
 setInterval(updateClock, 1000);
 
+localStorage.setItem("/Images", "d");
+localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
 localStorage.setItem("/", "d");
