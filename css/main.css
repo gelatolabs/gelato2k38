@@ -27,8 +27,9 @@ html, body {
 }
 
 .gde-background {
-    background-image: url("../assets/images/cyberpunkbg.jpg");
+    background-image: url("../assets/images/bliss.png");
     background-size: cover;
+    image-rendering: pixelated;
 }
 
 .gde-taskbar {
