@@ -63,7 +63,7 @@ function spawnTerm() {
 
             switch(cmd) {
                 case "help":
-                    term.write("there is no help, only gelato\n");
+                    term.write("cd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rls: list directory contents\n\rhistory: return command history\n");
                     break;
 
                 case "cd":
@@ -146,7 +146,7 @@ function spawnTerm() {
                     break;
 
                 default:
-                    term.write(cmd + ": command not found. If you are lost, type 'help'\n")
+                    term.write(cmd + ": command not found. If you are lost, type 'help'.\n")
             }
 
             term.write('\r' + pwd + '> ');
