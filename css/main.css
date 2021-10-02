@@ -25,3 +25,22 @@ html, body {
     height: calc(100% - 23px);
     background-color: #fff;
 }
+
+.gde-background {
+    background-image: url("../assets/images/cyberpunkbg.jpg");
+    background-size: cover;
+}
+
+.gde-taskbar {
+    background: silver;
+    box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+    width:calc(100% - 10px);
+    padding:5px;
+    height:30px;
+}
+
+.gde-logo-icon {
+    height: 25px;
+    vertical-align: bottom;
+    padding-right: 5px;
+}

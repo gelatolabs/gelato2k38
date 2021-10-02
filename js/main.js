@@ -7,7 +7,7 @@ function spawnTerm() {
         title: 'GelatoTerm',
         width: '400',
         height: '300',
-        html: '<div class="term"></div>'
+        html: '<div class="term"></div>',
     });
 
     term.open(termWin.body.firstChild);
