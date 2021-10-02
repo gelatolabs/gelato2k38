@@ -22,12 +22,12 @@ function spawnTerm() {
     term.write("/> ");
     term.focus();
 
-    var history = [];
-    var historyIndex = 0;
-    var pwd = "/";
-    var inputString = ""
+    term.history = [];
+    term.historyIndex = 0;
+    term.pwd = "/";
+    term.input = ""
 
-    term.onKey(e => {inputString = termKeyEvent(e, term, inputString, history, historyIndex, pwd)});
+    term.onKey(e => {input = termKeyEvent(e, term)});
 }
 
 function traversePath(pwd, path) {
@@ -116,92 +116,92 @@ function loadFile(filePath) {
     return result;
 }
 
-function termKeyEvent(e, l_term, l_input, l_history, l_historyIndex, l_pwd) {
-        if (e.key.charCodeAt(0) == 127) {
-            // Backspace
-            l_term.write('\b\x1b[1;P');
-            l_input = l_input.slice(0, l_input.length - 1);
+function termKeyEvent(e, term) {
+    if (e.key.charCodeAt(0) == 127) {
+        // Backspace
+        term.write('\b\x1b[1;P');
+        term.input = term.input.slice(0, term.input.length - 1);
+    }
+    else if (e.key == '\x0c') {
+        // Ctrl-L
+        term.write('\x9B2J\x9BH' + term.pwd + '> ');
+        term.input = "";
+    }
+    else if (e.key == '\x1b[A' && term.history.length > 0) {
+        // Up arrow
+        term.historyIndex = Math.max(term.historyIndex - 1, 0);
+        term.input = term.history[term.historyIndex];
+        term.write('\x9B2K\r' + term.pwd + '> ' + term.input);
+    }
+    else if (e.key == '\x1b[B') {
+        // Down arrow
+        term.historyIndex++;
+        if (term.historyIndex < term.history.length) {
+            term.input = term.history[term.historyIndex];
+            term.write('\x9B2K\r' + term.pwd + '> ' + term.input);
+        } else {
+            term.historyIndex = term.history.length;
+            term.input = "";
+            term.write('\x9B2K\r' + term.pwd + '> ');
         }
-        else if (e.key == '\x0c') {
-            // Ctrl-L
-            l_term.write('\x9B2J\x9BH' + l_pwd + '> ');
-            l_input = "";
+    }
+    else {
+        term.input += e.key;
+        term.write(e.key);
+    }
+    if (e.key == '\r') {
+        term.write('\r\n');
+        term.input = term.input.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+        commandHandler(term);
+        if (term.input.length > 0) {
+            console.log(typeof term.history);
+            term.history.push(term.input);
+            term.historyIndex = term.history.length;
         }
-        else if (e.key == '\x1b[A' && l_history.length > 0) {
-            // Up arrow
-            l_historyIndex = Math.max(l_historyIndex - 1, 0);
-            l_input = l_history[l_historyIndex];
-            l_term.write('\x9B2K\r' + l_pwd + '> ' + l_input);
-        }
-        else if (e.key == '\x1b[B') {
-            // Down arrow
-            l_historyIndex++;
-            if (l_historyIndex < l_history.length) {
-                l_input = l_history[l_historyIndex];
-                l_term.write('\x9B2K\r' + l_pwd + '> ' + l_input);
-            } else {
-                l_historyIndex = l_history.length;
-                l_input = "";
-                l_term.write('\x9B2K\r' + l_pwd + '> ');
-            }
-        }
-        else {
-            l_input += e.key;
-            l_term.write(e.key);
-        }
-        if (e.key == '\r') {
-            l_term.write('\r\n');
-            l_input = l_input.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
-            commandHandler(l_input, l_term);
-            if (l_input.length > 0) {
-                console.log(typeof l_history);
-                l_history.push(l_input);
-                l_historyIndex = l_history.length;
-            }
-            l_term.write('\r' + l_pwd + '> ');
-            l_input = "";
-        }
-    return l_input;
+        term.write('\r' + term.pwd + '> ');
+        term.input = "";
+    }
+    return term.input;
 }
 
-function commandHandler(input, l_term) {
+function commandHandler(term) {
     args = input.split(' ');
     cmd = args.shift();
     switch(cmd) {
         case "help":
-            l_term.write("cd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
+            term.write("cd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n");
             break;
 
         case "cd":
             if (args.length == 0) {
-                pwd = "/";
+                term.pwd = "/";
             } else if (args.length == 1) {
-                dir = traversePath(pwd, args[0].split("/"));
+                dir = traversePath(term.pwd, args[0].split("/"));
                 if (localStorage.getItem(dir) == "d") {
-                    pwd = dir;
+                    term.pwd = dir;
                 } else {
-                    l_term.write("cd: " + args[0] + ": No such file or directory\n");
+                    term.write("cd: " + args[0] + ": No such file or directory\n");
                 }
             } else {
-                l_term.write("cd: too many arguments\n");
+                term.write("cd: too many arguments\n");
             }
             break;
 
         case "pwd":
-            l_term.write(pwd + "\n");
+            term.write(term.pwd + "\n");
             break;
 
         case "mkdir":
             for (var i = 0; i < args.length; i++) {
-                var dir = traversePath(pwd, args[i].split("/"));
+                var dir = traversePath(term.pwd, args[i].split("/"));
                 var parent = localStorage.getItem(dir.substr(0, dir.lastIndexOf("/")).replace(/^$/, '/'));
 
                 if (parent == "d") {
                     localStorage.setItem(dir, "d");
                 } else if (parent == "f") {
-                    l_term.write("mkdir: cannot create directory '" + args[i] + "': Not a directory\n");
+                    term.write("mkdir: cannot create directory '" + args[i] + "': Not a directory\n");
                 } else {
-                    l_term.write("mkdir: cannot create directory '" + args[i] + "': No such file or directory\n");
+                    term.write("mkdir: cannot create directory '" + args[i] + "': No such file or directory\n");
                 }
             }
             break;
@@ -219,31 +219,31 @@ function commandHandler(input, l_term) {
             }
 
             for (var i = 0; i < paths.length; i++) {
-                var path = traversePath(pwd, paths[i].split("/"));
+                var path = traversePath(term.pwd, paths[i].split("/"));
                 if (localStorage.getItem(path) == "d") {
                     if (paths.length > 1) {
                         if (i > 0) {
-                            l_term.write("\n\r");
+                            term.write("\n\r");
                         }
-                        l_term.write(paths[i] + ":\n\r");
+                        term.write(paths[i] + ":\n\r");
                     }
                     for (var j = 0; j < files.length; j++) {
                         var file = files[j];
                         var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
                         if (parent == path && parent != file) {
-                            l_term.write(file.substr(file.lastIndexOf("/") + 1) + "\n\r");
+                            term.write(file.substr(file.lastIndexOf("/") + 1) + "\n\r");
                         }
                     }
                 } else if (localStorage.getItem(path) == "f") {
-                    l_term.write(path.substr(path.lastIndexOf("/") + 1) + "\n\r");
+                    term.write(path.substr(path.lastIndexOf("/") + 1) + "\n\r");
                 } else {
-                    l_term.write("ls: cannot access '" + paths[i] + "': No such file or directory\n");
+                    term.write("ls: cannot access '" + paths[i] + "': No such file or directory\n");
                 }
             }
             break;
 
         case "screenfetch":
-            l_term.write(`
+            term.write(`
     [0m[1;30m         #####              [0m[37m root[0m[1m@[0m[0m[37mgelato[0m[0m\r
     [0m[1;30m        #######             [0m[37m OS:[0m Gelato System 2k38 [0m[0m\r
     [0m[1;30m        ##[0m[1;37mO[0m[1;30m#[0m[1;37mO[0m[1;30m##             [0m[37m Kernel:[0m gelato 2.4.20-uc0[0m\r
@@ -260,8 +260,8 @@ function commandHandler(input, l_term) {
             break;
 
         case "history":
-            for (var i = 0; i < history.length; i++) {
-                l_term.write(history[i] + "\n\r");
+            for (var i = 0; i < term.history.length; i++) {
+                term.write(term.history[i] + "\n\r");
             }
             break;
 
@@ -269,7 +269,7 @@ function commandHandler(input, l_term) {
             break;
 
         default:
-            l_term.write(cmd + ": command not found. If you are lost, type 'help'.\n")
+            term.write(cmd + ": command not found. If you are lost, type 'help'.\n")
     }
 }
 
