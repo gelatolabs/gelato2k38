@@ -12,10 +12,24 @@
     </head>
     <body class="gde-background">
         <div class="gde-taskbar">
-            <img class="gde-logo-icon" src="../assets/images/gelato-logo.png" />
+            <img onclick="toggleStart()" class="gde-logo-icon" src="../assets/images/gelato-logo.png" />
             <button onclick="spawnBrowser()">Mozzarella</button>
             <button onclick="spawnTerm()">GelatoTerm</button>
         </div>
-
+        <div id="gde-startmenu" class="window">
+            <div class="window-body">
+                <p><strong>Error 404:</strong> Start Menu not found</p>
+            </div>
+        </div>
+        <script>
+            function toggleStart() {
+                var startmenu = document.getElementById('gde-startmenu');
+                if (startmenu.style.display == "block") {
+                    startmenu.style.display = "none";
+                } else {
+                    startmenu.style.display = "block";
+                }
+            }
+        </script>
     </body>
 </html>
