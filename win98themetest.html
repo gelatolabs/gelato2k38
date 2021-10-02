@@ -4,12 +4,21 @@
         <link rel="stylesheet" href="node_modules/98.css/dist/98.css" />
         <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
         <link rel="stylesheet" href="css/98ify-winbox.css" />
+        <link rel="stylesheet" href="css/main.css" />
         <script src="node_modules/winbox/dist/winbox.bundle.js"></script>
         <script src="node_modules/xterm/lib/xterm.js"></script>
+        <script src="js/glue.js"></script>
     </head>
     <body>
         <button onclick="spawnTerm()">GelatoTerm</button>
         <script>
+            var slowText = function (target, message, index, interval) {   
+                if (index < message.length) {
+                $(target).append(message[index++]);
+                setTimeout(function () { slowText(target, message, index, interval); }, interval);
+                }
+            }
+
             function spawnTerm() {
                 var term = new Terminal();
                 var termWin = new WinBox({
@@ -20,7 +29,8 @@
                     html: '<div class="term"></div>'
                 });
                 term.open(termWin.body.firstChild);
-                term.write('Hello from \x1B[1;3;31mGelatoTerm\x1B[0m $ ');
+                term.write("hello");
+                slowText(document.getElementsByClassName("xterm-helper-textarea"), "foobar cat meow",0,50);
                 return termWin;
             }
         </script>

@@ -1,0 +1,193 @@
+RED SUS Boot Loader [ Version 1.3 ] Rebuilt on April 20 1996
+
+Memory Size is 4096MB
+
+Board designed by RED SUS
+
+Cache enabled!
+
+Processing image 1 ... 
+
+Processing image 2 ... 
+
+Processing image 3 ... 
+
+Processing image 4 ... 
+
+Processing image 5 ... 
+
+Processing image 6 ... 
+
+Processing image 7 ... 
+
+Unzip image 7 ... 
+
+Executing image 7 ... 
+
+gelato version 2.4.20-uc0 (root@gelato) (gcc version 3.0) October 1 08:30:46 CST 2021
+
+Processor: RED SUS PT69 revision 1
+
+Architecture: PT69
+
+On node 0 totalpages: 4096
+
+zone(0): 0 pages.
+
+zone(1): 4096 pages.
+
+zone(2): 0 pages.
+
+Kernel command line: root=/dev/rom0 rw
+
+Calibrating delay loop... 39.83 BogoMIPS
+
+Memory: 4GB = 4GB total
+
+Dentry cache hash table entries: 2048 (order: 2, 16384 bytes)
+
+Inode cache hash table entries: 1024 (order: 1, 8192 bytes)
+
+Mount-cache hash table entries: 512 (order: 0, 4096 bytes)
+
+Buffer-cache hash table entries: 1024 (order: 0, 4096 bytes)
+
+Page-cache hash table entries: 4096 (order: 2, 16384 bytes)
+
+PISSIX conformance testing by UNIFIX
+
+gelato NET4.0 for gelato 2.4
+
+Based upon Berklet University Computer Society NET3.039
+
+Initializing RT netlink socket
+
+Starting kswapd
+
+PTZ Driver has been installed successfully.
+
+RED SUS PT69 Serial driver version 1.0 (2005-08-15) with no serial options enabled
+
+ttyS00 at 0xfff80000 (irq = 9) is a PT69
+
+RED SUS PT691 Serial driver version 1.0 (2005-08-15) with no serial options enabled
+
+ttyS00 at 0xfff80100 (irq = 10) is a PT691
+
+I2C Bus Driver has been installed successfully.
+
+Blkmem copyright 1998,1999 D. Jeff Dionne
+
+Blkmem copyright 1998 Kenneth Albanowski
+
+Blkmem 1 disk images:
+
+0: 7F0E0000-7F1EBFFF [VIRTUAL 7F0E0000-7F1EBFFF] (RO)
+
+S29GL032N Flash Detected
+
+01 eth0 initial ok!
+
+which:0
+
+PPP generic driver version 2.4.2
+
+gelato video capture interface: v1.00
+
+RED SUS Audio Driver v1.0 Initialization successfully.
+
+usb.c: registered new driver hub
+
+add a static ohci host controller device
+
+: USB OHCI at membase 0xfff05000, IRQ 15
+
+hc_alloc_ohci
+
+usb-ohci.c: AMT756 erratum 4 workaround
+
+hc_reset
+
+usb.c: new USB bus registered, assigned bus number 1
+
+hub.c: USB hub found
+
+hub.c: 2 ports detected
+
+usb.c: registered new driver audio
+
+audio.c: v1.0.0:USB Audio Class driver
+
+usb.c: registered new driver serial
+
+usbserial.c: USB Serial Driver core v1.4
+
+usb.c: registered new driver zd1211b
+
+main_usb.c: TUNNEL Networking Wireless LAN USB Driver 1.20.04
+
+usb.c: registered new driver vntwusb
+
+usb.c: registered new driver rt73
+
+dvm usb cam driver 0.0.0.1 by Top Gun Goo in 2010-8-3
+
+usb.c: registered new driver dvm
+
+dvm usb cam driver 0.1 for sonicBlast by Top Gun Goo in 2009-4-20
+
+usb.c: registered new driver dvm usb cam driver for sonicBlast
+
+NET4: gelato TCP/IP 1.0 for NET4.0
+
+IP Protocols: ICMP, UDP, TCP
+
+IP: routing cache hash table of 512 buckets, 4Kbytes
+
+TCP: Hash tables configured (established 1024 bind 2048)
+
+VFS: Mounted root (romfs filesystem) readonly.
+
+Freeing init memory: 40K
+
+BINFMT_FLAT: bad magic/rev (0x74202d74, need 0x4)
+
+BINFMT_FLAT: bad magic/rev (0x74202d74, need 0x4)
+
+Shell invoked to run file: /bun/init
+Command: mount -t proc none /proc
+Command: mount -t ramfs none /usr
+Command: mount -t ramfs none /swap
+Command: mount -t ramfs none /var/run
+Command: mount -t ramfs none /etc
+Command: mount -t ramfs none /flash
+Command: mount -t ramfs none /home
+Command: mount -t ramfs none /tmp
+Command: mkdir /tmp/run
+Command: camera&
+[8]
+Command: sh
+
+Sash command shell (version 1.1.1)
+no support
+/> hub.c: connect-debounce failed, port 1 disabled
+
+new USB device :80fb8086-fed8008
+
+probing video subsystem...
+FAIL
+
+Unknown device: Chlamydia GooForce STI4090
+
+continuing in text-mode...
+
+probing audio subsystem...
+FAIL
+
+Unknown device: Fanciful Audio Cannon Z5
+
+audio output is not available.
+
+Welcome to Gelato System!
+
+root>
