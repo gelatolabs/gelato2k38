@@ -31,7 +31,7 @@ function spawnBrowser() {
                    <form>
                        <button class="home" type="button" onclick="return browserHome(this)">Home</button><input type="text" placeholder="Enter a URL"><button class="go" onclick="return browserNav(this)">Go</button>
                    </form>
-                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="docs"></iframe>
+                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="https://2k38.gelatolabs.xyz/docs/index.html"></iframe>
                </div>`
     });
 }
@@ -39,14 +39,14 @@ function spawnBrowser() {
 function browserNav(browser) {
     url = browser.previousSibling.value;
     if (!/^https?:\/\//i.test(url)) {
-        url = 'http://' + url;
+        url = 'https://' + url;
     }
     browser.parentElement.nextSibling.nextSibling.src = url;
     browser.previousSibling.value = '';
     return false; // don't submit form
 }
 function browserHome(browser) {
-    browser.parentElement.nextSibling.nextSibling.src = 'docs';
+    browser.parentElement.nextSibling.nextSibling.src = 'https://2k38.gelatolabs.xyz/docs/index.html';
     return false;
 }
 
