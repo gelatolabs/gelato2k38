@@ -25,11 +25,11 @@
             term.write("");
             //slowText(loadFile("assets/text/firstboot.txt"),0,2);
             term.focus();
-            var history = [];
-            var historyIndex = 0;
-            var pwd = "/";
-            var inputString = ""
-            term.onKey(e => {inputString = termKeyEvent(e, term, inputString, history, historyIndex, pwd)});
+            term.history = [];
+            term.historyIndex = 0;
+            term.pwd = "/";
+            term.input = ""
+            term.onKey(e => {input = termKeyEvent(e, term)});
         </script>
     </body>
 </html>
