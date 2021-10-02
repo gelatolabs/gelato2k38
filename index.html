@@ -14,6 +14,9 @@
             const fitAddon = new FitAddon.FitAddon();
             var term = new Terminal({
                 fontSize: 30,
+                theme: {
+                    foreground: '#0F0'
+                },
                 bellStyle: 'sound',
             });
             term.loadAddon(fitAddon);
@@ -21,6 +24,7 @@
             fitAddon.fit();
             term.write("");
             slowText(loadFile("assets/text/firstboot.txt"),0,2);
+            term.focus();
             var inputString = "";
             term.onKey(e => {termKeyEvent(e)})
         </script>

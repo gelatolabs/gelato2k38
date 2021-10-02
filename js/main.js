@@ -1,5 +1,9 @@
 function spawnTerm() {
-    const term = new Terminal();
+    const term = new Terminal({
+        theme: {
+            foreground: '#0F0'
+        }
+    });
     const termFit = new FitAddon.FitAddon();
     term.loadAddon(termFit);
 
@@ -16,6 +20,7 @@ function spawnTerm() {
     term.open(termWin.body.firstChild);
     termFit.fit();
     term.write("$ ");
+    term.focus();
     var inputString = "";
     term.onKey(e => {termKeyEvent(e)});
 }
