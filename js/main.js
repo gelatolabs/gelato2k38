@@ -65,7 +65,12 @@ function spawnTerm() {
                     if (args.length == 0) {
                         pwd = "/";
                     } else if (args.length == 1) {
-                        pwd = traversePath(pwd, args[0].split("/"));
+                        dir = traversePath(pwd, args[0].split("/"));
+                        if (localStorage.getItem(dir) == "d") {
+                            pwd = dir;
+                        } else {
+                            term.write("cd: " + args[0] + ": No such file or directory\n");
+                        }
                     } else {
                         term.write("cd: too many arguments\n");
                     }
@@ -136,17 +141,23 @@ function traversePath(pwd, path) {
     if (path.length == 0) {
         return pwd.replace(/\/+/g, '/').replace(/^$/, '/');
     }
-    else if (path[0] == "") {
-        return traversePath("/", path.slice(1));
-    }
-    else if (path[0] == "..") {
-        return traversePath(pwd.substr(0, pwd.lastIndexOf("/")), path.slice(1));
-    }
-    else if (path[0] == ".") {
-        return traversePath(pwd, path.slice(1))
-    }
-    else {
-        return traversePath(pwd + "/" + path[0], path.slice(1));
+
+    switch (path[0]) {
+        case "":
+            return traversePath("/", path.slice(1));
+            break;
+
+        case "..":
+            return traversePath(pwd.substr(0, pwd.lastIndexOf("/")), path.slice(1));
+            break;
+
+        case ".":
+            return traversePath(pwd, path.slice(1));
+            break;
+
+        default:
+            return traversePath(pwd + "/" + path[0], path.slice(1));
+            break;
     }
 }
 
