@@ -101,11 +101,32 @@ function spawnTerm() {
                         files.push(localStorage.key(i));
                     }
                     files.sort();
-                    for (var i = 0; i < files.length; i++) {
-                        var file = files[i];
-                        var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
-                        if (parent == pwd && parent != file) {
-                            term.write(file.substr(file.lastIndexOf("/") + 1) + "\n\r");
+
+                    var paths = args;
+                    if (paths.length == 0) {
+                        paths[0] = ".";
+                    }
+
+                    for (var i = 0; i < paths.length; i++) {
+                        var path = traversePath(pwd, paths[i].split("/"));
+                        if (localStorage.getItem(path) == "d") {
+                            if (paths.length > 1) {
+                                if (i > 0) {
+                                    term.write("\n\r");
+                                }
+                                term.write(paths[i] + ":\n\r");
+                            }
+                            for (var j = 0; j < files.length; j++) {
+                                var file = files[j];
+                                var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
+                                if (parent == path && parent != file) {
+                                    term.write(file.substr(file.lastIndexOf("/") + 1) + "\n\r");
+                                }
+                            }
+                        } else if (localStorage.getItem(path) == "f") {
+                            term.write(path.substr(path.lastIndexOf("/") + 1) + "\n\r");
+                        } else {
+                            term.write("ls: cannot access '" + paths[i] + "': No such file or directory\n");
                         }
                     }
                     break;
