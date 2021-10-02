@@ -215,7 +215,7 @@ function spawnBrowser() {
                    <form>
                        <button class="home" type="button" onclick="return browserHome(this)">Home</button><input type="text" placeholder="Enter a URL"><button class="go" onclick="return browserNav(this)">Go</button>
                    </form>
-                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="https://2k38.gelatolabs.xyz/docs/index.html"></iframe>
+                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="../docs/index.html"></iframe>
                </div>`
     });
 }
@@ -230,7 +230,7 @@ function browserNav(browser) {
     return false; // don't submit form
 }
 function browserHome(browser) {
-    browser.parentElement.nextSibling.nextSibling.src = 'https://2k38.gelatolabs.xyz/docs/index.html';
+    browser.parentElement.nextSibling.nextSibling.src = '../docs/index.html';
     return false;
 }
 
