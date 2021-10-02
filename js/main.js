@@ -33,6 +33,11 @@ function spawnTerm() {
             term.write('\b\x1b[1;P');
             input = input.slice(0, input.length - 1);
         }
+        else if (e.key == '\x0c') {
+            // Ctrl-L
+            term.write('\x9B2J\x9BH' + pwd + '> ');
+            input = "";
+        }
         else if (e.key == '\x1b[A' && history.length > 0) {
             // Up arrow
             historyIndex = Math.max(historyIndex - 1, 0);
