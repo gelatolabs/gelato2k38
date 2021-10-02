@@ -1,7 +1,7 @@
 var slowText = function (message, index, interval) {   
     if (index < message.length) {
-    term.write(message[index++]);
-    setTimeout(function () { slowText(message, index, interval); }, interval);
+        term.write(message[index++]);
+        setTimeout(function () { slowText(message, index, interval); }, interval);
     }
 }
 
@@ -11,7 +11,7 @@ function loadFile(filePath) {
     xmlhttp.open("GET", filePath, false);
     xmlhttp.send();
     if (xmlhttp.status==200) {
-    result = xmlhttp.responseText;
+        result = xmlhttp.responseText;
     }
    
     return result;
@@ -38,7 +38,7 @@ function commandHandler(input) {
     if (input.toLowerCase().startsWith("help")) {
         term.write("there is no help, only gelato");
     }
-    else{
+    else {
         term.write("Unrecognized Command. If you are lost, type 'help'")
     }
 }
