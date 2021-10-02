@@ -19,8 +19,11 @@ function loadFile(filePath) {
 
 function termKeyEvent(e) {
     if (e.key.charCodeAt(0) == 127) {
-        term.write('\b\x1b[1;P');
-        inputString = inputString.slice(0,inputString.length - 1);
+        if (inputString.length > 0) {
+            term.write('\b\x1b[1;P');
+            inputString = inputString.slice(0,inputString.length - 1);
+        }
+        else {term.write('\x07');}
     }
     else {
         inputString += e.key;
