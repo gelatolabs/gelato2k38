@@ -55,6 +55,21 @@ function browserHome(browser) {
     return false;
 }
 
+function toggleStart() {
+    var startmenu = document.getElementById('gde-startmenu');
+    if (startmenu.style.display == "block") {
+        startmenu.style.display = "none";
+    } else {
+        startmenu.style.display = "block";
+    }
+}
+
+function updateClock() {
+    document.getElementById('gde-clock').innerHTML = new Date().toLocaleTimeString();
+}
+updateClock();
+setInterval(updateClock, 1000);
+
 var slowText = function (message, index, interval) {   
     if (index < message.length) {
         term.write(message[index++]);

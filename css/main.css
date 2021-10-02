@@ -50,6 +50,7 @@ html, body {
 }
 
 #gde-startmenu {
+    z-index: 100;
     position: absolute;
     display: none;
     top: 45;
@@ -57,4 +58,11 @@ html, body {
     width: 300px;
     height: 400px;
     background-color: silver;
+}
+
+#gde-clock {
+    display: inline-block;
+    float: right;
+    margin-top: 16px;
+    margin-right: 12px;
 }
