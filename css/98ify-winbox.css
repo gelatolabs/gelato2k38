@@ -64,14 +64,6 @@
       inset 2px 2px var(--window-frame);
   }
   
-.winbox {
-    background: #f1f4f3;
-    padding: 3px 2px 3px 3px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .wb-header {
     font-weight: bold;
     color: white;
@@ -83,10 +75,9 @@
 
 .wb-title {
     font-family: "Pixelated MS Sans Serif", Arial;
-  -webkit-font-smoothing: none;
-  font-size: 11px;
+    -webkit-font-smoothing: none;
+    font-size: 11px;
 }
-
 
 .winbox.min {
     border-radius: 0;
@@ -103,15 +94,22 @@
     background: none;
 }
 
+.wb-icon span {
+    height: 23px;
+    margin: 4px 4px 0 0;
+    background-color: #f1f4f3;
+    background-repeat: no-repeat;
+    background-size: 12px;
+    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+}
+
 .wb-min {
     background-image: url("../node_modules/98.css/icon/minimize.svg");
-    background-repeat: no-repeat;
-
+    background-position-y: 13px;
 }
 
 .wb-max {
     background-image: url("../node_modules/98.css/icon/maximize.svg");
-    background-repeat: no-repeat;
 }
 
 .wb-full {
@@ -119,14 +117,7 @@
 }
 
 .wb-close {
-    margin-left: 2px;
     background-image: url("../node_modules/98.css/icon/close.svg");
-    background-repeat: no-repeat;
-}
-
-.wb-icon {
-    background: #f1f4f3;
-    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
 }
 
 .wb-e {
