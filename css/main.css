@@ -40,16 +40,20 @@ html, body {
     padding: 4px 0 2px 4px;
 }
 
-.gde-logo-icon {
-    height: 32px;
-    transform: translate(-4px, 1px);
-}
-
 .gde-taskbar button {
-    width: 50px;
-    height: 41px;
-    min-width: 0;
-    vertical-align: top;
+    height: 41px !important;
+    min-width: 0 !important;
+    padding: 5px !important;
+    text-align: left !important;
+}
+.gde-taskbar button img {
+    height: 100% !important;
+}
+.gde-taskbar button span {
+    display: inline-block;
+    margin: 5px 10px;
+    vertical-align: bottom;
+    font-size: 20px;
 }
 
 .gde-startmenu {
@@ -67,7 +71,16 @@ html, body {
 .gde-startmenu button {
     width: 100%;
     text-align: left;
-    padding: 10px !important;
+    padding: 6px 6px 3px 6px !important;
+}
+.gde-startmenu button img {
+    height: 21px;
+}
+.gde-startmenu button span {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: 6px;
+    margin-bottom: 6px;
 }
 .gde-startmenu a {
     text-decoration: underline;

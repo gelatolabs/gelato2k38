@@ -14,14 +14,14 @@
     </head>
     <body class="gde-background">
         <div class="gde-taskbar">
-            <button onclick="toggleStart()"><img class="gde-logo-icon" src="../assets/images/gelato-logo.png" /></button>
-            <button onclick="spawnBrowser()">WEB</button><button onclick="spawnTerm()">CMD</button>
+            <button onclick="toggleStart()"><img class="gde-logo-icon" src="../assets/images/gelato-logo.png" /> <span>Start</span></button>
+            <button onclick="spawnBrowser()"><img src="../assets/images/mozzarella-logo.png" /></button><button onclick="spawnTerm()"><img src="../assets/images/gelatoterm-logo.png" /></button>
             <div id="gde-clock"></div>
         </div>
         <div id="gde-startmenu-real" class="window gde-startmenu">
             <div class="window-body">
                 <p><strong>Start</strong></p>
-                <button onclick="toggleStart(); spawnBrowser()">Mozzarella</button><button onclick="toggleStart(); spawnTerm()">GelatoTerm</button><button onclick="toggleStart(); lowRes()">Debug lowres</button><button onclick="toggleStart(); fullRes()">Debug fullres</button><button onclick="toggleStart(); spawnAbout()" style="padding-left: 8px">About your Gelato System</button><button onclick="toggleStart(); window.location.href = 'reboot.html'">Reboot</button><button onclick="toggleStart(); window.location.href = 'reboot.html'">Shutdown</button>
+                <button onclick="toggleStart(); spawnBrowser()"><img src="../assets/images/mozzarella-logo.png" /><span>Mozzarella</span></button><button onclick="toggleStart(); spawnTerm()"><img src="../assets/images/gelatoterm-logo.png" /><span>GelatoTerm</span></button><button onclick="toggleStart(); lowRes()"><img src="../assets/images/debug-logo.png" /><span>Debug lowres</span></button><button onclick="toggleStart(); fullRes()"><img src="../assets/images/debug-logo.png" /><span>Debug fullres</span></button><button onclick="toggleStart(); spawnAbout()" style="padding-left: 8px"><img src="../assets/images/about-logo.png" /><span>About your Gelato System</span></button><button onclick="toggleStart(); window.location.href = 'reboot.html'"><img src="../assets/images/reboot-logo.png" /><span>Reboot</span></button><button onclick="toggleStart(); window.location.href = 'reboot.html'"><img src="../assets/images/shutdown-logo.png" /><span>Shutdown</span></button>
             </div>
             <div class="status-bar">
                 <p class="status-bar-field">Gelato System 2K38</p>

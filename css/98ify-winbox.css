@@ -81,11 +81,24 @@
     font-family: "Pixelated MS Sans Serif", Arial;
     -webkit-font-smoothing: none;
     font-size: 11px;
+    padding: 0;
+}
+.wb-title img {
+    height: 21px;
+    padding: 6px;
+}
+.wb-title span {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 12px;
 }
 
 .winbox.min {
     border-radius: 0;
     box-shadow: none;
+}
+.winbox.min .wb-icon span {
+    height: 25px;
 }
 
 .winbox.max {

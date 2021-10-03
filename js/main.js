@@ -45,7 +45,7 @@ async function spawnTerm() {
     term.loadAddon(termFit);
 
     var termWin = new WinBox({
-        title: 'GelatoTerm',
+        title: '<img src="/assets/images/gelatoterm-logo.png" /> <span>GelatoTerm</span>',
         class: ['termWin'],
         root: document.body,
         x: '44',
@@ -251,7 +251,7 @@ async function winSizeHelper(win) {
 function spawnBrowser(url) {
     url = url ? url : 'https://2k38wiki.gelatolabs.xyz/start';
     var browserWin = new WinBox({
-        title: 'Mozzarella',
+        title: '<img src="/assets/images/mozzarella-logo.png" /> <span>Mozzarella</span>',
         root: document.body,
         x: '44',
         y: '100',
