@@ -38,6 +38,9 @@ async function spawnTerm() {
     term.history = [];
     term.pwd = "/";
 
+    localEcho.addAutocompleteHandler(autocompleteCommands, term);
+    localEcho.addAutocompleteHandler(autocompleteFiles, term);
+
     term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
 
     while (true) {
@@ -47,26 +50,143 @@ async function spawnTerm() {
     }
 }
 
+function autocompleteCommands(index, tokens, term) {
+    if (index == 0) return ["cd", "help", "history", "ls", "mkdir", "pview", "pwd", "rm", "screenfetch", "sndplay"];
+    return [];
+}
+
+function autocompleteFiles(index, tokens, term) {
+    if (index == 0) return [];
+
+    switch(tokens[0]) {
+        case "help":
+            return ["cd", "history", "ls", "mkdir", "pview", "pwd", "rm", "screenfetch", "sndplay"];
+            break;
+
+        case "cd":
+        case "mkdir":
+            if (index > 1) {
+                return [];
+            }
+
+            var files = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                files.push(localStorage.key(i));
+            }
+            files.sort();
+
+            var matches = [];
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
+                if (parent == term.pwd && parent != file && localStorage.getItem(file) == "d") {
+                    matches.push(file.substr(file.lastIndexOf("/") + 1) + "/");
+                }
+            }
+            return matches;
+            break;
+
+        case "ls":
+        case "rm":
+            if (index > 1) {
+                return [];
+            }
+
+            var files = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                files.push(localStorage.key(i));
+            }
+            files.sort();
+
+            var matches = [];
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
+                if (parent == term.pwd && parent != file) {
+                    if (localStorage.getItem(file) == "d") {
+                        matches.push(file.substr(file.lastIndexOf("/") + 1) + "/");
+                    } else {
+                        matches.push(file.substr(file.lastIndexOf("/") + 1));
+                    }
+                }
+            }
+            return matches;
+            break;
+
+        case "pview":
+            if (index > 1) {
+                return [];
+            }
+
+            var files = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                files.push(localStorage.key(i));
+            }
+            files.sort();
+
+            var matches = [];
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
+                if (parent == term.pwd && parent != file && localStorage.getItem(file) == ["f", "image"]) {
+                    matches.push(file.substr(file.lastIndexOf("/") + 1));
+                }
+            }
+            return matches;
+            break;
+
+        case "sndplay":
+            if (index > 1) {
+                return [];
+            }
+
+            var files = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                files.push(localStorage.key(i));
+            }
+            files.sort();
+
+            var matches = [];
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
+                if (parent == term.pwd && parent != file && localStorage.getItem(file) == ["f", "audio"]) {
+                    matches.push(file.substr(file.lastIndexOf("/") + 1));
+                }
+            }
+            return matches;
+            break;
+
+        default:
+            return [];
+            break;
+    }
+}
+
 function traversePath(pwd, path) {
+    return traversePathArr(pwd, path.replace(/\/$/, "").split("/"));
+}
+
+function traversePathArr(pwd, path) {
     if (path.length == 0) {
         return pwd.replace(/\/+/g, '/').replace(/^$/, '/');
     }
 
     switch (path[0]) {
         case "":
-            return traversePath("/", path.slice(1));
+            return traversePathArr("/", path.slice(1));
             break;
 
         case "..":
-            return traversePath(pwd.substr(0, pwd.lastIndexOf("/")), path.slice(1));
+            return traversePathArr(pwd.substr(0, pwd.lastIndexOf("/")), path.slice(1));
             break;
 
         case ".":
-            return traversePath(pwd, path.slice(1));
+            return traversePathArr(pwd, path.slice(1));
             break;
 
         default:
-            return traversePath(pwd + "/" + path[0], path.slice(1));
+            return traversePathArr(pwd + "/" + path[0], path.slice(1));
             break;
     }
 }
@@ -111,11 +231,11 @@ function spawnPhotoView(file) {
         root: document.body,
         x: '200',
         y: '300',
-        width:'69',
+        width: '69',
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
-    })
+    });
     var imgObj = document.querySelector('#'+photoID);
-    
+
     setTimeout(function () {photoSizeHelper(photoWin, imgObj)}, 100);
 }
 
@@ -144,7 +264,6 @@ function spawnAudioPlayer(file) {
         photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
         var imgObj = document.querySelector('#'+photoID);*/
 }
-
 
 function spawnAbout() {
     var aboutWin = new WinBox({
@@ -199,7 +318,7 @@ function loadFile(filePath) {
     if (xmlhttp.status==200) {
         result = xmlhttp.responseText;
     }
-   
+
     return result;
 }
 
@@ -212,7 +331,9 @@ function termKeyEvent(e, term, echo) {
 }
 
 function commandHandler(term, echo, input) {
-    args = input.split(' ');
+    args = input.split(' ').filter(function(str) {
+        return /\S/.test(str);
+    });
     cmd = args.shift();
     switch(cmd) {
         case "help":
@@ -257,17 +378,17 @@ IMPLEMENTATION
     Copyright (C) 2021 Gelato Labs
     Distributed under the ISC license`);
                     break;
-                
-                case "ls":
-                echo.println(`NAME
-    ls - list directory contents
 
+                case "ls":
+                    echo.println(`NAME
+    ls - list directory contents
+ 
 SYNOPSIS
     ls [dir]...
-
+ 
 DESCRIPTION
     List  information  about the directory specified (the current directory by default).
-
+ 
 EXAMPLES:
     > ls
     foo
@@ -275,25 +396,25 @@ EXAMPLES:
     > ls foo
     lorem
     ipsum
-
+ 
 SEE ALSO
     help cd
-
+ 
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
     Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`)
+    Distributed under the ISC license`);
                     break;
                 case "pwd":
                     echo.println(`NAME
     pwd - print name of current/working directory
-
+ 
 SYNOPSIS
     pwd
-
+ 
 DESCRIPTION
     Print the full filename of the current working directory.
-    
+ 
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
     Copyright (C) 2021 Gelato Labs
@@ -302,34 +423,34 @@ IMPLEMENTATION
                 case "mkdir":
                     echo.println(`NAME
     mkdir - make directories
-
+ 
 SYNOPSIS
     mkdir DIRECTORY...
-
+ 
 DESCRIPTION
     Create the DIRECTORY, if it does not already exist.
-
+ 
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
     Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`)
+    Distributed under the ISC license`);
                     break;    
                 case "rm":
                     echo.println(`NAME
     rm - remove files or directories
-
 SYNOPSIS
     rm [FILE]...
-
+ 
 DESCRIPTION
     rm removes each specified file.  By default, it does not
     remove directories.
-
+ 
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
     Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`)
+    Distributed under the ISC license`);
                     break;
+
                 default:
                     echo.println(`Type 'help' followed by a command to learn more about it,
 e.g. 'help cd'
@@ -351,7 +472,7 @@ sndplay: play audio files`);
             if (args.length == 0) {
                 term.pwd = "/";
             } else if (args.length == 1) {
-                dir = traversePath(term.pwd, args[0].split("/"));
+                dir = traversePath(term.pwd, args[0]);
                 if (localStorage.getItem(dir) == "d") {
                     term.pwd = dir;
                 } else {
@@ -368,7 +489,7 @@ sndplay: play audio files`);
 
         case "mkdir":
             for (var i = 0; i < args.length; i++) {
-                var dir = traversePath(term.pwd, args[i].split("/"));
+                var dir = traversePath(term.pwd, args[i]);
                 var parent = localStorage.getItem(dir.substr(0, dir.lastIndexOf("/")).replace(/^$/, '/'));
 
                 if (parent == "d") {
@@ -391,7 +512,7 @@ sndplay: play audio files`);
             var paths = args;
             if (paths.length > 0) {
                 for (var i = 0; i < paths.length; i++) {
-                    var path = traversePath(opwd, paths[i].split("/"));
+                    var path = traversePath(opwd, paths[i]);
                     localStorage.removeItem(path);
                     for (var j = 0; j < files.length; j++) {
                         file = files[j];
@@ -421,7 +542,7 @@ sndplay: play audio files`);
             }
 
             for (var i = 0; i < paths.length; i++) {
-                var path = traversePath(term.pwd, paths[i].split("/"));
+                var path = traversePath(term.pwd, paths[i]);
                 if (localStorage.getItem(path) == "d") {
                     if (paths.length > 1) {
                         if (i > 0) {
@@ -434,7 +555,7 @@ sndplay: play audio files`);
                         var file = files[j];
                         var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
                         if (parent == path && parent != file) {
-                            if (localStorage.getItem(path) == "d") {
+                            if (localStorage.getItem(file) == "d") {
                                 output.push(file.substr(file.lastIndexOf("/") + 1) + "/");
                             } else {
                                 output.push(file.substr(file.lastIndexOf("/") + 1));
@@ -442,10 +563,10 @@ sndplay: play audio files`);
                         }
                     }
                     echo.printWide(output);
-                } else if (localStorage.getItem(path) == "f") {
+                } else if (localStorage.getItem(path)[0] == "f") {
                     echo.println(path.substr(path.lastIndexOf("/") + 1));
                 } else {
-                    echo.println("ls: cannot access '" + paths[i] + "': No such file or directory");
+                    echo.println("ls: cannot access '" + paths[i] + "': No such file or directory"); // broken
                 }
             }
             break;
@@ -478,7 +599,7 @@ sndplay: play audio files`);
                 echo.println("pview: please enter an image filename to open");
             }
             else {
-                file = traversePath(term.pwd, args[0].split("/"));
+                file = traversePath(term.pwd, args[0]);
                 if (localStorage.getItem(file) == ["f", "image"]) {
                     spawnPhotoView(file);
                 }
@@ -488,21 +609,21 @@ sndplay: play audio files`);
             }
             break;
 
-            case "sndplay":
-                console.log(term.pwd+'/'+args[0]);
-                if (args.length == 0) {
-                    echo.println("sndplay: please enter an audio filename to open");
+        case "sndplay":
+            console.log(term.pwd+'/'+args[0]);
+            if (args.length == 0) {
+                echo.println("sndplay: please enter an audio filename to open");
+            }
+            else {
+                file = traversePath(term.pwd, args[0]);
+                if (localStorage.getItem(file) == ["f", "audio"]) {
+                    spawnAudioPlayer(file);
                 }
                 else {
-                    file = traversePath(term.pwd, args[0].split("/"));
-                    if (localStorage.getItem(file) == ["f", "audio"]) {
-                        spawnAudioPlayer(file);
-                    }
-                    else {
-                        echo.println("sndplay: Filetype not recognized or file does not exist.");
-                    }
+                    echo.println("sndplay: Filetype not recognized or file does not exist.");
                 }
-                break;
+            }
+            break;
 
         case "":
             break;
