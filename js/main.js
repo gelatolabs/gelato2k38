@@ -632,7 +632,7 @@ sndplay: play audio files`);
             echo.println(cmd + ": command not found. If you are lost, type 'help'.")
     }
     if (input.length > 0) {
-        term.history.push(term.input);
+        term.history.push(input);
     }
 }
 
