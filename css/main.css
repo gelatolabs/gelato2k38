@@ -35,21 +35,21 @@ html, body {
 .gde-taskbar {
     background: silver;
     box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
-    width: calc(100% - 10px);
-    padding: 5px;
-    height: 45px;
+    width: calc(100% - 4px);
+    height: 43px;
+    padding: 4px 0 2px 4px;
 }
 
 .gde-logo-icon {
-    height: 44px;
-    vertical-align: bottom;
-    padding-right: 5px;
+    height: 32px;
+    transform: translate(-4px, 1px);
 }
 
 .gde-taskbar button {
     width: 50px;
-    height: 43px;
+    height: 41px;
     min-width: 0;
+    vertical-align: top;
 }
 
 #gde-startmenu {
@@ -66,8 +66,7 @@ html, body {
 #gde-clock {
     display: inline-block;
     float: right;
-    margin-top: 16px;
-    margin-right: 12px;
+    margin: 1em;
     font-family: "Pixelated MS Sans Serif";
     font-size: 14px;
 }

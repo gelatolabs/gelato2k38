@@ -88,6 +88,13 @@
     box-shadow: none;
 }
 
+.winbox.max {
+    padding-bottom: 10px;
+}
+.winbox.max .wb-body {
+    margin: 4px !important;
+}
+
 .wb-body {
     /* the width of window border: */
     margin: 4px;

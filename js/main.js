@@ -735,7 +735,7 @@ function lowRes() {
 
 function fullRes() {
     var lrCSSHook = document.querySelector("#lowresCSS");
-    lrCSSHook.parentElement.removeChild(lrCSSHook)
+    lrCSSHook.parentElement.removeChild(lrCSSHook);
 }
 
 const boottime = new Date();
