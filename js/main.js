@@ -855,4 +855,5 @@ switch (dispDrv) {
     case "ps3x":
     case "radvid":
         document.body.classList.add("crt");
+        document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
 }
