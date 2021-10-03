@@ -44,6 +44,8 @@ async function spawnTerm() {
 
     term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
 
+    localEcho.println("Welcome to the Gelato System. Type 'help' for help.");
+
     while (true) {
         await localEcho.read(term.pwd + "> ")
             .then(input => commandHandler(term, localEcho, input))
@@ -300,12 +302,13 @@ function updateClock() {
     document.getElementById('gde-clock').innerHTML = new Date().toLocaleTimeString();
 }
 
-function slowText (message, index, interval) {   
-    if (index < message.length) {
-        term.write(message[index++]);
-        setTimeout(function () { slowText(message, index, interval); }, interval);
+function slowText (echo, message, speed) {
+    echo.print('\x9B2J\x9BH');
+    for (var i = 0; i < message.length; i++) {
+        setTimeout(function (c) {
+            echo.print(c);
+        }, i * speed, message[i]);
     }
-
 }
 
 function loadFile(filePath) {

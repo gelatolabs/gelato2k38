@@ -7,31 +7,48 @@
         <script src="node_modules/xterm/lib/xterm.js"></script>
         <script src="node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/local-echo.js"></script>
     </head>
-    <body>
+    <body style="background-color: #000; overflow: hidden">
         <div id="terminal" style="height:100%;"></div>
         <p class="foobar"></p>
         <script>
-            const fitAddon = new FitAddon.FitAddon();
-            var term = new Terminal({
-                fontSize: 30,
-                theme: {
-                    foreground: '#0F0'
-                },
-                bellStyle: 'sound',
-            });
-            term.loadAddon(fitAddon);
-            term.open(document.getElementById('terminal'));
-            fitAddon.fit();
-            term.write("");
-            slowText(loadFile("assets/text/firstboot.txt"),0,2);
-            term.focus();
-            window.clippiPhase = 1;
-            term.history = [];
-            term.historyIndex = 0;
-            term.pwd = "/";
-            term.input = ""
-            term.onKey(e => {input = termKeyEvent(e, term)});
+            async function boot() {
+                const term = new Terminal({
+                    fontSize: 30,
+                    theme: {
+                        foreground: '#0F0'
+                    },
+                    bellStyle: 'sound',
+                });
+                const termFit = new FitAddon.FitAddon();
+                const localEcho = new LocalEchoController();
+                term.loadAddon(termFit);
+
+                term.open(document.getElementById('terminal'));
+                term.loadAddon(localEcho);
+                termFit.fit();
+                term.focus();
+
+                term.history = [];
+                term.pwd = "/";
+                window.clippiPhase = 1;
+
+                slowText(localEcho, loadFile("assets/text/firstboot.txt"), 1.5);
+
+                term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
+
+                await localEcho.read("")
+                    .then(input => commandHandler(term, localEcho, input))
+                    .catch(error => void(0));
+
+                while (true) {
+                    await localEcho.read(term.pwd + "> ")
+                        .then(input => commandHandler(term, localEcho, input))
+                        .catch(error => void(0));
+                }
+            }
+            boot();
         </script>
     </body>
 </html>
