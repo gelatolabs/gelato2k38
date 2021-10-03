@@ -1,3 +1,6 @@
+version = "2K38"
+buildDate = "October 4, 2021"
+
 function clippi(term) {
     clippiArt(term);
     switch(window.clippiPhase) {
@@ -111,6 +114,30 @@ function spawnPhotoView(file) {
         photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
         var imgObj = document.querySelector('#'+photoID);
     }
+}
+
+function spawnAbout() {
+    var aboutWin = new WinBox({
+        title: "About Gelato System",
+        x:'100',
+        y:'100',
+        width: '250',
+        height: '350',
+        html: `<div id="about" style="height:100%;width:100%;background:#c0c0c0;">
+        <p style="text-align:center;font-size:20pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Gelato System</p>
+        <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Version: `+version+`</p>
+        <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Build Date: `+buildDate+`</p>
+        <img src="../assets/images/gelato-logo.png" style="width:60%;margin-left:20%;margin-right:20%;" />
+        <div class="scroll-up">
+        <p>Made for Ludum Dare 49: "Unstable"<br>
+        <br>
+        The Gelato-Labs "G-Team" is:<br>
+        Kyle Farwell (kfarwell)<br>
+        Matthew Petry (fireTwoOneNine)<br>
+        Ryan Refcio<br></p>
+        </div>
+        </div>`
+    })
 }
 
 function toggleStart() {

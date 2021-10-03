@@ -69,3 +69,50 @@ html, body {
     margin-top: 16px;
     margin-right: 12px;
 }
+
+.scroll-up {
+    height: 50px;	
+    margin-top:10px;
+    overflow: hidden;
+    position: relative;
+    background: white;
+    box-shadow: inset -1px -1px #fff, inset 1px 1px grey, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
+   }
+.scroll-up p {
+    position: absolute;
+    color: #000;
+    width: 100%;
+    height: 300%;
+    margin: 0;
+    line-height: 20px;
+    text-align: center;
+    /* Starting position */
+    -moz-transform:translateY(30%);
+    -webkit-transform:translateY(30%);	
+    transform:translateY(30%);
+    /* Apply animation to this element */	
+    -moz-animation: scroll-up 15s linear infinite;
+    -webkit-animation: scroll-up 15s linear infinite;
+    animation: scroll-up 15s linear infinite;
+   }
+   /* Move it (define the animation) */
+   @-moz-keyframes scroll-up {
+    0%   { -moz-transform: translateY(30%); }
+    100% { -moz-transform: translateY(-100%); }
+   }
+   @-webkit-keyframes scroll-up {
+    0%   { -webkit-transform: translateY(30%); }
+    100% { -webkit-transform: translateY(-100%); }
+   }
+   @keyframes scroll-up {
+    0%   { 
+    -moz-transform: translateY(30%); /* Browser bug fix */
+    -webkit-transform: translateY(30%); /* Browser bug fix */
+    transform: translateY(30%); 		
+    }
+    100% { 
+    -moz-transform: translateY(-100%); /* Browser bug fix */
+    -webkit-transform: translateY(-100%); /* Browser bug fix */
+    transform: translateY(-100%); 
+    }
+ }
