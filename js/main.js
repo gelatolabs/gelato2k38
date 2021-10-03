@@ -285,7 +285,7 @@ function spawnPhotoView(file) {
     var photoPath = file.split('/');
     var photoID = photoPath[photoPath.length - 1].split('.')[0]
     var photoWin = new WinBox({
-        title: 'Wandering Eye',
+        title: '<img src="/assets/images/wanderingeye-logo.png" /> <span>Wandering Eye</span>',
         root: document.body,
         x: '200',
         y: '300',
@@ -299,7 +299,7 @@ function spawnAudioPlayer(file) {
     var audioPath = file.split('/');
     var audioID = audioPath[audioPath.length - 1].split('.')[0]
     var audioWin = new WinBox({
-        title: 'Sound Goblin',
+        title: '<img src="/assets/images/soundgoblin-logo.png" /> <span>Sound Goblin</span>',
         root: document.body,
         x: '200',
         y: '300',
@@ -310,7 +310,7 @@ function spawnAudioPlayer(file) {
 
 function spawnAbout() {
     var aboutWin = new WinBox({
-        title: "About Gelato System",
+        title: '<img src="/assets/images/about-logo.png" /> <span>About Gelato System</span>',
         x:'100',
         y:'100',
         width: '250',
