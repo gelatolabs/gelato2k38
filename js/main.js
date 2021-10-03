@@ -36,11 +36,18 @@ function clippi() {
     wisdom = wisdoms[localStorage.getItem("clippiPhase")];
 
     if (inGDE) {
+        var oldClippies = document.getElementsByClassName("clippiWin");
+        for (var i = 0; i < oldClippies.length; i++) {
+            oldClippies[i].remove();
+        }
+
         var clippiWin = new WinBox({
-            title: '<img src="/assets/images/clippi-logo.png" /> <span>CLIPPI</span>',
-            width: 200,
-            height: 200,
-            html: `<div class="clippi">${wisdom}</div>`
+            class: ['clippiWin'],
+            x: 0,
+            y: document.body.clientHeight-Math.min(300, document.body.clientHeight-54),
+            width: Math.min(200, document.body.clientWidth-6),
+            height: Math.min(300, document.body.clientHeight-54),
+            html: `<div class="wisdom">${wisdom}</div><img class="clippi" src="assets/images/clippi.png" />`
         });
     } else {
         bootEcho.println(wisdom);
@@ -58,7 +65,7 @@ async function spawnTerm() {
     term.loadAddon(termFit);
 
     var termWin = new WinBox({
-        title: '<img src="/assets/images/gelatoterm-logo.png" /> <span>GelatoTerm</span>',
+        title: '<img src="assets/images/gelatoterm-logo.png" /> <span>GelatoTerm</span>',
         class: ['termWin'],
         width: Math.min(600, document.body.clientWidth-6),
         height: Math.min(400, document.body.clientHeight-54),
@@ -261,7 +268,7 @@ async function winSizeHelper(win) {
 function spawnBrowser(url) {
     url = url ? url : 'https://2k38wiki.gelatolabs.xyz/start';
     var browserWin = new WinBox({
-        title: '<img src="/assets/images/mozzarella-logo.png" /> <span>Mozzarella</span>',
+        title: '<img src="assets/images/mozzarella-logo.png" /> <span>Mozzarella</span>',
         width: Math.min(800, document.body.clientWidth-6),
         height: Math.min(600, document.body.clientHeight-54),
         html: `<div class="browser">
@@ -292,7 +299,7 @@ function spawnPhotoView(file) {
     var photoPath = file.split('/');
     var photoID = photoPath[photoPath.length - 1].split('.')[0]
     var photoWin = new WinBox({
-        title: '<img src="/assets/images/wanderingeye-logo.png" /> <span>Wandering Eye</span>',
+        title: '<img src="assets/images/wanderingeye-logo.png" /> <span>Wandering Eye</span>',
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
     });
     winSizeHelper(photoWin);
@@ -303,7 +310,7 @@ function spawnAudioPlayer(file) {
     var audioPath = file.split('/');
     var audioID = audioPath[audioPath.length - 1].split('.')[0]
     var audioWin = new WinBox({
-        title: '<img src="/assets/images/soundgoblin-logo.png" /> <span>Sound Goblin</span>',
+        title: '<img src="assets/images/soundgoblin-logo.png" /> <span>Sound Goblin</span>',
         html: '<audio controls id="'+audioID+'" src="../'+audioURL+'" autoplay/>'
     });
     winSizeHelper(audioWin);
@@ -311,14 +318,14 @@ function spawnAudioPlayer(file) {
 
 function spawnAbout() {
     var aboutWin = new WinBox({
-        title: '<img src="/assets/images/about-logo.png" /> <span>About Gelato System</span>',
+        title: '<img src="assets/images/about-logo.png" /> <span>About Gelato System</span>',
         width: Math.min(250, document.body.clientWidth-6),
         height: Math.min(500, document.body.clientWidth-54),
         html: `<div id="about" style="height:100%;width:100%;background:#c0c0c0;">
                    <p style="text-align:center;font-size:20pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Gelato System</p>
                    <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Version: `+version+`</p>
                    <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Build Date: `+buildDate+`</p>
-                   <img src="../assets/images/gelato-logo.png" style="width:60%;margin-left:20%;margin-right:20%;" />
+                   <img src="assets/images/gelato-logo.png" style="width:60%;margin-left:20%;margin-right:20%;" />
                    <div class="scroll-up">
                        <p>Made for Ludum Dare 49: "Unstable"<br>
                        <br>
