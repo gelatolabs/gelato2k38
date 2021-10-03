@@ -48,10 +48,8 @@ async function spawnTerm() {
         title: '<img src="/assets/images/gelatoterm-logo.png" /> <span>GelatoTerm</span>',
         class: ['termWin'],
         root: document.body,
-        x: '44',
-        y: '100',
-        width: '600',
-        height: '400',
+        width: Math.min(600, document.body.clientWidth-6),
+        height: Math.min(400, document.body.clientHeight-54),
         onresize: (width, height) => { termFit.fit(width-2, height-33) },
         html: '<div class="term"></div>'
     });
@@ -253,10 +251,8 @@ function spawnBrowser(url) {
     var browserWin = new WinBox({
         title: '<img src="/assets/images/mozzarella-logo.png" /> <span>Mozzarella</span>',
         root: document.body,
-        x: '44',
-        y: '100',
-        width: '800',
-        height: '600',
+        width: Math.min(800, document.body.clientWidth-6),
+        height: Math.min(600, document.body.clientHeight-54),
         html: `<div class="browser">
                    <form>
                        <button class="home" type="button" onclick="return browserHome(this)">Home</button><input type="text" placeholder="Enter a URL"><button class="go" onclick="return browserNav(this)">Go</button>
@@ -287,8 +283,6 @@ function spawnPhotoView(file) {
     var photoWin = new WinBox({
         title: '<img src="/assets/images/wanderingeye-logo.png" /> <span>Wandering Eye</span>',
         root: document.body,
-        x: '200',
-        y: '300',
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
     });
     winSizeHelper(photoWin);
@@ -301,8 +295,6 @@ function spawnAudioPlayer(file) {
     var audioWin = new WinBox({
         title: '<img src="/assets/images/soundgoblin-logo.png" /> <span>Sound Goblin</span>',
         root: document.body,
-        x: '200',
-        y: '300',
         html: '<audio controls id="'+audioID+'" src="../'+audioURL+'" autoplay/>'
     });
     winSizeHelper(audioWin);
@@ -311,24 +303,22 @@ function spawnAudioPlayer(file) {
 function spawnAbout() {
     var aboutWin = new WinBox({
         title: '<img src="/assets/images/about-logo.png" /> <span>About Gelato System</span>',
-        x:'100',
-        y:'100',
-        width: '250',
-        height: '500',
+        width: Math.min(250, document.body.clientWidth-6),
+        height: Math.min(500, document.body.clientWidth-54),
         html: `<div id="about" style="height:100%;width:100%;background:#c0c0c0;">
-        <p style="text-align:center;font-size:20pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Gelato System</p>
-        <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Version: `+version+`</p>
-        <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Build Date: `+buildDate+`</p>
-        <img src="../assets/images/gelato-logo.png" style="width:60%;margin-left:20%;margin-right:20%;" />
-        <div class="scroll-up">
-        <p>Made for Ludum Dare 49: "Unstable"<br>
-        <br>
-        The Gelato-Labs "G-Team" is:<br>
-        Kyle Farwell (kfarwell)<br>
-        Matthew Petry (fireTwoOneNine)<br>
-        Ryan Refcio<br></p>
-        </div>
-        </div>`
+                   <p style="text-align:center;font-size:20pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Gelato System</p>
+                   <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Version: `+version+`</p>
+                   <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Build Date: `+buildDate+`</p>
+                   <img src="../assets/images/gelato-logo.png" style="width:60%;margin-left:20%;margin-right:20%;" />
+                   <div class="scroll-up">
+                       <p>Made for Ludum Dare 49: "Unstable"<br>
+                       <br>
+                       The Gelato-Labs "G-Team" is:<br>
+                       Kyle Farwell (kfarwell)<br>
+                       Matthew Petry (fireTwoOneNine)<br>
+                       Ryan Refcio<br></p>
+                   </div>
+               </div>`
     })
 }
 
