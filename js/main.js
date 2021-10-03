@@ -29,11 +29,12 @@ commands = [
 ];
 
 wisdoms = [
-    "Oh no, looks like you don't have video drivers installed!"
+    "Oh no, looks like you don't have video drivers installed!",
+    "Sometimes I show up for no reason at all! Like right now!"
 ];
 
 function clippi() {
-    wisdom = wisdoms[localStorage.getItem("clippiPhase")];
+    wisdom = wisdoms[clippiPhase];
 
     if (inGDE) {
         var oldClippies = document.getElementsByClassName("clippiWin");
@@ -846,7 +847,7 @@ if (dispDrv == null) {
     localStorage.setItem("dispDrv", dispDrv);
 }
 
-var clippiPhase = localStorage.getItem("clippiPhase");
+var clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
 if (clippiPhase == null) {
     clippiPhase = 0;
     localStorage.setItem("clippiPhase", clippiPhase);
@@ -875,7 +876,14 @@ switch (dispDrv) {
 }
 
 setInterval(function() {
-    if (Math.floor(Math.random() * 100) == 0) {
+    randomEvent = Math.floor(Math.random() * 100);
+    if (randomEvent == 0) {
         window.location.href = "gsod.html";
+    }
+    else if (randomEvent < 5) {
+        var clippiPhaseOrig = clippiPhase;
+        clippiPhase = 1;
+        clippi();
+        clippiPhase = clippiPhaseOrig;
     }
 }, 5000);
