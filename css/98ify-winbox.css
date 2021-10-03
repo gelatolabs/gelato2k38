@@ -92,13 +92,17 @@
     /* the width of window border: */
     margin: 4px;
     color: #fff;
-    background: #131820;
+    background: #000;
 }
 .winbox.min .wb-header {
     height: 33px;
 }
 .winbox.min .wb-body {
     background: none;
+}
+
+.termWin .wb-body {
+    overflow: hidden;
 }
 
 .wb-icon span {

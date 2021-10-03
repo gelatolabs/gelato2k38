@@ -21,18 +21,19 @@ async function spawnTerm() {
 
     var termWin = new WinBox({
         title: 'GelatoTerm',
+        class: ['termWin'],
         root: document.body,
         x: '44',
         y: '100',
         width: '600',
         height: '400',
-        onresize: () => { termFit.fit() },
+        onresize: (width, height) => { termFit.fit(width-2, height-33) },
         html: '<div class="term"></div>'
     });
 
     term.open(termWin.body.firstChild);
     term.loadAddon(localEcho);
-    termFit.fit();
+    termFit.fit(termWin.width-2, termWin.height-33);
     term.focus();
 
     term.history = [];
@@ -670,6 +671,7 @@ Distributed under the ISC license`);
             break;
 
         case "":
+        case undefined:
             break;
 
         default:
