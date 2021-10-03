@@ -111,14 +111,18 @@ function spawnPhotoView(file) {
         root: document.body,
         x: '200',
         y: '300',
+        width:'69',
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
     })
     var imgObj = document.querySelector('#'+photoID);
+    
+    setTimeout(function () {photoSizeHelper(photoWin, imgObj)}, 100);
+}
+
+function photoSizeHelper(photoWin, imgObj){
     photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
-    while (imgObj.offsetHeight == 0) { // fix potential race condition
-        photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
-        var imgObj = document.querySelector('#'+photoID);
-    }
+
+    if (!imgObj.complete) {setTimeout(function () {photoSizeHelper(photoWin, imgObj)}, 100);}
 }
 
 function spawnAudioPlayer(file) {
