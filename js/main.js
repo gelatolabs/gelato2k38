@@ -463,7 +463,9 @@ ls: list directory contents
 history: return command history
 screenfetch: nothing of interest
 pview: view image files
-sndplay: play audio files`);
+sndplay: play audio files
+dispdrv: set display driver
+ver: Display gsh version`);
                     break;
             }
             break;
@@ -623,6 +625,51 @@ sndplay: play audio files`);
                     echo.println("sndplay: Filetype not recognized or file does not exist.");
                 }
             }
+            break;
+        
+        case "dispdrv":
+            if (args.length == 0) {
+                echo.println("dispdrv: No driver specified. Use 'dispdrv list' to list all available drivers.");
+            }
+            else if (args[0] == "list") {
+                echo.println(`aaaaaaaaaaa: Display driver for embracing eternal suffering
+basicdis: Basic Display Driver (no acceleration)
+cats: Display driver to only show pictures of cats
+cga: Display driver for IBM CGA (160x100)
+dummyvid: Completely disable video output
+matrox: Display drivers for GPUs no one has used since 2001
+mach: Display driver for ATS mach cards
+poop: only show pictures of poop
+ps2x: Display driver for very old Chlamydia GooForce2 cards
+ps3x: Display driver for very old Chlamydia GooForce3 cards
+radvid: Display driver for all modern ATS RadVidOn video cards`);
+            }
+            else if (args[0].length > 0) {
+                var dispDrv;
+                var availableDrv = ["aaaaaaaaaaa", "basicdis", "cats", "cga", "dummyvid", "matrox", "mach", "poop", "ps2x", "ps3x", "radvid"];
+                for (var i = 0; i < availableDrv.length; i++) {
+                    if (args[0] == availableDrv[i]) {
+                        dispDrv = availableDrv[i];
+                        break;
+                    }
+                }
+                if (dispDrv.length > 0) {
+                    echo.println("dispdrv: New display driver loaded. Please reboot to take effect.");
+                }
+                else {
+                    echo.println("dispdrv: Unrecognized driver. Use 'dispdrv list' to list all available drivers.")
+                }
+            }
+            break;
+
+        case "ver":
+            echo.println(`gsh -- Gelato SHell
+version 5.0.17(1)-release
+
+Running on Gelato kernel 2.4.20-uc0
+
+Copyright (C) 2021 Gelato Labs
+Distributed under the ISC license`);
             break;
 
         case "":
