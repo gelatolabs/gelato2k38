@@ -847,3 +847,9 @@ switch (dispDrv) {
         document.body.classList.add("crt");
         document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
 }
+
+setInterval(function() {
+    if (Math.floor(Math.random() * 100) == 0) {
+        window.location.href = "gsod.html";
+    }
+}, 1000);
