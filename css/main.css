@@ -111,6 +111,7 @@ html, body {
 }
 .clippiWin .wb-icon {
     float: left;
+    margin-left: 5px;
 }
 .wisdom {
     position: relative;
