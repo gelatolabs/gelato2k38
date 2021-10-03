@@ -126,7 +126,7 @@ function autocomplete(index, tokens, term) {
                 if (parent == term.pwd && parent != file) {
                     if (localStorage.getItem(file) == "d") {
                         matches.push(file.substr(file.lastIndexOf("/") + 1) + "/");
-                    } else {
+                    } else if (file.startsWith("/")) {
                         matches.push(file.substr(file.lastIndexOf("/") + 1));
                     }
                 }
@@ -619,7 +619,7 @@ IMPLEMENTATION
                         if (parent == path && parent != file) {
                             if (localStorage.getItem(file) == "d") {
                                 output.push(file.substr(file.lastIndexOf("/") + 1) + "/");
-                            } else {
+                            } else if (file.startsWith("/")) {
                                 output.push(file.substr(file.lastIndexOf("/") + 1));
                             }
                         }
