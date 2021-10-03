@@ -332,17 +332,19 @@ pview: view image files`);
                         }
                         echo.println(paths[i] + ":");
                     }
+                    var output = [];
                     for (var j = 0; j < files.length; j++) {
                         var file = files[j];
                         var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
                         if (parent == path && parent != file) {
                             if (localStorage.getItem(path) == "d") {
-                                echo.println(file.substr(file.lastIndexOf("/") + 1) + "/");
+                                output.push(file.substr(file.lastIndexOf("/") + 1) + "/");
                             } else {
-                                echo.println(file.substr(file.lastIndexOf("/") + 1));
+                                output.push(file.substr(file.lastIndexOf("/") + 1));
                             }
                         }
                     }
+                    echo.printWide(output);
                 } else if (localStorage.getItem(path) == "f") {
                     echo.println(path.substr(path.lastIndexOf("/") + 1));
                 } else {
