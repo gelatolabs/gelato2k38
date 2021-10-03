@@ -341,7 +341,8 @@ rm: remove files or directories
 ls: list directory contents
 history: return command history
 screenfetch: nothing of interest
-pview: view image files`);
+pview: view image files
+sndplay: play audio files`);
                     break;
             }
             break;
