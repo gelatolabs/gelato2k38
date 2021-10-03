@@ -69,6 +69,10 @@ html, body {
     text-align: left;
     padding: 10px !important;
 }
+.gde-startmenu a {
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 #gde-clock {
     display: inline-block;

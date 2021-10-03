@@ -255,8 +255,8 @@ function spawnBrowser(url) {
         root: document.body,
         x: '44',
         y: '100',
-        width: '600',
-        height: '400',
+        width: '800',
+        height: '600',
         html: `<div class="browser">
                    <form>
                        <button class="home" type="button" onclick="return browserHome(this)">Home</button><input type="text" placeholder="Enter a URL"><button class="go" onclick="return browserNav(this)">Go</button>
