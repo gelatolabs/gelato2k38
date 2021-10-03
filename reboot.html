@@ -38,7 +38,7 @@
                 bootTerm.history = [];
                 bootTerm.pwd = "/";
 
-                slowText(bootEcho, loadFile("assets/text/reboot.txt"), 1.5);
+                slowText(bootEcho, loadFile("assets/text/reboot.txt"), 1);
 
                 bootTerm.onKey(e => {input = termKeyEvent(e, bootTerm, bootEcho)});
 
