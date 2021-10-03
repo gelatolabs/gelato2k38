@@ -109,6 +109,9 @@ html, body {
 .clippiWin .wb-title, .clippiWin .wb-min, .clippiWin .wb-max, .clippiWin .wb-n, .clippiWin .wb-s, .clippiWin .wb-w, .clippiWin .wb-e, .clippiWin .wb-nw, .clippiWin .wb-ne, .clippiWin .wb-se, .clippiWin .wb-sw {
     display: none;
 }
+.clippiWin .wb-icon {
+    float: left;
+}
 .wisdom {
     background-color: #ffffcb;
     color: #000;
