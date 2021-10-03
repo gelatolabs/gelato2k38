@@ -731,10 +731,10 @@ radvid: Display driver for all modern ATS RadVidOn video cards`);
                 for (var i = 0; i < availableDrv.length; i++) {
                     if (args[0] == availableDrv[i]) {
                         dispDrv = availableDrv[i];
-                        break;
                     }
                 }
-                if (dispDrv.length > 0) {
+                if (dispDrv) {
+                    localStorage.setItem("dispDrv", dispDrv);
                     echo.println("dispdrv: New display driver loaded. Please reboot to take effect.");
                 }
                 else {
@@ -791,7 +791,7 @@ Distributed under the ISC license`);
 }
 
 function uptime() {
-    var delta = Math.abs(boottime - new Date()) / 1000;
+    var delta = Math.abs(bootTime - new Date()) / 1000;
     var days = Math.floor(delta / 86400);
     delta -= days * 86400;
     var hours = Math.floor(delta / 3600) % 24;
@@ -819,17 +819,40 @@ function fullRes() {
     lrCSSHook.parentElement.removeChild(lrCSSHook);
 }
 
-const boottime = new Date();
+const bootTime = new Date();
 
 updateClock();
 setInterval(updateClock, 1000);
 
-if (localStorage.getItem("starttime") == null) {
-    localStorage.setItem("starttime", new Date());
+var startTime = localStorage.getItem("startTime");
+if (startTime == null) {
+    startTime = new Date();
+    localStorage.setItem("startTime", startTime);
 }
+
+var dispDrv = localStorage.getItem("dispDrv");
+if (dispDrv == null) {
+    dispDrv = "none";
+    localStorage.setItem("dispDrv", dispDrv);
+}
+
 localStorage.setItem("/", "d");
 localStorage.setItem("/Images", "d");
 localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
 localStorage.setItem("/Music", "d");
 localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
 localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
+
+switch (dispDrv) {
+    case "aaaaaaaaaaa":
+    case "basicdic":
+    case "cats":
+    case "cga":
+    case "matrox":
+    case "mach":
+    case "poop":
+    case "ps2x":
+    case "ps3x":
+    case "radvid":
+        document.body.classList.add("crt");
+}
