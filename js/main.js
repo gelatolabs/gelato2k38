@@ -1,44 +1,119 @@
-version = "2K38"
-buildDate = "October 4, 2021"
-inGDE = false;
+function init(m) {
+    mode = m;
+    version = "2K38"
+    buildDate = "October 4, 2021"
 
-commands = [
-    ["cat", "print file contents"],
-    ["cd", "change the working directory"],
-    ["clear", "clear the terminal screen"],
-    ["clippi", "clerk of learning and information for perpetual purgatorial imprisonment"],
-    ["date", "print the system date and time"],
-    ["dispdrv", "set display driver"],
-    ["gde", "start the gelato desktop environment"],
-    ["help", "get some help"],
-    ["history", "return command history"],
-    ["ls", "list directory contents"],
-    ["man", "an interface to the system reference manuals"],
-    ["mkdir", "make directories"],
-    ["pview", "view image files"],
-    ["pwd", "return working directory name"],
-    ["reboot", "reboot the machine"],
-    ["reset", "clear the terminal screen"],
-    ["rm", "remove files or directories"],
-    ["screenfetch", "nothing of interest"],
-    ["shutdown", "shutdown the machine"],
-    ["sndplay", "play audio files"],
-    ["uptime", "tell how long the system has been running"],
-    ["ver", "display gsh version"],
-    ["whatis", "describe commands"]
-];
+    commands = [
+        ["cat", "print file contents"],
+        ["cd", "change the working directory"],
+        ["clear", "clear the terminal screen"],
+        ["clippi", "clerk of learning and information for perpetual purgatorial imprisonment"],
+        ["date", "print the system date and time"],
+        ["dispdrv", "set display driver"],
+        ["gde", "start the gelato desktop environment"],
+        ["help", "get some help"],
+        ["history", "return command history"],
+        ["ls", "list directory contents"],
+        ["man", "an interface to the system reference manuals"],
+        ["mkdir", "make directories"],
+        ["pview", "view image files"],
+        ["pwd", "return working directory name"],
+        ["reboot", "reboot the machine"],
+        ["reset", "clear the terminal screen"],
+        ["rm", "remove files or directories"],
+        ["screenfetch", "nothing of interest"],
+        ["shutdown", "shutdown the machine"],
+        ["sndplay", "play audio files"],
+        ["uptime", "tell how long the system has been running"],
+        ["ver", "display gsh version"],
+        ["whatis", "describe commands"]
+    ];
 
-wisdoms = [
-    "Oh no, Looks like you’re missing video drivers! You’re gonna need those, unless you want to live your life in this green text world like me! You might want to find what card is in this thing!",
-    "Sometimes I show up for no reason at all! Like right now!",
-    "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
-    "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!"
-];
+    wisdoms = [
+        "Oh no, looks like you don't have video drivers installed!",
+        "Sometimes I show up for no reason at all! Like right now!",
+        "Oh no, Looks like you’re missing video drivers! You’re gonna need those, unless you want to live your life in this green text world like me! You might want to find what card is in this thing!",
+        "Sometimes I show up for no reason at all! Like right now!",
+        "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
+        "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!"
+    ];
+
+    bootTime = new Date();
+    console.log("foo1");
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    startTime = localStorage.getItem("startTime");
+    if (startTime == null) {
+        startTime = new Date();
+        localStorage.setItem("startTime", startTime);
+    }
+
+    dispDrv = localStorage.getItem("dispDrv");
+    if (dispDrv == null) {
+        dispDrv = "none";
+        localStorage.setItem("dispDrv", dispDrv);
+    }
+
+    clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
+    if (isNaN(clippiPhase)) {
+        clippiPhase = 0;
+        localStorage.setItem("clippiPhase", clippiPhase);
+    }
+
+    localStorage.setItem("/", "d");
+    localStorage.setItem("/Images", "d");
+    localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
+    localStorage.setItem("/Music", "d");
+    localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
+    localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
+
+    switch (dispDrv) {
+        case "aaaaaaaaaaa":
+        case "basicdic":
+        case "cats":
+        case "cga":
+        case "matrox":
+        case "mach":
+        case "poop":
+        case "ps2x":
+        case "ps3x":
+        case "radvid":
+            document.body.classList.add("crt");
+            document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
+    }
+
+    setInterval(function() {
+        randomEvent = Math.floor(Math.random() * 100);
+        if (randomEvent == 0) {
+            window.location.href = "gsod.html";
+        }
+        else if (randomEvent < 5) {
+            var clippiPhaseOrig = clippiPhase;
+            localStorage.setItem("clippiPhase", 1);
+            clippi();
+            localStorage.setItem("clippiPhase", clippiPhaseOrig);
+        }
+    }, 15000);
+
+    if (mode == "gde") {
+        document.addEventListener("keyup", (e) => {
+            if (e.code === "Escape") {
+               toggleStart();
+            }
+        });
+
+        clickSnd = new Audio("assets/sound/click.ogg");
+        document.addEventListener("click", () => {
+            clickSnd.play();
+        }, true);
+    }
+}
 
 function clippi() {
     wisdom = wisdoms[parseInt(localStorage.getItem("clippiPhase"))];
 
-    if (inGDE) {
+    if (mode == "gde") {
         var oldClippies = document.getElementsByClassName("clippiWin");
         for (var i = 0; i < oldClippies.length; i++) {
             oldClippies[i].remove();
@@ -368,7 +443,7 @@ function toggleStart() {
 }
 
 function updateClock() {
-    if (inGDE){
+    if (mode == "gde"){
         document.getElementById('gde-clock').innerHTML = new Date().toLocaleTimeString();
     }
 }
@@ -673,7 +748,7 @@ IMPLEMENTATION
             break;
 
         case "screenfetch":
-            if(clippiPhase == 0){
+            if (clippiPhase == 0) {
                 var GPUname = "[2m10DE:1D69";
             }
             else {
@@ -691,14 +766,9 @@ IMPLEMENTATION
 [0m[1m  ###  ###################  ### [0m[0m[37m [0m[37mTerminal:[0m Xterm.js[0m[0m
 [0m[1m   ###  ###  ### ###  ###  ###  [0m[0m[37m [0m[37mFont:[0m Pixelated MS Sans Serif 11[0m[0m
 [0m[1m     ####               ####    [0m[0m[37m [0m[37mCPU:[0m RED SUS PT69 revision 1[0m
-[0m[1m        #################       [0m[0m[37m [0m[37mGPU:`+ GPUname + `[0m
+[0m[1m        #################       [0m[0m[37m [0m[37mGPU:${GPUname}[0m
 [0m[1m            #########          [0m[0m
                 `);
-            if (clippiPhase == 0) {
-                clippiPhase = 2;
-                localStorage.setItem("clippiPhase", 2);
-                clippi();
-            }
             break;
 
         case "history":
@@ -852,69 +922,4 @@ function lowRes() {
 function fullRes() {
     var lrCSSHook = document.querySelector("#lowresCSS");
     lrCSSHook.parentElement.removeChild(lrCSSHook);
-}
-
-const bootTime = new Date();
-console.log("foo1");
-updateClock();
-setInterval(updateClock, 1000);
-
-var startTime = localStorage.getItem("startTime");
-if (startTime == null) {
-    startTime = new Date();
-    localStorage.setItem("startTime", startTime);
-}
-
-var dispDrv = localStorage.getItem("dispDrv");
-if (isNaN(dispDrv == null)) {
-    dispDrv = "none";
-    localStorage.setItem("dispDrv", dispDrv);
-}
-
-var clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
-if (isNaN(clippiPhase)) {
-    clippiPhase = 0;
-    localStorage.setItem("clippiPhase", clippiPhase);
-}
-
-localStorage.setItem("/", "d");
-localStorage.setItem("/Images", "d");
-localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
-localStorage.setItem("/Music", "d");
-localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
-localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
-
-switch (dispDrv) {
-    case "aaaaaaaaaaa":
-    case "basicdic":
-    case "cats":
-    case "cga":
-    case "matrox":
-    case "mach":
-    case "poop":
-    case "ps2x":
-    case "ps3x":
-    case "radvid":
-        document.body.classList.add("crt");
-        document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
-}
-
-setInterval(function() {
-    randomEvent = Math.floor(Math.random() * 300);
-    if (randomEvent == 0) {
-        window.location.href = "gsod.html";
-    }
-    else if (randomEvent < 5) {
-        var clippiPhaseOrig = clippiPhase;
-        localStorage.setItem("clippiPhase", 1);
-        clippi();
-        localStorage.setItem("clippiPhase", clippiPhaseOrig);
-    }
-}, 5000);
-
-if (inGDE) {
-    var clickSnd = new Audio("assets/sound/click.ogg");
-    document.body.addEventListener("click", function() {
-        clickSnd.play();
-    }, true);
 }
