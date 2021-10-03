@@ -233,7 +233,79 @@ IMPLEMENTATION
     Copyright (C) 2021 Gelato Labs
     Distributed under the ISC license`);
                     break;
+                
+                case "ls":
+                echo.println(`NAME
+    ls - list directory contents
 
+SYNOPSIS
+    ls [dir]...
+
+DESCRIPTION
+    List  information  about the directory specified (the current directory by default).
+
+EXAMPLES:
+    > ls
+    foo
+    bar
+    > ls foo
+    lorem
+    ipsum
+
+SEE ALSO
+    help cd
+
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`)
+                    break;
+                case "pwd":
+                    echo.println(`NAME
+    pwd - print name of current/working directory
+
+SYNOPSIS
+    pwd
+
+DESCRIPTION
+    Print the full filename of the current working directory.
+    
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`);
+                    break;
+                case "mkdir":
+                    echo.println(`NAME
+    mkdir - make directories
+
+SYNOPSIS
+    mkdir DIRECTORY...
+
+DESCRIPTION
+    Create the DIRECTORY, if it does not already exist.
+
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`)
+                    break;    
+                case "rm":
+                    echo.println(`NAME
+    rm - remove files or directories
+
+SYNOPSIS
+    rm [FILE]...
+
+DESCRIPTION
+    rm removes each specified file.  By default, it does not
+    remove directories.
+
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`)
+                    break;
                 default:
                     echo.println(`Type 'help' followed by a command to learn more about it,
 e.g. 'help cd'
