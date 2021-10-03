@@ -2,6 +2,7 @@ version = "2K38"
 buildDate = "October 4, 2021"
 
 commands = [
+    ["cat", "print file contents"],
     ["cd", "change the working directory"],
     ["clear", "clear the terminal screen"],
     ["date", "print the system date and time"],
@@ -63,8 +64,7 @@ async function spawnTerm() {
     term.history = [];
     term.pwd = "/";
 
-    localEcho.addAutocompleteHandler(autocompleteCommands, term);
-    localEcho.addAutocompleteHandler(autocompleteFiles, term);
+    localEcho.addAutocompleteHandler(autocomplete, term);
 
     term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
 
@@ -77,13 +77,8 @@ async function spawnTerm() {
     }
 }
 
-function autocompleteCommands(index, tokens, term) {
+function autocomplete(index, tokens, term) {
     if (index == 0) return commands.map((cmds) => cmds[0]);
-    return [];
-}
-
-function autocompleteFiles(index, tokens, term) {
-    if (index == 0) return [];
 
     switch(tokens[0]) {
         case "help":
@@ -136,6 +131,28 @@ function autocompleteFiles(index, tokens, term) {
                     } else {
                         matches.push(file.substr(file.lastIndexOf("/") + 1));
                     }
+                }
+            }
+            return matches;
+            break;
+
+        case "cat":
+            if (index > 1) {
+                return [];
+            }
+
+            var files = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                files.push(localStorage.key(i));
+            }
+            files.sort();
+
+            var matches = [];
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
+                if (parent == term.pwd && parent != file && localStorage.getItem(file).startsWith(["f", "plain"])) {
+                    matches.push(file.substr(file.lastIndexOf("/") + 1));
                 }
             }
             return matches;
@@ -615,6 +632,15 @@ IMPLEMENTATION
             }
             break;
 
+        case "cat":
+            for (var i = 0; i < args.length; i++) {
+                file = localStorage.getItem(traversePath(term.pwd, args[i]));
+                if (file.startsWith(["f", "plain"])) {
+                    echo.println(file.split(",").slice(2));
+                }
+            }
+            break;
+
         case "screenfetch":
             echo.println(`
 [0m[1m            #########           [0m[0m[37m [0m[37mroot[0m[1m@[0m[0m[37mgelato[0m[0m
@@ -790,8 +816,9 @@ setInterval(updateClock, 1000);
 if (localStorage.getItem("starttime") == null) {
     localStorage.setItem("starttime", new Date());
 }
-localStorage.setItem("/Images", "d");
-localStorage.setItem("/Music", "d");
-localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
-localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
 localStorage.setItem("/", "d");
+localStorage.setItem("/Images", "d");
+localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
+localStorage.setItem("/Music", "d");
+localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
+localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
