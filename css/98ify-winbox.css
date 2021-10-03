@@ -104,6 +104,9 @@
 .termWin .wb-body {
     overflow: hidden;
 }
+.xterm .xterm-viewport {
+    overflow-y: hidden !important;
+}
 
 .wb-icon span {
     height: 23px;
