@@ -29,8 +29,10 @@ commands = [
 ];
 
 wisdoms = [
-    "Oh no, looks like you don't have video drivers installed!",
-    "Sometimes I show up for no reason at all! Like right now!"
+    "Oh no, Looks like you’re missing video drivers! You’re gonna need those, unless you want to live your life in this green text world like me! You might want to find what card is in this thing!",
+    "Sometimes I show up for no reason at all! Like right now!",
+    "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
+    "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!"
 ];
 
 function clippi() {
@@ -671,6 +673,12 @@ IMPLEMENTATION
             break;
 
         case "screenfetch":
+            if(clippiPhase == 0){
+                var GPUname = "[2m10DE:1D69";
+            }
+            else {
+                var GPUname = "[0mChlamydia GooForce STI4090";
+            }
             echo.println(`
 [0m[1m            #########           [0m[0m[37m [0m[37mroot[0m[1m@[0m[0m[37mgelato[0m[0m
 [0m[1m        #################       [0m[0m[37m [0m[37mOS:[0m Gelato System 2K38 [0m[0m
@@ -683,9 +691,14 @@ IMPLEMENTATION
 [0m[1m  ###  ###################  ### [0m[0m[37m [0m[37mTerminal:[0m Xterm.js[0m[0m
 [0m[1m   ###  ###  ### ###  ###  ###  [0m[0m[37m [0m[37mFont:[0m Pixelated MS Sans Serif 11[0m[0m
 [0m[1m     ####               ####    [0m[0m[37m [0m[37mCPU:[0m RED SUS PT69 revision 1[0m
-[0m[1m        #################       [0m[0m[37m [0m[37mGPU:[0m Chlamydia GooForce STI4090[0m
+[0m[1m        #################       [0m[0m[37m [0m[37mGPU:`+ GPUname + `[0m
 [0m[1m            #########          [0m[0m
                 `);
+            if (clippiPhase == 0) {
+                clippiPhase = 2;
+                localStorage.setItem("clippiPhase", 2);
+                clippi();
+            }
             break;
 
         case "history":
@@ -887,7 +900,7 @@ switch (dispDrv) {
 }
 
 setInterval(function() {
-    randomEvent = Math.floor(Math.random() * 100);
+    randomEvent = Math.floor(Math.random() * 300);
     if (randomEvent == 0) {
         window.location.href = "gsod.html";
     }
@@ -899,7 +912,9 @@ setInterval(function() {
     }
 }, 5000);
 
-var clickSnd = new Audio("assets/sound/click.ogg");
-document.body.addEventListener("click", function() {
-    clickSnd.play();
-}, true);
+if (inGDE) {
+    var clickSnd = new Audio("assets/sound/click.ogg");
+    document.body.addEventListener("click", function() {
+        clickSnd.play();
+    }, true);
+}
