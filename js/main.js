@@ -224,7 +224,8 @@ async function winSizeHelper(win) {
     }
 }
 
-function spawnBrowser() {
+function spawnBrowser(url) {
+    url = url ? url : 'https://2k38wiki.gelatolabs.xyz/start';
     var browserWin = new WinBox({
         title: 'Mozzarella',
         root: document.body,
@@ -236,7 +237,7 @@ function spawnBrowser() {
                    <form>
                        <button class="home" type="button" onclick="return browserHome(this)">Home</button><input type="text" placeholder="Enter a URL"><button class="go" onclick="return browserNav(this)">Go</button>
                    </form>
-                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="https://2k38wiki.gelatolabs.xyz/start"></iframe>
+                   <iframe sandbox="allow-forms allow-scripts allow-same-origin" src="${url}"></iframe>
                </div>`
     });
 }
@@ -308,12 +309,20 @@ function spawnAbout() {
 }
 
 function toggleStart() {
-    var startmenu = document.getElementById('gde-startmenu');
-    if (startmenu.style.display == "block") {
+    if (localStorage.getItem("fixedstart") == 1) {
+        var startmenu = document.getElementById('gde-startmenu-real');
+        var notstartmenu = document.getElementById('gde-startmenu-404');
+    } else {
+        var startmenu = document.getElementById('gde-startmenu-404');
+        var notstartmenu = document.getElementById('gde-startmenu-real');
+    }
+
+    if (startmenu.style.display == "block" || notstartmenu.style.display == "block") {
         startmenu.style.display = "none";
     } else {
         startmenu.style.display = "block";
     }
+    notstartmenu.style.display = "none";
 }
 
 function updateClock() {

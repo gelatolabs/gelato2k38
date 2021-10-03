@@ -15,10 +15,21 @@
     <body class="gde-background">
         <div class="gde-taskbar">
             <button onclick="toggleStart()"><img class="gde-logo-icon" src="../assets/images/gelato-logo.png" /></button>
-<button onclick="spawnAbout()" style="padding-left: 8px">ABOUT</button><button onclick="spawnBrowser()">WEB</button><button onclick="spawnTerm()">CMD</button><button onclick="lowRes()">DBG LRES</button><button onclick="fullRes()">DBG FRES</button>
+            <button onclick="spawnBrowser()">WEB</button><button onclick="spawnTerm()">CMD</button>
             <div id="gde-clock"></div>
         </div>
-        <div id="gde-startmenu" class="window">
+        <div id="gde-startmenu-real" class="window gde-startmenu">
+            <div class="window-body">
+                <p><strong>Start</strong></p>
+                <button onclick="spawnBrowser()">Mozzarella</button><button onclick="spawnTerm()">GelatoTerm</button><button onclick="lowRes()">Debug lowres</button><button onclick="fullRes()">Debug fullres</button><button onclick="spawnAbout()" style="padding-left: 8px">About your Gelato System</button><button onclick="window.location.href = 'reboot.html'">Reboot</button><button onclick="window.location.href = 'reboot.html'">Shutdown</button>
+            </div>
+            <div class="status-bar">
+                <p class="status-bar-field">Gelato System 2K38</p>
+                <!--<p class="status-bar-field">A <a onclick="spawnBrowser('https://gelatolabs.xyz/')" style="text-decoration: underline; cursor: pointer">Gelato Labs</a> production</p>-->
+                <p class="status-bar-field">A <a href="https://gelatolabs.xyz/" target="_blank">Gelato Labs</a> production</p>
+            </div>
+        </div>
+        <div id="gde-startmenu-404" class="window gde-startmenu">
             <div class="window-body">
                 <p><strong>Error 404:</strong> Start Menu not found</p>
             </div>

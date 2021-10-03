@@ -52,15 +52,22 @@ html, body {
     vertical-align: top;
 }
 
-#gde-startmenu {
+.gde-startmenu {
     z-index: 100;
     position: absolute;
     display: none;
     top: 45;
     left: 0;
     width: 300px;
-    height: 400px;
     background-color: silver;
+}
+.gde-startmenu .window-body {
+    height: 400px;
+}
+.gde-startmenu button {
+    width: 100%;
+    text-align: left;
+    padding: 10px !important;
 }
 
 #gde-clock {
