@@ -27,25 +27,8 @@
                 term.open(document.getElementById('terminal'));
                 term.loadAddon(localEcho);
                 termFit.fit();
-                term.focus();
 
-                term.history = [];
-                term.pwd = "/";
-                window.clippiPhase = 1;
-
-                slowText(localEcho, loadFile("assets/text/firstboot.txt"), 1.5);
-
-                term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
-
-                await localEcho.read("")
-                    .then(input => commandHandler(term, localEcho, input))
-                    .catch(error => void(0));
-
-                while (true) {
-                    await localEcho.read(term.pwd + "> ")
-                        .then(input => commandHandler(term, localEcho, input))
-                        .catch(error => void(0));
-                }
+                slowText(localEcho, loadFile("assets/text/shutdown.txt"), 1.5);
             }
             boot();
         </script>

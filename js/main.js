@@ -6,17 +6,23 @@ commands = [
     ["clear", "clear the terminal screen"],
     ["date", "print the system date and time"],
     ["dispdrv", "set display driver"],
+    ["gde", "start the gelato desktop environment"],
+    ["help", "get some help"],
     ["history", "return command history"],
     ["ls", "list directory contents"],
+    ["man", "an interface to the system reference manuals"],
     ["mkdir", "make directories"],
     ["pview", "view image files"],
     ["pwd", "return working directory name"],
+    ["reboot", "reboot the machine"],
     ["reset", "clear the terminal screen"],
     ["rm", "remove files or directories"],
     ["screenfetch", "nothing of interest"],
+    ["shutdown", "shutdown the machine"],
     ["sndplay", "play audio files"],
     ["uptime", "tell how long the system has been running"],
-    ["ver", "display gsh version"]
+    ["ver", "display gsh version"],
+    ["whatis", "describe commands"]
 ];
 
 function clippi(term) {
@@ -81,6 +87,7 @@ function autocompleteFiles(index, tokens, term) {
 
     switch(tokens[0]) {
         case "help":
+        case "man":
             return commands.map((cmds) => cmds[0]);
             break;
 
@@ -480,12 +487,28 @@ IMPLEMENTATION
                     break;
 
                 default:
-                    echo.println("Type 'help' followed by a command to learn more about it, e.g. 'help cd'");
-                    echo.println("");
-                    for (var i = 0; i < commands.length; i++) {
-                        echo.println(commands[i][0] + ": " + commands[i][1]);
+                    if (cmd == "help") {
+                        echo.println("Type 'help' followed by a command to learn more about it, e.g. 'help cd'");
+                        echo.println("");
+                        for (var i = 0; i < commands.length; i++) {
+                            echo.println(commands[i][0] + ": " + commands[i][1]);
+                        }
                     }
                     break;
+            }
+            break;
+
+        case "whatis":
+            if (args.length == 0) {
+                echo.println("whatis what?");
+            } else {
+                for (var i = 0; i < args.length; i++) {
+                    for (var j = 0; j < commands.length; j++) {
+                        if (commands[j][0] == args[i]) {
+                            echo.println(commands[j][0] + ": " + commands[j][1]);
+                        }
+                    }
+                }
             }
             break;
 
@@ -704,6 +727,18 @@ Distributed under the ISC license`);
         case "clear":
         case "reset":
             echo.print('\x9B2J\x9BH');
+            break;
+
+        case "gde":
+            document.location.href = "gde.html";
+            break;
+
+        case "reboot":
+            document.location.href = "reboot.html";
+            break;
+
+        case "shutdown":
+            document.location.href = "shutdown.html";
             break;
 
         case "":
