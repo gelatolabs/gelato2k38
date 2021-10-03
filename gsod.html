@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Gelato System 2K38</title>
+        <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+        <link rel="stylesheet" href="css/main.css" />
+        <link rel="stylesheet" href="css/crt.css" />
+
+        <script src="node_modules/xterm/lib/xterm.js"></script>
+        <script src="node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/local-echo.js"></script>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=1000, user-scalable=no" />
+    </head>
+    <body style="background-color: #00ff00; overflow: hidden">
+        <div id="terminal" style="height:100%;"></div>
+        <script>
+            async function boot() {
+                const term = new Terminal({
+                    fontSize: 30,
+                    theme: {
+                        background: '#0F0',
+                        foreground: '#FFF'
+                    },
+                    bellStyle: 'sound',
+                });
+                const termFit = new FitAddon.FitAddon();
+                const localEcho = new LocalEchoController();
+                term.loadAddon(termFit);
+
+                term.open(document.getElementById('terminal'));
+                term.loadAddon(localEcho);
+                termFit.fit();
+                term.focus();
+
+                term.history = [];
+                term.pwd = "/";
+                window.clippiPhase = 1;
+
+                slowText(localEcho, loadFile("assets/text/gsod.txt"), 1.5);
+
+                term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
+
+                await localEcho.read("")
+                    .then(input => commandHandler(term, localEcho, input))
+                    .catch(error => void(0));
+
+                while (true) {
+                    await localEcho.read(term.pwd + "> ")
+                        .then(input => commandHandler(term, localEcho, input))
+                        .catch(error => void(0));
+                }
+            }
+            boot();
+        </script>
+    </body>
+</html>
