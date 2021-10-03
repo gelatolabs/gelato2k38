@@ -389,25 +389,43 @@ function commandHandler(term, echo, input) {
     cmd = args.shift();
     switch(cmd) {
         case "help":
+        case "man":
+            if (args.length == 0) {
+                if (cmd == "help") {
+                    echo.println("Type 'help' followed by a command to learn more about it, e.g. 'help cd'");
+                    echo.println("");
+                    for (var i = 0; i < commands.length; i++) {
+                        echo.println(commands[i][0] + ": " + commands[i][1]);
+                    }
+                    break;
+                } else {
+                    echo.println("What manual page do you want?\nFor example, try 'man man'.");
+                }
+            }
+
+            for (var i = 0; i < commands.length; i++) {
+                if (commands[i][0] == args[0]) {
+                    echo.println("NAME\n    " + commands[i][0] + " - " + commands[i][1]);
+                }
+            }
+
             switch(args[0]) {
                 case "cd":
-                    echo.println(`NAME
-    cd - Change the shell working directory.
- 
+                    echo.println(`
 SYNOPSIS
-    cd [dir]
+    cd [DIR]
  
 DESCRIPTION
     Change the shell working directory.
  
-    Change the current directory to [dir].  If omitted, the
-    default [dir] is the root of the filesystem, '/'.
+    Change the current directory to [DIR].  If omitted, the
+    default [DIR] is the root of the filesystem, '/'.
  
-    If [dir] begins with a slash (/), it is interpreted as an
+    If [DIR] begins with a slash (/), it is interpreted as an
     absolute path. If not, it is interpreted relative to the
     current working directory.
  
-    '..' in [dir] moved to the parent directory.
+    '..' in [DIR] moves to the parent directory.
  
 EXAMPLES
     > pwd
@@ -423,7 +441,7 @@ EXAMPLES
     /somewhere/else
  
 SEE ALSO
-    help pwd
+    ${cmd} pwd
  
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
@@ -432,14 +450,12 @@ IMPLEMENTATION
                     break;
 
                 case "ls":
-                    echo.println(`NAME
-    ls - list directory contents
- 
+                    echo.println(`
 SYNOPSIS
-    ls [dir]...
+    ls [DIR]...
  
 DESCRIPTION
-    List  information  about the directory specified (the current directory by default).
+    List the contents of the directory specified. If no directory is specified, list the contents of the current working directory.
  
 EXAMPLES:
     > ls
@@ -449,23 +465,18 @@ EXAMPLES:
     lorem
     ipsum
  
-SEE ALSO
-    help cd
- 
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
     Copyright (C) 2021 Gelato Labs
     Distributed under the ISC license`);
                     break;
                 case "pwd":
-                    echo.println(`NAME
-    pwd - print name of current/working directory
- 
+                    echo.println(`
 SYNOPSIS
     pwd
  
 DESCRIPTION
-    Print the full filename of the current working directory.
+    Print the full path name of the current working directory.
  
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
@@ -473,14 +484,12 @@ IMPLEMENTATION
     Distributed under the ISC license`);
                     break;
                 case "mkdir":
-                    echo.println(`NAME
-    mkdir - make directories
- 
+                    echo.println(`
 SYNOPSIS
-    mkdir DIRECTORY...
+    mkdir [DIR]...
  
 DESCRIPTION
-    Create the DIRECTORY, if it does not already exist.
+    Create the DIRECTORY, if it does not already exist. Its parent directory must already exist.
  
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
@@ -488,14 +497,12 @@ IMPLEMENTATION
     Distributed under the ISC license`);
                     break;    
                 case "rm":
-                    echo.println(`NAME
-    rm - remove files or directories
+                    echo.println(`
 SYNOPSIS
     rm [FILE]...
  
 DESCRIPTION
-    rm removes each specified file.  By default, it does not
-    remove directories.
+    rm removes each specified file or directory.
  
 IMPLEMENTATION
     Gelato gsh, version 5.0.17(1)-release
@@ -504,12 +511,16 @@ IMPLEMENTATION
                     break;
 
                 default:
-                    if (cmd == "help") {
-                        echo.println("Type 'help' followed by a command to learn more about it, e.g. 'help cd'");
-                        echo.println("");
-                        for (var i = 0; i < commands.length; i++) {
-                            echo.println(commands[i][0] + ": " + commands[i][1]);
+                    var exists = false;
+                    for (var i = 0; i < commands.length; i++) {
+                        if (commands[i][0] == args[0]) {
+                            exists = true;
                         }
+                    }
+                    if (exists) {
+                        echo.println("\nBUGS\n    Documentation lacking.");
+                    } else if (args[0] !== undefined) {
+                        echo.println("No manual entry for " + args[0]);
                     }
                     break;
             }
