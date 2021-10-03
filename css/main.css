@@ -69,11 +69,11 @@ html, body {
     display: none;
     top: 45;
     left: 0;
-    width: 300px;
+    width: 180px;
     background-color: silver;
 }
 .gde-startmenu .window-body {
-    height: 400px;
+    margin: 0;
 }
 .gde-startmenu button {
     width: 100%;
