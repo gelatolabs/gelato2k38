@@ -576,19 +576,19 @@ ver: Display gsh version`);
 
         case "screenfetch":
             echo.println(`
-[0m[1m             #######            [0m[0m[37m [0m[37mroot[0m[1m@[0m[0m[37mgelato[0m[0m
+[0m[1m            #########           [0m[0m[37m [0m[37mroot[0m[1m@[0m[0m[37mgelato[0m[0m
 [0m[1m        #################       [0m[0m[37m [0m[37mOS:[0m Gelato System 2K38 [0m[0m
 [0m[1m     ####               ####    [0m[0m[37m [0m[37mKernel:[0m gelato 2.4.20-uc0[0m
-[0m[1m   ####      #######      ####  [0m[0m[37m [0m[37mUptime:[0m `+uptime()+`[0m[0m
-[0m[1m  ###     #############     ### [0m[0m[37m [0m[37mShell:[0m gsh[0m[0m
+[0m[1m   ###       #######       ###  [0m[0m[37m [0m[37mUptime:[0m `+uptime()+`[0m[0m
+[0m[1m  ###     #############     ### [0m[0m[37m [0m[37mShell:[0m gsh 5.0.17[0m[0m
 [0m[1m ###     ###############     ###[0m[0m[37m [0m[37mResolution:[0m `+window.innerWidth+`x`+window.innerHeight+`[0m[0m
 [0m[1m ###     ###############     ###[0m[0m[37m [0m[37mWM:[0m WinBox.js[0m[0m
 [0m[1m ###     ###############     ###[0m[0m[37m [0m[37mCSS Theme:[0m 98.css [0m
 [0m[1m  ###  ###################  ### [0m[0m[37m [0m[37mTerminal:[0m Xterm.js[0m[0m
 [0m[1m   ###  ###  ### ###  ###  ###  [0m[0m[37m [0m[37mFont:[0m Pixelated MS Sans Serif 11[0m[0m
 [0m[1m     ####               ####    [0m[0m[37m [0m[37mCPU:[0m RED SUS PT69 revision 1[0m
-[0m[1m       ######       ######      [0m[0m[37m [0m[37mGPU:[0m Chlamydia GooForce STI4090[0m
-[0m[1m         ###############        [0m[0m
+[0m[1m        #################       [0m[0m[37m [0m[37mGPU:[0m Chlamydia GooForce STI4090[0m
+[0m[1m            #########          [0m[0m
                 `);
             break;
 
@@ -675,6 +675,19 @@ Copyright (C) 2021 Gelato Labs
 Distributed under the ISC license`);
             break;
 
+        case "date":
+            echo.println(new Date());
+            break;
+
+        case "uptime":
+            echo.println(uptime());
+            break;
+
+        case "clear":
+        case "reset":
+            echo.print('\x9B2J\x9BH');
+            break;
+
         case "":
         case undefined:
             break;
@@ -721,6 +734,9 @@ const boottime = new Date();
 updateClock();
 setInterval(updateClock, 1000);
 
+if (localStorage.getItem("starttime") == null) {
+    localStorage.setItem("starttime", new Date());
+}
 localStorage.setItem("/Images", "d");
 localStorage.setItem("/Music", "d");
 localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
