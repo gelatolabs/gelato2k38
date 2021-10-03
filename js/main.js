@@ -896,3 +896,8 @@ setInterval(function() {
         localStorage.setItem("clippiPhase", clippiPhaseOrig);
     }
 }, 5000);
+
+var clickSnd = new Audio("assets/sound/click.ogg");
+document.body.addEventListener("click", function() {
+    clickSnd.play();
+}, true);
