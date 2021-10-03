@@ -191,6 +191,18 @@ function traversePathArr(pwd, path) {
     }
 }
 
+async function winSizeHelper(win) {
+    var child = win.g.getElementsByClassName("wb-body")[0].firstChild;
+
+    if (child.offsetWidth > 0) {
+        win.resize(child.offsetWidth + 2, child.offsetHeight + 33);
+    } else {
+        setTimeout(function () {
+            winSizeHelper(win);
+        }, 100);
+    }
+}
+
 function spawnBrowser() {
     var browserWin = new WinBox({
         title: 'Mozzarella',
@@ -231,18 +243,9 @@ function spawnPhotoView(file) {
         root: document.body,
         x: '200',
         y: '300',
-        width: '69',
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
     });
-    var imgObj = document.querySelector('#'+photoID);
-
-    setTimeout(function () {photoSizeHelper(photoWin, imgObj)}, 100);
-}
-
-function photoSizeHelper(photoWin, imgObj){
-    photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
-
-    if (!imgObj.complete) {setTimeout(function () {photoSizeHelper(photoWin, imgObj)}, 100);}
+    winSizeHelper(photoWin);
 }
 
 function spawnAudioPlayer(file) {
@@ -254,15 +257,9 @@ function spawnAudioPlayer(file) {
         root: document.body,
         x: '200',
         y: '300',
-        width:'302',
-        height:'88',
         html: '<audio controls id="'+audioID+'" src="../'+audioURL+'" autoplay/>'
-    })
-    /*var imgObj = document.querySelector('#'+photoID);
-    photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
-    while (imgObj.offsetHeight == 0) { // fix potential race condition
-        photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
-        var imgObj = document.querySelector('#'+photoID);*/
+    });
+    winSizeHelper(audioWin);
 }
 
 function spawnAbout() {
@@ -271,7 +268,7 @@ function spawnAbout() {
         x:'100',
         y:'100',
         width: '250',
-        height: '350',
+        height: '500',
         html: `<div id="about" style="height:100%;width:100%;background:#c0c0c0;">
         <p style="text-align:center;font-size:20pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Gelato System</p>
         <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Version: `+version+`</p>
