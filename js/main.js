@@ -121,6 +121,26 @@ function spawnPhotoView(file) {
     }
 }
 
+function spawnAudioPlayer(file) {
+    var audioURL = "fs_elements/" + file;
+    var audioPath = file.split('/');
+    var audioID = audioPath[audioPath.length - 1].split('.')[0]
+    var audioWin = new WinBox({
+        title: 'Sound Goblin',
+        root: document.body,
+        x: '200',
+        y: '300',
+        width:'302',
+        height:'88',
+        html: '<audio controls id="'+audioID+'" src="../'+audioURL+'" autoplay/>'
+    })
+    /*var imgObj = document.querySelector('#'+photoID);
+    photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
+    while (imgObj.offsetHeight == 0) { // fix potential race condition
+        photoWin.resize(imgObj.offsetWidth + 3, imgObj.offsetHeight + 35);
+        var imgObj = document.querySelector('#'+photoID);*/
+}
+
 
 function spawnAbout() {
     var aboutWin = new WinBox({
@@ -463,6 +483,22 @@ pview: view image files`);
             }
             break;
 
+            case "sndplay":
+                console.log(term.pwd+'/'+args[0]);
+                if (args.length == 0) {
+                    echo.println("sndplay: please enter an audio filename to open");
+                }
+                else {
+                    file = traversePath(term.pwd, args[0].split("/"));
+                    if (localStorage.getItem(file) == ["f", "audio"]) {
+                        spawnAudioPlayer(file);
+                    }
+                    else {
+                        echo.println("sndplay: Filetype not recognized or file does not exist.");
+                    }
+                }
+                break;
+
         case "":
             break;
 
@@ -509,5 +545,7 @@ updateClock();
 setInterval(updateClock, 1000);
 
 localStorage.setItem("/Images", "d");
+localStorage.setItem("/Music", "d");
 localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
+localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
 localStorage.setItem("/", "d");
