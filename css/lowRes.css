@@ -1,0 +1,11 @@
+html {
+    background-color:#000;
+}
+
+body {
+    height:480px;
+    width:640px;
+    position:absolute;
+ 
+    /*transform: scale(0.5);*/
+}

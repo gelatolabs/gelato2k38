@@ -1,22 +1,3 @@
-function clippiArt(term) {
-    term.write("[0m[37m                /  \\\n\r");
-    term.write("[0m[37m                |  |\n\r");
-    term.write("[0m[37m                @  @\n\r");
-    term.write("[0m[37m                |  |\n\r");
-    term.write("[0m[37m                || |/\n\r");
-    term.write("[0m[37m                || ||\n\r");
-    term.write("[0m[37m                |\_/|\n\r");
-    term.write("[0m[37m                \___/\n\r");
-    term.write("\n")
-}
-
-function bootClippi(term) {   
-    clippiArt(term);
-    term.write("[0m[1mHi! I'm CLIPPI! It looks like you need help!\n\r");
-    term.write("If you need help, type 'clippi' at the terminal.\n\r");
-    window.clippiPhase = 1;
-}
-
 function clippi(term) {
     clippiArt(term);
     switch(window.clippiPhase) {
@@ -36,6 +17,7 @@ function spawnTerm() {
 
     var termWin = new WinBox({
         title: 'GelatoTerm',
+        root: document.body,
         x: '44',
         y: '100',
         width: '600',
@@ -84,6 +66,7 @@ function traversePath(pwd, path) {
 function spawnBrowser() {
     var browserWin = new WinBox({
         title: 'Mozzarella',
+        root: document.body,
         x: '44',
         y: '100',
         width: '600',
@@ -117,6 +100,7 @@ function spawnPhotoView(file) {
     var photoID = photoPath[photoPath.length - 1].split('.')[0]
     var photoWin = new WinBox({
         title: 'Wandering Eye',
+        root: document.body,
         x: '200',
         y: '300',
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
@@ -421,6 +405,17 @@ function uptime() {
     if (minutes > 0) { result += minutes  + "m " }
     if (seconds > 0) { result += seconds + "s " }
     return result;
+}
+
+function lowRes() {
+    var headHook = document.querySelector("head");
+    var lowResCSS = '<link id="lowresCSS" rel="stylesheet" href="css/lowRes.css" />'
+    headHook.innerHTML += lowResCSS;
+}
+
+function fullRes() {
+    var lrCSSHook = document.querySelector("#lowresCSS");
+    lrCSSHook.parentElement.removeChild(lrCSSHook)
 }
 
 const boottime = new Date();
