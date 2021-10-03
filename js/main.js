@@ -8,6 +8,7 @@ commands = [
     ["clear", "clear the terminal screen"],
     ["clippi", "clerk of learning and information for perpetual purgatorial imprisonment"],
     ["date", "print the system date and time"],
+    ["devicelook", "look up an unknown component ID"],
     ["dispdrv", "set display driver"],
     ["gde", "start the gelato desktop environment"],
     ["help", "get some help"],
@@ -35,6 +36,45 @@ wisdoms = [
     "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!"
 ];
 
+cardID = [
+    ["1002:1D61","Macrosoft Basic Display Adapter"],
+    ["1002:1D62","ATS RadVidOn R6200"],
+    ["1002:1D63","ATS RadVidOn R6300"],
+    ["1002:1D64","ATS RadVidOn R6400"],
+    ["1002:1D65","ATS RadVidOn RD6500"],
+    ["1002:1D66","ATS RadVidOn RD6600"],
+    ["1002:1D67","ATS RadVidOn RD6700"],
+    ["1002:1D68","ATS RadVidOn RD6800"],
+    ["10DE:1B61","NE555 Timer"],
+    ["10DE:1B62","Chlamydia GooForce S2020"],
+    ["10DE:1B63","Chlamydia GooForce ST2020"],
+    ["10DE:1B64","Chlamydia GooForce ST2020"],
+    ["10DE:1B65","Chlamydia GooForce ST2050"],
+    ["10DE:1B66","Chlamydia GooForce STI2060"],
+    ["10DE:1B67","Chlamydia GooForce STI2070"],
+    ["10DE:1B68","Chlamydia GooForce STI2080"],
+    ["10DE:1B69","Chlamydia GooForce STI2090"],
+    ["10DE:1C61","Slower than a TI-82"],
+    ["10DE:1C62","Chlamydia GooForce S3020"],
+    ["10DE:1C63","Chlamydia GooForce ST3030"],
+    ["10DE:1C64","Chlamydia GooForce ST3030"],
+    ["10DE:1C65","Chlamydia GooForce ST3050"],
+    ["10DE:1C66","Chlamydia GooForce STI3060"],
+    ["10DE:1C67","Chlamydia GooForce STI3070"],
+    ["10DE:1C68","Chlamydia GooForce STI3080"],
+    ["10DE:1C69","Chlamydia GooForce STI3090"],
+    ["10DE:1D61","Just play games on your phone instead."],
+    ["10DE:1D62","Chlamydia GooForce S4020"],
+    ["10DE:1D63","Chlamydia GooForce ST4030"],
+    ["10DE:1D64","Chlamydia GooForce ST4040"],
+    ["10DE:1D65","Chlamydia GooForce ST4050"],
+    ["10DE:1D66","Chlamydia GooForce STI4060"],
+    ["10DE:1D67","Chlamydia GooForce STI4070"],
+    ["10DE:1D68","Chlamydia GooForce STI4080"],
+    ["10DE:1D69","Chlamydia GooForce STI4090"]
+    ];
+    
+
 function clippi() {
     wisdom = wisdoms[parseInt(localStorage.getItem("clippiPhase"))];
 
@@ -53,6 +93,7 @@ function clippi() {
             html: `<div class="wisdom">${wisdom}</div><img class="clippi" src="assets/images/clippi.png" />`
         });
     } else {
+        bootEcho.println("");
         bootEcho.println(wisdom);
         bootEcho.println(`
               /  \\
@@ -691,7 +732,7 @@ IMPLEMENTATION
 [0m[1m  ###  ###################  ### [0m[0m[37m [0m[37mTerminal:[0m Xterm.js[0m[0m
 [0m[1m   ###  ###  ### ###  ###  ###  [0m[0m[37m [0m[37mFont:[0m Pixelated MS Sans Serif 11[0m[0m
 [0m[1m     ####               ####    [0m[0m[37m [0m[37mCPU:[0m RED SUS PT69 revision 1[0m
-[0m[1m        #################       [0m[0m[37m [0m[37mGPU:`+ GPUname + `[0m
+[0m[1m        #################       [0m[0m[37m [0m[37mGPU: `+ GPUname + `[0m
 [0m[1m            #########          [0m[0m
                 `);
             if (clippiPhase == 0) {
@@ -813,6 +854,29 @@ Distributed under the ISC license`);
             document.location.href = "shutdown.html";
             break;
 
+        case "devicelook":
+            if (args.length == 0) {
+                echo.println("devicelook: please enter a device ID to lookup");
+            }
+            else {
+                var cardFound;
+                for (var i = 0; i < cardID.length; i++) {
+                    if (args[0] == cardID[i][0]){
+                        echo.println("Device name found: "+cardID[i][1]);
+                        cardFound = true;
+                        break;
+                    }
+                }
+                if (!cardFound) {
+                    echo.println("Unknown device.");
+                }
+            }
+            if (args[0] == "10DE:1D69" && clippiPhase == 2) {
+                clippiPhase = 3;
+                localStorage.setItem("clippiPhase", 3);
+                clippi();
+            }
+        
         case "":
         case undefined:
             break;
