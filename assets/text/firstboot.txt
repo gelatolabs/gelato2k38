@@ -123,4 +123,17 @@ FAIL
 Unknown device: Fanciful Audio Cannon Z5
 audio output is not available.
 Welcome to Gelato System!
-root> 
+
+
+              /  \
+              |  |
+              @  @
+              |  |
+              || |/
+              || ||
+              |\_/|
+              \___/
+Hi! I'm CLIPPI! It looks like you need help!
+If you need help, type 'clippi' at the terminal.
+
+\>

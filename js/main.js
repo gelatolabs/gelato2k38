@@ -1,3 +1,30 @@
+function clippiArt(term) {
+    term.write("[0m[37m                /  \\\n\r");
+    term.write("[0m[37m                |  |\n\r");
+    term.write("[0m[37m                @  @\n\r");
+    term.write("[0m[37m                |  |\n\r");
+    term.write("[0m[37m                || |/\n\r");
+    term.write("[0m[37m                || ||\n\r");
+    term.write("[0m[37m                |\_/|\n\r");
+    term.write("[0m[37m                \___/\n\r");
+    term.write("\n")
+}
+
+function bootClippi(term) {   
+    clippiArt(term);
+    term.write("[0m[1mHi! I'm CLIPPI! It looks like you need help!\n\r");
+    term.write("If you need help, type 'clippi' at the terminal.\n\r");
+    window.clippiPhase = 1;
+}
+
+function clippi(term) {
+    clippiArt(term);
+    switch(window.clippiPhase) {
+        case(1):
+            term.write("Oh no, looks like you don't have video drivers installed!\n\r");
+    }
+}
+
 function spawnTerm() {
     const term = new Terminal({
         theme: {
@@ -115,11 +142,12 @@ function updateClock() {
     document.getElementById('gde-clock').innerHTML = new Date().toLocaleTimeString();
 }
 
-var slowText = function (message, index, interval) {   
+function slowText (message, index, interval) {   
     if (index < message.length) {
         term.write(message[index++]);
         setTimeout(function () { slowText(message, index, interval); }, interval);
     }
+
 }
 
 function loadFile(filePath) {

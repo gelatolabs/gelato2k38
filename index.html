@@ -23,8 +23,9 @@
             term.open(document.getElementById('terminal'));
             fitAddon.fit();
             term.write("");
-            //slowText(loadFile("assets/text/firstboot.txt"),0,2);
+            slowText(loadFile("assets/text/firstboot.txt"),0,2);
             term.focus();
+            window.clippiPhase = 1;
             term.history = [];
             term.historyIndex = 0;
             term.pwd = "/";
