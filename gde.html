@@ -34,5 +34,12 @@
             </div>
         </div>
         <script src="/js/main.js"></script>
+        <script>
+            document.addEventListener("keyup", (e) => {
+                if (e.code === "Escape") {
+                    toggleStart();
+                }
+            });
+        </script>
     </body>
 </html>
