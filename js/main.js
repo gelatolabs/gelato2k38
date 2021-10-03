@@ -1,6 +1,24 @@
 version = "2K38"
 buildDate = "October 4, 2021"
 
+commands = [
+    ["cd", "change the working directory"],
+    ["clear", "clear the terminal screen"],
+    ["date", "print the system date and time"],
+    ["dispdrv", "set display driver"],
+    ["history", "return command history"],
+    ["ls", "list directory contents"],
+    ["mkdir", "make directories"],
+    ["pview", "view image files"],
+    ["pwd", "return working directory name"],
+    ["reset", "clear the terminal screen"],
+    ["rm", "remove files or directories"],
+    ["screenfetch", "nothing of interest"],
+    ["sndplay", "play audio files"],
+    ["uptime", "tell how long the system has been running"],
+    ["ver", "display gsh version"]
+];
+
 function clippi(term) {
     clippiArt(term);
     switch(window.clippiPhase) {
@@ -54,7 +72,7 @@ async function spawnTerm() {
 }
 
 function autocompleteCommands(index, tokens, term) {
-    if (index == 0) return ["cd", "help", "history", "ls", "mkdir", "pview", "pwd", "rm", "screenfetch", "sndplay"];
+    if (index == 0) return commands.map((cmds) => cmds[0]);
     return [];
 }
 
@@ -63,7 +81,7 @@ function autocompleteFiles(index, tokens, term) {
 
     switch(tokens[0]) {
         case "help":
-            return ["cd", "history", "ls", "mkdir", "pview", "pwd", "rm", "screenfetch", "sndplay"];
+            return commands.map((cmds) => cmds[0]);
             break;
 
         case "cd":
@@ -453,20 +471,11 @@ IMPLEMENTATION
                     break;
 
                 default:
-                    echo.println(`Type 'help' followed by a command to learn more about it,
-e.g. 'help cd'
- 
-cd: change the working directory
-pwd: return working directory name
-mkdir: make directories
-rm: remove files or directories
-ls: list directory contents
-history: return command history
-screenfetch: nothing of interest
-pview: view image files
-sndplay: play audio files
-dispdrv: set display driver
-ver: Display gsh version`);
+                    echo.println("Type 'help' followed by a command to learn more about it, e.g. 'help cd'");
+                    echo.println("");
+                    for (var i = 0; i < commands.length; i++) {
+                        echo.println(commands[i][0] + ": " + commands[i][1]);
+                    }
                     break;
             }
             break;
