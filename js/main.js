@@ -366,7 +366,9 @@ function toggleStart() {
 }
 
 function updateClock() {
-    document.getElementById('gde-clock').innerHTML = new Date().toLocaleTimeString();
+    if (inGDE){
+        document.getElementById('gde-clock').innerHTML = new Date().toLocaleTimeString();
+    }
 }
 
 function slowText (echo, message, speed) {
@@ -840,7 +842,7 @@ function fullRes() {
 }
 
 const bootTime = new Date();
-
+console.log("foo1");
 updateClock();
 setInterval(updateClock, 1000);
 
@@ -851,13 +853,13 @@ if (startTime == null) {
 }
 
 var dispDrv = localStorage.getItem("dispDrv");
-if (dispDrv == null) {
+if (isNaN(dispDrv == null)) {
     dispDrv = "none";
     localStorage.setItem("dispDrv", dispDrv);
 }
 
 var clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
-if (clippiPhase == null) {
+if (isNaN(clippiPhase)) {
     clippiPhase = 0;
     localStorage.setItem("clippiPhase", clippiPhase);
 }
@@ -896,3 +898,4 @@ setInterval(function() {
         localStorage.setItem("clippiPhase", clippiPhaseOrig);
     }
 }, 5000);
+
