@@ -68,6 +68,8 @@ html, body {
     float: right;
     margin-top: 16px;
     margin-right: 12px;
+    font-family: "Pixelated MS Sans Serif";
+    font-size: 14px;
 }
 
 .scroll-up {
