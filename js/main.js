@@ -574,7 +574,7 @@ ver: Display gsh version`);
         case "screenfetch":
             echo.println(`
     [0m[1;30m         #####              [0m[37m root[0m[1m@[0m[0m[37mgelato[0m[0m
-    [0m[1;30m        #######             [0m[37m OS:[0m Gelato System 2k38 [0m[0m
+    [0m[1;30m        #######             [0m[37m OS:[0m Gelato System 2K38 [0m[0m
     [0m[1;30m        ##[0m[1;37mO[0m[1;30m#[0m[1;37mO[0m[1;30m##             [0m[37m Kernel:[0m gelato 2.4.20-uc0[0m
     [0m[1;30m        #[0m[1;33m#####[0m[1;30m#             [0m[37m Uptime:[0m `+uptime()+`[0m[0m
     [0m[1;30m      ##[0m[1;37m##[0m[1;33m###[0m[1;37m##[0m[1;30m##           [0m[37m Shell:[0m gsh[0m[0m

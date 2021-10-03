@@ -1,4 +1,4 @@
-# The Gelato System 2k38
+# The Gelato System 2K38
 A Gelato Labs production for LD49.
 
 ## Install
