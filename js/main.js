@@ -9,13 +9,14 @@ function clippi(term) {
     }
 }
 
-function spawnTerm() {
+async function spawnTerm() {
     const term = new Terminal({
         theme: {
             foreground: '#0F0'
         }
     });
     const termFit = new FitAddon.FitAddon();
+    const localEcho = new LocalEchoController();
     term.loadAddon(termFit);
 
     var termWin = new WinBox({
@@ -25,21 +26,25 @@ function spawnTerm() {
         y: '100',
         width: '600',
         height: '400',
-        onresize: termFit.fit(), // doesn't work
+        onresize: () => { termFit.fit() },
         html: '<div class="term"></div>'
     });
 
     term.open(termWin.body.firstChild);
+    term.loadAddon(localEcho);
     termFit.fit();
-    term.write("/> ");
     term.focus();
 
     term.history = [];
-    term.historyIndex = 0;
     term.pwd = "/";
-    term.input = ""
 
-    term.onKey(e => {input = termKeyEvent(e, term)});
+    term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
+
+    while (true) {
+        await localEcho.read(term.pwd + "> ")
+            .then(input => commandHandler(term, localEcho, input))
+            .catch(error => void(0));
+    }
 }
 
 function traversePath(pwd, path) {
@@ -116,6 +121,7 @@ function spawnPhotoView(file) {
     }
 }
 
+
 function spawnAbout() {
     var aboutWin = new WinBox({
         title: "About Gelato System",
@@ -173,101 +179,73 @@ function loadFile(filePath) {
     return result;
 }
 
-function termKeyEvent(e, term) {
-    if (e.key.charCodeAt(0) == 127) {
-        // Backspace
-        term.write('\b\x1b[1;P');
-        term.input = term.input.slice(0, term.input.length - 1);
+function termKeyEvent(e, term, echo) {
+    if (e.key == '\x0c') {
+        // Ctrl-L -> clear screen
+        echo.abortRead("clear");
+        echo.print('\x9B2J\x9BH');
     }
-    else if (e.key == '\x0c') {
-        // Ctrl-L
-        term.write('\x9B2J\x9BH' + term.pwd + '> ');
-        term.input = "";
-    }
-    else if (e.key == '\x1b[A' && term.history.length > 0) {
-        // Up arrow
-        term.historyIndex = Math.max(term.historyIndex - 1, 0);
-        term.input = term.history[term.historyIndex];
-        term.write('\x9B2K\r' + term.pwd + '> ' + term.input);
-    }
-    else if (e.key == '\x1b[B') {
-        // Down arrow
-        term.historyIndex++;
-        if (term.historyIndex < term.history.length) {
-            term.input = term.history[term.historyIndex];
-            term.write('\x9B2K\r' + term.pwd + '> ' + term.input);
-        } else {
-            term.historyIndex = term.history.length;
-            term.input = "";
-            term.write('\x9B2K\r' + term.pwd + '> ');
-        }
-    }
-    else if (e.key == '\r') {
-        term.write('\r\n');
-        commandHandler(term);
-        if (term.input.length > 0) {
-            term.history.push(term.input);
-            term.historyIndex = term.history.length;
-        }
-        term.write('\r' + term.pwd + '> ');
-        term.input = "";
-    }
-    else {
-        term.input += e.key;
-        term.write(e.key);
-    }
-    return term.input;
 }
 
-function commandHandler(term) {
+function commandHandler(term, echo, input) {
     args = input.split(' ');
     cmd = args.shift();
     switch(cmd) {
         case "help":
             switch(args[0]) {
                 case "cd":
-                    term.write(`NAME\r
-    cd - Change the shell working directory.\r
-\r
-SYNOPSIS\r
-    cd [dir]\r
-\r
-DESCRIPTION\r
-    Change the shell working directory.\r
-    \r
-    Change the current directory to [dir].  If omitted, the\r
-    default [dir] is the root of the filesystem, '/'.\r
-    \r
-    If [dir] begins with a slash (/), it is interpreted as an\r
-    absolute path. If not, it is interpreted relative to the\r
-    current working directory.\r
-\r
-    '..' in [dir] moved to the parent directory.\r
-\r
-EXAMPLES\r
-    > pwd\r
-    /starting_directory\r
-    > cd child/directories\r
-    > pwd\r
-    /starting_directory/child/directories\r
-    > cd ..\r
-    > pwd\r
-    /starting_directory/child\r
-    > cd /somewhere/else\r
-    > pwd\r
-    /somewhere/else\r
-    \r
-SEE ALSO\r
-    help pwd\r
-\r
-IMPLEMENTATION\r
-    Gelato gsh, version 5.0.17(1)-release\r
-    Copyright (C) 2021 Gelato Labs\r
-    Distributed under the ISC license\n`);
+                    echo.println(`NAME
+    cd - Change the shell working directory.
+ 
+SYNOPSIS
+    cd [dir]
+ 
+DESCRIPTION
+    Change the shell working directory.
+ 
+    Change the current directory to [dir].  If omitted, the
+    default [dir] is the root of the filesystem, '/'.
+ 
+    If [dir] begins with a slash (/), it is interpreted as an
+    absolute path. If not, it is interpreted relative to the
+    current working directory.
+ 
+    '..' in [dir] moved to the parent directory.
+ 
+EXAMPLES
+    > pwd
+    /starting_directory
+    > cd child/directories
+    > pwd
+    /starting_directory/child/directories
+    > cd ..
+    > pwd
+    /starting_directory/child
+    > cd /somewhere/else
+    > pwd
+    /somewhere/else
+ 
+SEE ALSO
+    help pwd
+ 
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`);
                     break;
 
                 default:
-                    term.write("Type 'help' followed by a command to learn more about it,\n\re.g. 'help cd'\n\n\rcd: change the working directory\n\rpwd: return working directory name\n\rmkdir: make directories\n\rrm: remove files or directories\n\rls: list directory contents\n\rhistory: return command history\n\rscreenfetch: nothing of interest\n\rpview: view image files\n");
+                    echo.println(`Type 'help' followed by a command to learn more about it,
+e.g. 'help cd'
+ 
+cd: change the working directory
+pwd: return working directory name
+mkdir: make directories
+rm: remove files or directories
+ls: list directory contents
+history: return command history
+screenfetch: nothing of interest
+pview: view image files`);
                     break;
             }
             break;
@@ -280,15 +258,15 @@ IMPLEMENTATION\r
                 if (localStorage.getItem(dir) == "d") {
                     term.pwd = dir;
                 } else {
-                    term.write("cd: " + args[0] + ": No such file or directory\n");
+                    echo.println("cd: " + args[0] + ": No such file or directory");
                 }
             } else {
-                term.write("cd: too many arguments\n");
+                echo.println("cd: too many arguments");
             }
             break;
 
         case "pwd":
-            term.write(term.pwd + "\n");
+            echo.println(term.pwd);
             break;
 
         case "mkdir":
@@ -299,9 +277,9 @@ IMPLEMENTATION\r
                 if (parent == "d") {
                     localStorage.setItem(dir, "d");
                 } else if (parent == "f") {
-                    term.write("mkdir: cannot create directory '" + args[i] + "': Not a directory\n");
+                    echo.println("mkdir: cannot create directory '" + args[i] + "': Not a directory");
                 } else {
-                    term.write("mkdir: cannot create directory '" + args[i] + "': No such file or directory\n");
+                    echo.println("mkdir: cannot create directory '" + args[i] + "': No such file or directory");
                 }
             }
             break;
@@ -329,7 +307,7 @@ IMPLEMENTATION\r
                     }
                 }
             } else {
-                term.write("rm: missing operand\n");
+                echo.println("rm: missing operand");
             }
             break;
 
@@ -350,52 +328,55 @@ IMPLEMENTATION\r
                 if (localStorage.getItem(path) == "d") {
                     if (paths.length > 1) {
                         if (i > 0) {
-                            term.write("\n\r");
+                            echo.println();
                         }
-                        term.write(paths[i] + ":\n\r");
+                        echo.println(paths[i] + ":");
                     }
                     for (var j = 0; j < files.length; j++) {
                         var file = files[j];
                         var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
                         if (parent == path && parent != file) {
-                            term.write(file.substr(file.lastIndexOf("/") + 1) + "\n\r");
+                            if (localStorage.getItem(path) == "d") {
+                                echo.println(file.substr(file.lastIndexOf("/") + 1) + "/");
+                            } else {
+                                echo.println(file.substr(file.lastIndexOf("/") + 1));
+                            }
                         }
                     }
                 } else if (localStorage.getItem(path) == "f") {
-                    term.write(path.substr(path.lastIndexOf("/") + 1) + "\n\r");
+                    echo.println(path.substr(path.lastIndexOf("/") + 1));
                 } else {
-                    term.write("ls: cannot access '" + paths[i] + "': No such file or directory\n");
+                    echo.println("ls: cannot access '" + paths[i] + "': No such file or directory");
                 }
             }
             break;
 
         case "screenfetch":
-            term.write(`
-    [0m[1;30m         #####              [0m[37m root[0m[1m@[0m[0m[37mgelato[0m[0m\r
-    [0m[1;30m        #######             [0m[37m OS:[0m Gelato System 2k38 [0m[0m\r
-    [0m[1;30m        ##[0m[1;37mO[0m[1;30m#[0m[1;37mO[0m[1;30m##             [0m[37m Kernel:[0m gelato 2.4.20-uc0[0m\r
-    [0m[1;30m        #[0m[1;33m#####[0m[1;30m#             [0m[37m Uptime:[0m `+uptime()+`[0m[0m\r
-    [0m[1;30m      ##[0m[1;37m##[0m[1;33m###[0m[1;37m##[0m[1;30m##           [0m[37m Shell:[0m gsh[0m[0m\r
-    [0m[1;30m     #[0m[1;37m##########[0m[1;30m##          [0m[37m Resolution:[0m `+window.innerWidth+`x`+window.innerHeight+`[0m[0m\r
-    [0m[1;30m    #[0m[1;37m############[0m[1;30m##         [0m[37m WM:[0m WinBox.js[0m[0m\r
-    [0m[1;30m    #[0m[1;37m############[0m[1;30m###        [0m[37m CSS Theme:[0m 98.css [0m\r
-    [0m[1;33m   ##[0m[1;30m#[0m[1;37m###########[0m[1;30m##         [0m[37m Terminal:[0m Xterm.js[0m[0m\r
-    [0m[1;33m ######[0m[1;30m#[0m[1;37m#######[0m[1;30m#[0m[1;33m######      [0m[37m Font:[0m Pixelated MS Sans Serif 11[0m[0m\r
-    [0m[1;33m #######[0m[1;30m#[0m[1;37m#####[0m[1;30m#[0m[1;33m#######      [0m[37m CPU:[0m RED SUS PT69 revision 1[0m\r
-    [0m[1;33m   #####[0m[1;30m#######[0m[1;33m#####        [0m[37m GPU:[0m Chlamydia GooForce STI4090[0m\r
-                        \n`);
+            echo.println(`
+    [0m[1;30m         #####              [0m[37m root[0m[1m@[0m[0m[37mgelato[0m[0m
+    [0m[1;30m        #######             [0m[37m OS:[0m Gelato System 2k38 [0m[0m
+    [0m[1;30m        ##[0m[1;37mO[0m[1;30m#[0m[1;37mO[0m[1;30m##             [0m[37m Kernel:[0m gelato 2.4.20-uc0[0m
+    [0m[1;30m        #[0m[1;33m#####[0m[1;30m#             [0m[37m Uptime:[0m `+uptime()+`[0m[0m
+    [0m[1;30m      ##[0m[1;37m##[0m[1;33m###[0m[1;37m##[0m[1;30m##           [0m[37m Shell:[0m gsh[0m[0m
+    [0m[1;30m     #[0m[1;37m##########[0m[1;30m##          [0m[37m Resolution:[0m `+window.innerWidth+`x`+window.innerHeight+`[0m[0m
+    [0m[1;30m    #[0m[1;37m############[0m[1;30m##         [0m[37m WM:[0m WinBox.js[0m[0m
+    [0m[1;30m    #[0m[1;37m############[0m[1;30m###        [0m[37m CSS Theme:[0m 98.css [0m
+    [0m[1;33m   ##[0m[1;30m#[0m[1;37m###########[0m[1;30m##         [0m[37m Terminal:[0m Xterm.js[0m[0m
+    [0m[1;33m ######[0m[1;30m#[0m[1;37m#######[0m[1;30m#[0m[1;33m######      [0m[37m Font:[0m Pixelated MS Sans Serif 11[0m[0m
+    [0m[1;33m #######[0m[1;30m#[0m[1;37m#####[0m[1;30m#[0m[1;33m#######      [0m[37m CPU:[0m RED SUS PT69 revision 1[0m
+    [0m[1;33m   #####[0m[1;30m#######[0m[1;33m#####        [0m[37m GPU:[0m Chlamydia GooForce STI4090[0m`);
             break;
 
         case "history":
             for (var i = 0; i < term.history.length; i++) {
-                term.write(term.history[i] + "\n\r");
+                echo.println(term.history[i]);
             }
             break;
 
         case "pview":
             console.log(term.pwd+'/'+args[0]);
             if (args.length == 0) {
-                term.write("pview: please enter an image filename to open\n");
+                echo.println("pview: please enter an image filename to open");
             }
             else {
                 file = traversePath(term.pwd, args[0].split("/"));
@@ -403,7 +384,7 @@ IMPLEMENTATION\r
                     spawnPhotoView(file);
                 }
                 else {
-                    term.write("pview: Filetype not recognized or file does not exist.\n");
+                    echo.println("pview: Filetype not recognized or file does not exist.");
                 }
             }
             break;
@@ -412,7 +393,10 @@ IMPLEMENTATION\r
             break;
 
         default:
-            term.write(cmd + ": command not found. If you are lost, type 'help'.\n")
+            echo.println(cmd + ": command not found. If you are lost, type 'help'.")
+    }
+    if (input.length > 0) {
+        term.history.push(term.input);
     }
 }
 
