@@ -1,10 +1,12 @@
 version = "2K38"
 buildDate = "October 4, 2021"
+inGDE = false;
 
 commands = [
     ["cat", "print file contents"],
     ["cd", "change the working directory"],
     ["clear", "clear the terminal screen"],
+    ["clippi", "clerk of learning and information for perpetual purgatorial imprisonment"],
     ["date", "print the system date and time"],
     ["dispdrv", "set display driver"],
     ["gde", "start the gelato desktop environment"],
@@ -26,11 +28,22 @@ commands = [
     ["whatis", "describe commands"]
 ];
 
-function clippi(term) {
-    clippiArt(term);
-    switch(window.clippiPhase) {
-        case(1):
-            term.write("Oh no, looks like you don't have video drivers installed!\n\r");
+wisdoms = [
+    "Oh no, looks like you don't have video drivers installed!"
+];
+
+function clippi() {
+    wisdom = wisdoms[localStorage.getItem("clippiPhase")];
+
+    if (inGDE) {
+        var clippiWin = new WinBox({
+            title: '<img src="/assets/images/clippi-logo.png" /> <span>CLIPPI</span>',
+            width: 200,
+            height: 200,
+            html: `<div class="clippi">${wisdom}</div>`
+        });
+    } else {
+        bootEcho.println(wisdom);
     }
 }
 
@@ -47,7 +60,6 @@ async function spawnTerm() {
     var termWin = new WinBox({
         title: '<img src="/assets/images/gelatoterm-logo.png" /> <span>GelatoTerm</span>',
         class: ['termWin'],
-        root: document.body,
         width: Math.min(600, document.body.clientWidth-6),
         height: Math.min(400, document.body.clientHeight-54),
         onresize: (width, height) => { termFit.fit(width-2, height-33) },
@@ -250,7 +262,6 @@ function spawnBrowser(url) {
     url = url ? url : 'https://2k38wiki.gelatolabs.xyz/start';
     var browserWin = new WinBox({
         title: '<img src="/assets/images/mozzarella-logo.png" /> <span>Mozzarella</span>',
-        root: document.body,
         width: Math.min(800, document.body.clientWidth-6),
         height: Math.min(600, document.body.clientHeight-54),
         html: `<div class="browser">
@@ -282,7 +293,6 @@ function spawnPhotoView(file) {
     var photoID = photoPath[photoPath.length - 1].split('.')[0]
     var photoWin = new WinBox({
         title: '<img src="/assets/images/wanderingeye-logo.png" /> <span>Wandering Eye</span>',
-        root: document.body,
         html: '<img id="'+photoID+'" src="../'+photoURL+'" />'
     });
     winSizeHelper(photoWin);
@@ -294,7 +304,6 @@ function spawnAudioPlayer(file) {
     var audioID = audioPath[audioPath.length - 1].split('.')[0]
     var audioWin = new WinBox({
         title: '<img src="/assets/images/soundgoblin-logo.png" /> <span>Sound Goblin</span>',
-        root: document.body,
         html: '<audio controls id="'+audioID+'" src="../'+audioURL+'" autoplay/>'
     });
     winSizeHelper(audioWin);
@@ -751,6 +760,10 @@ Distributed under the ISC license`);
             echo.println(uptime());
             break;
 
+        case "clippi":
+            clippi();
+            break;
+
         case "clear":
         case "reset":
             echo.print('\x9B2J\x9BH');
@@ -826,6 +839,12 @@ if (dispDrv == null) {
     localStorage.setItem("dispDrv", dispDrv);
 }
 
+var clippiPhase = localStorage.getItem("clippiPhase");
+if (clippiPhase == null) {
+    clippiPhase = 0;
+    localStorage.setItem("clippiPhase", clippiPhase);
+}
+
 localStorage.setItem("/", "d");
 localStorage.setItem("/Images", "d");
 localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
@@ -852,4 +871,4 @@ setInterval(function() {
     if (Math.floor(Math.random() * 100) == 0) {
         window.location.href = "gsod.html";
     }
-}, 1000);
+}, 5000);

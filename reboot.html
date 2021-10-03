@@ -19,7 +19,7 @@
         <div id="terminal" style="height:100%;"></div>
         <script>
             async function boot() {
-                const term = new Terminal({
+                const bootTerm = new Terminal({
                     fontSize: 30,
                     theme: {
                         foreground: '#0F0'
@@ -27,32 +27,33 @@
                     bellStyle: 'sound',
                 });
                 const termFit = new FitAddon.FitAddon();
-                const localEcho = new LocalEchoController();
-                term.loadAddon(termFit);
+                bootEcho = new LocalEchoController();
+                bootTerm.loadAddon(termFit);
 
-                term.open(document.getElementById('terminal'));
-                term.loadAddon(localEcho);
+                bootTerm.open(document.getElementById('terminal'));
+                bootTerm.loadAddon(bootEcho);
                 termFit.fit();
-                term.focus();
+                bootTerm.focus();
 
-                term.history = [];
-                term.pwd = "/";
-                window.clippiPhase = 1;
+                bootTerm.history = [];
+                bootTerm.pwd = "/";
 
-                slowText(localEcho, loadFile("assets/text/reboot.txt"), 1.5);
+                slowText(bootEcho, loadFile("assets/text/reboot.txt"), 1.5);
 
-                term.onKey(e => {input = termKeyEvent(e, term, localEcho)});
+                bootTerm.onKey(e => {input = termKeyEvent(e, bootTerm, bootEcho)});
 
-                await localEcho.read("")
-                    .then(input => commandHandler(term, localEcho, input))
+                await bootEcho.read("")
+                    .then(input => commandHandler(bootTerm, bootEcho, input))
                     .catch(error => void(0));
 
                 while (true) {
-                    await localEcho.read(term.pwd + "> ")
-                        .then(input => commandHandler(term, localEcho, input))
+                    await bootEcho.read(bootTerm.pwd + "> ")
+                        .then(input => commandHandler(bootTerm, bootEcho, input))
                         .catch(error => void(0));
                 }
             }
+            var bootTerm;
+            var bootEcho;
             boot();
         </script>
     </body>
