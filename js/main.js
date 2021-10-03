@@ -34,7 +34,7 @@ wisdoms = [
 ];
 
 function clippi() {
-    wisdom = wisdoms[clippiPhase];
+    wisdom = wisdoms[parseInt(localStorage.getItem("clippiPhase"))];
 
     if (inGDE) {
         var oldClippies = document.getElementsByClassName("clippiWin");
@@ -52,6 +52,15 @@ function clippi() {
         });
     } else {
         bootEcho.println(wisdom);
+        bootEcho.println(`
+              /  \\
+              |  |
+              @  @
+              |  |
+              || |/
+              || ||
+              |\\_/|
+              \\___/`);
     }
 }
 
@@ -882,8 +891,8 @@ setInterval(function() {
     }
     else if (randomEvent < 5) {
         var clippiPhaseOrig = clippiPhase;
-        clippiPhase = 1;
+        localStorage.setItem("clippiPhase", 1);
         clippi();
-        clippiPhase = clippiPhaseOrig;
+        localStorage.setItem("clippiPhase", clippiPhaseOrig);
     }
 }, 5000);
