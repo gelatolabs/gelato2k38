@@ -248,18 +248,22 @@ radvid: Display driver for all modern ATS RadVidOn video cards`);
 };
 
 commands.falseaudio.run = function(args, term, echo) {
-    if (args[0] == "-version") {
+    if (args[0] == "--version") {
         echo.println("2.0");
-    } else if (args[0] == "-kill") {
+    } else if (args[0] == "--kill") {
         localStorage.setItem("falseaudioKilled", true);
         localStorage.removeItem("falseaudioFixed");
         setVolume(0);
         echo.println("FalseAudio killed.");
-    } else if (args[0] == "-start") {
+    } else if (args[0] == "--start") {
         if (localStorage.getItem("falseaudioKilled")) {
             localStorage.setItem("falseaudioFixed", true);
             setVolume(0.5);
             echo.println("FalseAudio started.");
+            if (localStorage.getItem("clippiPhase") == 5) {
+                localStorage.setItem("clippiPhase", 6);
+                setTimeout(function() {clippi()}, 1000);
+            }
         } else {
             echo.println("Failed to start FalseAudio.");
         }

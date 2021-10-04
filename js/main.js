@@ -9,7 +9,9 @@ function init(m) {
         "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the Basic Display Driver for now. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!",
         "Moment of truth! Start the desktop environment and see if the driver works!",
         "Good job! Thank the Creators for mandatory display standards. This is kinda cramped though… but now you have a web browser! Visit the Gelato Wiki and try to find the proper driver!",
-        "You did it! Behold GDE in glorious high definition."
+        "You did it! Behold GDE in glorious high definition. But sorry Neckbeard, but your audio is still in another castle! You're gonna have to find a solution for that too. I'd say that's on the wiki too, but I'm just a hellbound paperclip.",
+        "Aww yeah, we got working audio now! I got a reward for ya!",
+        ":)))))))))))"
     ];
     unwisdoms = [
         "Sometimes I show up for no reason at all! Like right now!",
@@ -86,11 +88,14 @@ function init(m) {
         if (localStorage.getItem("dispDrv") == "sti4xxx.driver") {
             localStorage.setItem("clippiPhase", 5);
         } else {
-            setTimeout(function() { clippi() }, 1000);
+            setTimeout(function() { clippi() }, 5000);
         }
     }
     if (localStorage.getItem("clippiPhase") == 5 && mode == "gde") {
-        setTimeout(function() { clippi() }, 1000);
+        setTimeout(function() { clippi() }, 5000);
+    }
+    if (localStorage.getItem("clippiPhase") == 6 && mode == "gde") {
+        setTimeout(function() { clippi() }, 5000);
     }
 
     setInterval(function() {
@@ -191,8 +196,15 @@ function clippi() {
         for (var i = 0; i < oldClippies.length; i++) {
             oldClippies[i].remove();
         }
-
         spawnClippi(wisdom);
+        var popupAudio = new Audio('/assets/sound/popup.wav');
+        popupAudio.volume = parseFloat(localStorage.getItem("volume"));
+        popupAudio.play();
+        if (localStorage.getItem("clippiPhase") == 6) {
+            setTimeout(function() {spawnBrowser('http://emilyisaway.com/youtoob/dQw4w9WgXcQ/')}, 3000);
+            localStorage.setItem("clippiPhase", 7);
+            setTimeout(function() {clippi()}, 6000);
+        }
     } else {
         bootEcho.println("");
         bootEcho.println(wisdom);
