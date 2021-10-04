@@ -918,6 +918,43 @@ function fullRes() {
     lrCSSHook.parentElement.removeChild(lrCSSHook);
 }
 
+function setDisplay() {
+    console.log("setDisplay()")
+    switch (dispDrv) {
+        case "aaaaaaaaaaa":
+        case "basicdis":
+            if (!inGDE) {
+                localStorage.setItem("resMode", "low");
+                window.location.href = "gde.html";
+            }
+            break;
+        case "cats":
+            window.location.href = "assets/images/cats.jpg";
+            break;
+        case "cga":
+            window.location.href = "blank.html";
+            break;
+        case "matrox":
+            window.location.href = "gsod.html";
+            break;
+        case "mach":
+            window.location.href = "gsod.html";
+            break;
+        case "poop":
+            window.location.href = "/assets/images/emojipoo.png";
+            break;
+        case "ps2x":
+            window.location.href = "gsod.html";
+            break;
+        case "ps3x":
+            window.location.href = "gsod.html";
+            break;
+        case "radvid":
+            document.body.classList.add("crt");
+            document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
+    }
+}
+
 const bootTime = new Date();
 console.log("foo1");
 updateClock();
@@ -930,15 +967,21 @@ if (startTime == null) {
 }
 
 var dispDrv = localStorage.getItem("dispDrv");
-if (isNaN(dispDrv == null)) {
-    dispDrv = "none";
-    localStorage.setItem("dispDrv", dispDrv);
+if (dispDrv == undefined) {
+   dispDrv = "none";
+   localStorage.setItem("dispDrv", dispDrv);
 }
 
 var clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
 if (isNaN(clippiPhase)) {
     clippiPhase = 0;
     localStorage.setItem("clippiPhase", clippiPhase);
+}
+
+var resMode = parseInt(localStorage.getItem("resMode"));
+if (resMode == "undefined") {
+    resMode = "full";
+    localStorage.setItem("resMode", resMode);
 }
 
 localStorage.setItem("/", "d");
@@ -948,20 +991,7 @@ localStorage.setItem("/Music", "d");
 localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
 localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
 
-switch (dispDrv) {
-    case "aaaaaaaaaaa":
-    case "basicdic":
-    case "cats":
-    case "cga":
-    case "matrox":
-    case "mach":
-    case "poop":
-    case "ps2x":
-    case "ps3x":
-    case "radvid":
-        document.body.classList.add("crt");
-        document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
-}
+
 
 setInterval(function() {
     randomEvent = Math.floor(Math.random() * 300);
@@ -981,4 +1011,6 @@ if (inGDE) {
     document.body.addEventListener("click", function() {
         clickSnd.play();
     }, true);
+
+    if (resMode == "low") { lowRes()}
 }
