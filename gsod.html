@@ -44,19 +44,8 @@
                 bootTerm.history = [];
                 bootTerm.pwd = "/";
 
-                slowText(bootEcho, loadFile("assets/text/gsod.txt"), 0.5);
-
-                bootTerm.onKey(e => {input = termKeyEvent(e, bootTerm, bootEcho)});
-
-                await bootEcho.read("")
-                    .then(input => commandHandler(bootTerm, bootEcho, input))
-                    .catch(error => void(0));
-
-                while (true) {
-                    await bootEcho.read(bootTerm.pwd + "> ")
-                        .then(input => commandHandler(bootTerm, bootEcho, input))
-                        .catch(error => void(0));
-                }
+                slowText(bootEcho, loadFile("assets/text/gsod.txt"), 1);
+                setTimeout(function() {window.location.href = "index.html";}, 5000);
             }
             var bootTerm;
             var bootEcho;

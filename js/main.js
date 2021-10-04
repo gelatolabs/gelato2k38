@@ -130,6 +130,7 @@ function clippi() {
 }
 
 function lowRes() {
+    if (mode != "gde") { return; }
     var headHook = document.querySelector("head");
     var lowResCSS = '<link id="lowresCSS" rel="stylesheet" href="css/lowRes.css" />'
     headHook.innerHTML += lowResCSS;
