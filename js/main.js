@@ -195,8 +195,10 @@ function setDisplay() {
     switch (localStorage.getItem("dispDrv")) {
         case "aaaaaaaaaaa":
         case "basicdis":
-            localStorage.setItem("resMode", "low");
-            document.body.classList.add("crt");
+            if (mode == "gde") {
+                localStorage.setItem("resMode", "low");
+                document.body.classList.add("crt");
+            }
             break;
         case "cats":
             window.location.href = "assets/images/cats.jpg";
@@ -220,8 +222,10 @@ function setDisplay() {
             window.location.href = "gsod.html";
             break;
         case "radvid":
-            document.body.classList.add("crt");
-            document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
+            if (mode == "gde") {
+                document.body.classList.add("crt");
+                document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
+            }
             break;
         default:
             if (mode == "gde") {

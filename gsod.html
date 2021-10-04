@@ -18,19 +18,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=1000, user-scalable=no" />
     </head>
-    <body style="background-color: #00ff00; overflow: hidden">
-        <div id="terminal" style="height:100%;"></div>
+    <body>
+        <div id="terminal" class="crt" style="height:100%;">
+            <div class="scanline"></div>
+        </div>
         <script>
             init();
 
             async function boot() {
-                const bootTerm = new Terminal({
+                bootTerm = new Terminal({
                     fontSize: 30,
                     theme: {
                         background: '#0F0',
                         foreground: '#FFF'
                     },
                     bellStyle: 'sound',
+                    rendererType: "dom",
                 });
                 const termFit = new FitAddon.FitAddon();
                 bootEcho = new LocalEchoController();
@@ -51,5 +54,10 @@
             var bootEcho;
             boot();
         </script>
+        <style>
+            .crt {
+                background: #0F0;
+            }
+        </style>
     </body>
 </html>

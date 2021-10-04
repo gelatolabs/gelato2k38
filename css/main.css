@@ -55,6 +55,8 @@ html, body {
     right: 0;
     bottom: 0;
     left: 0;
+}
+.gde-background, .crt {
     background-image: url("../assets/images/bliss.png");
     background-size: cover;
     image-rendering: pixelated;

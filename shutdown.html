@@ -18,8 +18,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=1000, user-scalable=no" />
     </head>
-    <body class="crt" style="background-color: #000; overflow: hidden">
-        <div id="terminal" style="height:100%;"></div>
+    <body>
+        <div id="terminal" class="crt" style="height:100%;">
+            <div class="scanline"></div>
+        </div>
         <script>
             init();
 
@@ -30,6 +32,7 @@
                         foreground: '#0F0'
                     },
                     bellStyle: 'sound',
+                    rendererType: "dom"
                 });
                 const termFit = new FitAddon.FitAddon();
                 const localEcho = new LocalEchoController();

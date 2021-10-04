@@ -37,7 +37,8 @@ async function spawnTerm() {
     const term = new Terminal({
         theme: {
             foreground: '#0F0'
-        }
+        },
+        rendererType: "dom"
     });
     const termFit = new FitAddon.FitAddon();
     const localEcho = new LocalEchoController();
