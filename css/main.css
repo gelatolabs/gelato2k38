@@ -129,8 +129,9 @@ html, body {
 }
 
 #gde-volume {
-    float: right;
+    position: absolute;
     padding: 6px 0;
+    right: 88px;
 }
 #gde-volume img {
     height: 28px;
