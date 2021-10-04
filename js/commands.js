@@ -487,6 +487,10 @@ commands.sndplay.run = function(args, term, echo) {
     else {
         file = traversePath(term.pwd, args[0]);
         if (localStorage.getItem(file) == ["f", "audio"]) {
+            if (localStorage.getItem("falseaudioFixed") === null) {
+                echo.println("sndplay: no audio sink is available. (is falseaudio functioning?)")
+                return;
+            }
             spawnAudioPlayer(file);
         }
         else {
