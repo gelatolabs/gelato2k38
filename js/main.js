@@ -141,8 +141,7 @@ function initLocalStorage() {
     localStorage.setItem("/home/root", "d");
     localStorage.setItem("/home/root/images", "d");
     localStorage.setItem("/home/root/images/nsfw", "d");
-    localStorage.setItem("/home/root/images/sfw", "d");
-    localStorage.setItem("/home/root/images/fruit", "d");
+    localStorage.setItem("/home/root/images/nsfw/chair.jpg", ["f", "image"]);
     localStorage.setItem("/home/root/images/cats", "d");
     localStorage.setItem("/home/root/images/cats/crycat.jpg", ["f", "image"]);
     localStorage.setItem("/home/root/music", "d");
