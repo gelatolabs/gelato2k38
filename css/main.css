@@ -238,7 +238,7 @@ html, body {
     position: absolute;
     color: #000;
     width: 100%;
-    height: 300%;
+    height: 310%;
     margin: 0;
     line-height: 20px;
     text-align: center;
@@ -247,9 +247,9 @@ html, body {
     -webkit-transform:translateY(30%);	
     transform:translateY(30%);
     /* Apply animation to this element */	
-    -moz-animation: scroll-up 15s linear infinite;
-    -webkit-animation: scroll-up 15s linear infinite;
-    animation: scroll-up 15s linear infinite;
+    -moz-animation: scroll-up 40s linear infinite;
+    -webkit-animation: scroll-up 40s linear infinite;
+    animation: scroll-up 40s linear infinite;
    }
    /* Move it (define the animation) */
    @-moz-keyframes scroll-up {

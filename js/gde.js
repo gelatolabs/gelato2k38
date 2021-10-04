@@ -91,17 +91,33 @@ function spawnAbout() {
         width: Math.min(250, document.body.clientWidth-6),
         height: Math.min(500, document.body.clientWidth-54),
         html: `<div id="about" style="height:100%;width:100%;background:#c0c0c0;">
-                   <p style="text-align:center;font-size:20pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Gelato System</p>
-                   <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Version: `+version+`</p>
-                   <p style="text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Build Date: `+buildDate+`</p>
+                   <p style="color:#000;text-align:center;font-size:20pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Gelato System</p>
+                   <p style="color:#000;text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Version: `+version+`</p>
+                   <p style="color:#000;text-align:center;font-size:14pt;margin-top:0;margin-bottom:10px;padding-top:10px;">Build Date: `+buildDate+`</p>
                    <img src="assets/images/gelato-logo.png" style="width:60%;margin-left:20%;margin-right:20%;" />
                    <div class="scroll-up">
                        <p>Made for Ludum Dare 49: "Unstable"<br>
                        <br>
                        The Gelato-Labs "G-Team" is:<br>
-                       Kyle Farwell (kfarwell)<br>
-                       Matthew Petry (fireTwoOneNine)<br>
-                       Ryan Refcio<br></p>
+                       Kyle Farwell (kfarwell) -- Programming and Writing<br>
+                       Matthew Petry (fireTwoOneNine) -- Programming and Writing<br>
+                       Ryan Refcio -- Writing <br>
+                       Alice Dalton (AliceVibes) -- Audio Design<br>
+                       <br>
+                       The Gelato System uses many open source projects:<br>
+                       <br>
+                       xterm.js - terminal emulator framework (MIT license)<br>
+                       winbox.js - windowing manager (Apache-2.0 license)
+                       98.css - visual style (MIT license)<br>
+                       <br>
+                       All original code in Gelato System is ISC licensed.<br>
+                       <a href="https://github.com/gelatolabs/gelato2k38">https://github.com/gelatolabs/gelato2k38</a><br
+                       <br>
+                       Thanks for playing ♥
+                       <br><br><br><br><br> 
+
+                       Psst... have you realized this system is basically a fully functional terminal and desktop environment? Go take a look at all the commands.;)
+                       </p>
                    </div>
                </div>`
     });
