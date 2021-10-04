@@ -4,6 +4,27 @@ html, body {
     overflow: hidden;
 }
 
+#hide-right {
+    z-index: 5000;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 640px;
+    background-color: #000;
+    display: none;
+}
+#hide-bottom {
+    z-index: 5000;
+    position: fixed;
+    top: 480px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    display: none;
+}
+
 @font-face {
     font-family: "VGA";
     src: url("assets\fonts\Web437_IBM_VGA_9x16.woff") format("ttf");
@@ -92,6 +113,9 @@ html, body {
 .gde-startmenu a {
     text-decoration: underline;
     cursor: pointer;
+}
+#gde-startmenu-404 {
+    padding-left: 14px;
 }
 
 #gde-clock {

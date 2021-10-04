@@ -53,48 +53,20 @@ function init(m) {
     updateClock();
     setInterval(updateClock, 1000);
 
-    startTime = localStorage.getItem("startTime");
-    if (startTime == null) {
-        startTime = new Date();
-        localStorage.setItem("startTime", startTime);
+    if (localStorage.getItem("/") != "d") {
+        initLocalStorage();
     }
 
-    waybackDate = localStorage.getItem("waybackDate");
-    if (waybackDate == null) {
-        waybackDate = "1998-06-25";
-        localStorage.setItem("waybackDate", waybackDate);
+    if (localStorage.getItem("resMode") == "low") {
+        lowRes();
+    } else {
+        fullRes();
     }
 
-    dispDrv = localStorage.getItem("dispDrv");
-    if (dispDrv == null) {
-        dispDrv = "none";
-        localStorage.setItem("dispDrv", dispDrv);
-    }
-
-    var resMode = localStorage.getItem("resMode");
-    if (resMode == null) {
-        resMode = "full";
-        localStorage.setItem("resMode", resMode);
-    }
-    if (resMode == "low") { lowRes() };
-
-    clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
-    if (isNaN(clippiPhase)) {
-        clippiPhase = 0;
-        localStorage.setItem("clippiPhase", clippiPhase);
-    }
-    if (clippiPhase == 3) {
-        clippiPhase = 4;
+    if (localStorage.getItem("clippiPhase") == 3) {
         localStorage.setItem("clippiPhase", 4);
         setTimeout(function() { clippi() }, 2000);
     }
-
-    localStorage.setItem("/", "d");
-    localStorage.setItem("/Images", "d");
-    localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
-    localStorage.setItem("/Music", "d");
-    localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
-    localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
 
     setInterval(function() {
         randomEvent = Math.floor(Math.random() * 100);
@@ -102,7 +74,7 @@ function init(m) {
             window.location.href = "gsod.html";
         }
         else if (randomEvent < 5) {
-            var clippiPhaseOrig = clippiPhase;
+            var clippiPhaseOrig = localStorage.getItem("clippiPhase");
             localStorage.setItem("clippiPhase", 1);
             clippi();
             localStorage.setItem("clippiPhase", clippiPhaseOrig);
@@ -112,6 +84,24 @@ function init(m) {
     if (mode == "gde") {
         initGDE();
     }
+}
+
+function initLocalStorage() {
+    localStorage.clear();
+
+    localStorage.setItem("/", "d");
+    localStorage.setItem("/Images", "d");
+    localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
+    localStorage.setItem("/Music", "d");
+    localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
+    localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
+
+    localStorage.setItem("startTime", new Date());
+    localStorage.setItem("waybackDate", "1998-06-25");
+    localStorage.setItem("dispDrv", "none");
+    localStorage.setItem("resMode", "full");
+    localStorage.setItem("clippiPhase", 0);
+    localStorage.setItem("volume", 0);
 }
 
 function clippi() {
@@ -146,17 +136,18 @@ function lowRes() {
 }
 function fullRes() {
     var lrCSSHook = document.querySelector("#lowresCSS");
-    lrCSSHook.parentElement.removeChild(lrCSSHook);
+    if (lrCSSHook != null) {
+        lrCSSHook.parentElement.removeChild(lrCSSHook);
+    }
 }
 function setDisplay() {
     console.log("setDisplay()")
-    switch (dispDrv) {
+    localStorage.setItem("resMode", "full");
+    switch (localStorage.getItem("dispDrv")) {
         case "aaaaaaaaaaa":
         case "basicdis":
-            if (window.inGDE = "gde") {
-                localStorage.setItem("resMode", "low");
-                window.location.href = "gde.html";
-            }
+            localStorage.setItem("resMode", "low");
+            document.body.classList.add("crt");
             break;
         case "cats":
             window.location.href = "assets/images/cats.jpg";
@@ -182,6 +173,18 @@ function setDisplay() {
         case "radvid":
             document.body.classList.add("crt");
             document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
+            break;
+        default:
+            if (mode == "gde") {
+                window.location.href = "index.html";
+            }
+            break;
+    }
+
+    if (localStorage.getItem("resMode") == "low") {
+        lowRes();
+    } else {
+        fullRes();
     }
 }
 

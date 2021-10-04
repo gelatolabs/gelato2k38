@@ -1,4 +1,6 @@
 function initGDE() {
+    setDisplay();
+
     document.addEventListener("keyup", (e) => {
         if (e.code === "Escape") {
            toggleStart();
@@ -6,7 +8,9 @@ function initGDE() {
     });
 
     document.addEventListener("click", () => {
-        new Audio("assets/sound/click.ogg").play();
+        var audio = new Audio("assets/sound/click.ogg");
+        audio.volume = parseFloat(localStorage.getItem("volume"));
+        audio.play();
     }, true);
 }
 
@@ -120,6 +124,15 @@ function spawnAudioPlayer(file) {
     winSizeHelper(audioWin);
 }
 
+function spawnMinesweeper() {
+    var mineWin = new WinBox({
+        title: '<img src="assets/images/minesweeper-logo.png" /> <span>Minesweeper</span>',
+        width: 280,
+        height: 372,
+        url: "https://98.js.org/programs/minesweeper/"
+    });
+}
+
 async function winSizeHelper(win) {
     var child = win.g.getElementsByClassName("wb-body")[0].firstChild;
 
@@ -148,7 +161,7 @@ function browserHome(browser) {
 }
 
 function toggleStart() {
-    if (localStorage.getItem("fixedstart") == 1) {
+    if (localStorage.getItem("fixedStart")) {
         var startmenu = document.getElementById('gde-startmenu-real');
         var notstartmenu = document.getElementById('gde-startmenu-404');
     } else {
@@ -162,4 +175,17 @@ function toggleStart() {
         startmenu.style.display = "block";
     }
     notstartmenu.style.display = "none";
+}
+
+function setVolume(v) {
+    if (localStorage.getItem("falseaudioFixed") && parseFloat(v)) {
+        localStorage.setItem("volume", Math.max(Math.min(v, 1.0), 0.0));
+    } else {
+        localStorage.setItem("volume", 0);
+    }
+
+    var sounds = document.getElementsByTagName("Audio");
+    for (var i = 0; i < sounds.length; i++) {
+        sounds[i].volume = parseFloat(localStorage.getItem("volume"));
+    }
 }

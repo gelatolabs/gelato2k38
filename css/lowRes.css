@@ -17,3 +17,7 @@ body {
  
     /*transform: scale(0.5);*/
 }
+
+#hide-right, #hide-bottom {
+    display: block;
+}

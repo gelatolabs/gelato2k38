@@ -4,9 +4,10 @@ commands = {
     cd: { description: "change the working directory" },
     clear: { description: "clear the terminal screen" },
     clippi: { description: "clerk of learning and information for perpetual purgatorial imprisonment" },
-    date: { description: "print the system date and time" },
+    date: { description: "travel through time" },
     devicelook: { description: "look up devices by ID" },
     dispdrv: { description: "set display driver" },
+    falseaudio: { description: "control the audio system or die trying" },
     gde: { description: "start the gelato desktop environment" },
     help: { description: "get some help" },
     history: { description: "return command history" },
@@ -56,12 +57,46 @@ EXAMPLES
     /somewhere/else
  
 SEE ALSO
-    man pwd
+    man pwd`;
+
+commands.falseaudio.manual = `
+SYNOPSIS
+    falseaudio [OPTIONS]
  
-IMPLEMENTATION
-    Gelato gsh, version 5.0.17(1)-release
-    Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`;
+DESCRIPTION
+       FalseAudio is a networked low-latency sound server for Gelato 2K38 systems.
+
+OPTIONS
+--sos         Show help.
+
+--version     Show version information.
+
+--dump-conf   Load the daemon configuration file daemon.conf (see below),
+              parse remaining configuration options on the command line and
+              dump the resulting daemon configuration, in a format that is
+              compatible with daemon.conf.
+              
+--twerk       Shake your tailfeather.
+
+--start       Start FalseAudio if it is not running yet. This is different
+              from starting FalseAudio without --start which would fail if PA
+              is already running. FalseAudio is guaranteed to be fully
+              initialized when this call returns. Implies --daemonize.
+
+-k | --kill   Kill an already running FalseAudio daemon of the calling user
+              (Equivalent to sending a SIGTERM).
+
+--check       Return 0 as return code when the FalseAudio daemon is already
+              running for the calling user, or non-zero otherwise. Produces no
+              output on the console except for errors to stderr.
+
+--fail[=BOOL] Fail startup when any of the commands specified in the startup
+              script default.pa (see below) fails.
+              
+--log         Show log history of successful/unsuccessful installs/uninstalls.
+
+SEE ALSO
+    <https://2k38wiki.gelatolabs.xyz/falseaudio>`
 
 commands.ls.manual = `
 SYNOPSIS
@@ -76,48 +111,28 @@ EXAMPLES:
     bar
     > ls foo
     lorem
-    ipsum
- 
-IMPLEMENTATION
-    Gelato gsh, version 5.0.17(1)-release
-    Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`;
+    ipsum`;
 
 commands.pwd.manual = `
 SYNOPSIS
     pwd
  
 DESCRIPTION
-    Print the full path name of the current working directory.
- 
-IMPLEMENTATION
-    Gelato gsh, version 5.0.17(1)-release
-    Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`;
+    Print the full path name of the current working directory.`;
 
 commands.mkdir.manual = `
 SYNOPSIS
     mkdir [DIR]...
  
 DESCRIPTION
-    Create the DIRECTORY, if it does not already exist. Its parent directory must already exist.
- 
-IMPLEMENTATION
-    Gelato gsh, version 5.0.17(1)-release
-    Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`;
+    Create the DIRECTORY, if it does not already exist. Its parent directory must already exist.`;
 
 commands.rm.manual = `
 SYNOPSIS
     rm [FILE]...
  
 DESCRIPTION
-    rm removes each specified file or directory.
- 
-IMPLEMENTATION
-    Gelato gsh, version 5.0.17(1)-release
-    Copyright (C) 2021 Gelato Labs
-    Distributed under the ISC license`;
+    rm removes each specified file or directory.`;
 
 
 commands.cat.run = function(args, term, echo) {
@@ -223,8 +238,32 @@ radvid: Display driver for all modern ATS RadVidOn video cards`);
     }
 };
 
+commands.falseaudio.run = function(args, term, echo) {
+    if (args[0] == "-version") {
+        echo.println("2.0");
+    } else if (args[0] == "-kill") {
+        localStorage.setItem("falseaudioKilled", true);
+        localStorage.removeItem("falseaudioFixed");
+        setVolume(0);
+        echo.println("FalseAudio killed.");
+    } else if (args[0] == "-start") {
+        if (localStorage.getItem("falseaudioKilled")) {
+            localStorage.setItem("falseaudioFixed", true);
+            setVolume(0.5);
+            echo.println("FalseAudio started.");
+        } else {
+            echo.println("Failed to start FalseAudio.");
+        }
+    }
+};
+
 commands.gde.run = function(args, term, echo) {
-    document.location.href = "gde.html";
+    if (args.length == 0) {
+        document.location.href = "gde.html";
+    } else if (args[0] == "initialize_startmenu") {
+        localStorage.setItem("fixedStart", true);
+        echo.println("Initializing start menu...\nDone.");
+    }
 };
 
 commands.help.run = function(args, term, echo) {
@@ -242,6 +281,11 @@ commands.help.run = function(args, term, echo) {
         } else {
             echo.println("\nBUGS\n    Documentation lacking.");
         }
+
+        echo.println(`\nIMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`);
     } else {
         echo.println("No manual entry for " + args[0]);
     }
@@ -395,7 +439,7 @@ commands.screenfetch.run = function(args, term, echo) {
 [0m[1m     ####               ####    [0m[0m[37m [0m[37mKernel:[0m gelato 2.4.20-uc0[0m
 [0m[1m   ###       #######       ###  [0m[0m[37m [0m[37mUptime:[0m `+uptime()+`[0m[0m
 [0m[1m  ###     #############     ### [0m[0m[37m [0m[37mShell:[0m gsh 5.0.17[0m[0m
-[0m[1m ###     ###############     ###[0m[0m[37m [0m[37mResolution:[0m `+window.innerWidth+`x`+window.innerHeight+`[0m[0m
+[0m[1m ###     ###############     ###[0m[0m[37m [0m[37mResolution:[0m `+document.body.clientWidth+`x`+document.body.clientHeight+`[0m[0m
 [0m[1m ###     ###############     ###[0m[0m[37m [0m[37mWM:[0m WinBox.js[0m[0m
 [0m[1m ###     ###############     ###[0m[0m[37m [0m[37mCSS Theme:[0m 98.css [0m
 [0m[1m  ###  ###################  ### [0m[0m[37m [0m[37mTerminal:[0m Xterm.js[0m[0m
