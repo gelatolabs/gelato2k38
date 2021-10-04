@@ -510,7 +510,7 @@ commands.wget.run = function(args, term, echo) {
         echo.println("wget: missing URL");
     } else {
         switch(args[0]) {
-            case "https://chlamydia.com/downloads/sti4xxx.driver":
+            case "https://mirror.chlamydiafanz.net/downloads/sti4xxx.driver":
                 localStorage.setItem(term.pwd + "/sti4xxx.driver", ["f", "driver"]);
                 echo.println("'sti4xxx.driver' saved");
                 break;
