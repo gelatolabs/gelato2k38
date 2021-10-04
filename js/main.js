@@ -141,8 +141,6 @@ function initLocalStorage() {
     localStorage.setItem("/sys/permission denied", "f");
     localStorage.setItem("/trump", "d");
     localStorage.setItem("/trump/permission denied", "f");
-    localStorage.setItem("/usr", "d");
-    localStorage.setItem("/usr/permission denied", "f");
     localStorage.setItem("/var", "d");
     localStorage.setItem("/var/permission denied", "f");
 
