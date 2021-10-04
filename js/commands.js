@@ -169,10 +169,9 @@ commands.clippi.run = function(args, term, echo) {
 
 commands.date.run = function(args, term, echo) {
     if (args.length == 0) {
-        echo.println(waybackDate);
+        echo.println(localStorage.get("waybackDate"));
     } else if (/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(args[0])) {
-        waybackDate = args[0];
-        localStorage.write("waybackDate", waybackDate);
+        localStorage.write("waybackDate", args[0]);
         echo.println("Date changed to " + waybackDate);
     } else {
         echo.println("date: invalid date. Please format as 'yyyy-mm-dd'.");
@@ -263,6 +262,14 @@ commands.gde.run = function(args, term, echo) {
     } else if (args[0] == "initialize_startmenu") {
         localStorage.setItem("fixedStart", true);
         echo.println("Initializing start menu...\nDone.");
+    } else if (args[0] == "enable_extras") {
+        document.getElementById("gde-extras-btn").style.display = "block";
+        localStorage.setItem("enableExtras", true);
+        echo.println("Updating start menu...\nDone.");
+    } else if (args[0] == "disable_extras") {
+        document.getElementById("gde-extras-btn").style.display = "none";
+        localStorage.removeItem("enableExtras");
+        echo.println("Updating start menu...\nDone.");
     }
 };
 

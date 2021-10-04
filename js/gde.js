@@ -1,6 +1,10 @@
 function initGDE() {
     setDisplay();
 
+    if (localStorage.getItem("enableExtras")) {
+        document.getElementById("gde-extras-btn").style.display = "block";
+    }
+
     document.addEventListener("keyup", (e) => {
         if (e.code === "Escape") {
            toggleStart();
@@ -141,12 +145,57 @@ function spawnAudioPlayer(file) {
     winSizeHelper(audioWin);
 }
 
+function spawnNotepad() {
+    new WinBox({
+        title: '<img src="assets/images/notepad-logo.png" /> <span>Notepad</span>',
+        width: Math.min(400, document.body.clientWidth-6),
+        height: Math.min(300, document.body.clientHeight-54),
+        url: "https://98.js.org/programs/notepad/"
+    });
+}
+
+function spawnCalculator() {
+    new WinBox({
+        title: '<img src="assets/images/calculator-logo.png" /> <span>Calculator</span>',
+        width: Math.min(260, document.body.clientWidth-6),
+        height: Math.min(285, document.body.clientHeight-54),
+        url: "https://98.js.org/programs/calculator/"
+    });
+}
+
+function spawnPaint() {
+    new WinBox({
+        title: '<img src="assets/images/paint-logo.png" /> <span>Paint</span>',
+        width: Math.min(400, document.body.clientWidth-6),
+        height: Math.min(400, document.body.clientHeight-54),
+        url: "https://98.js.org/programs/jspaint/"
+    });
+}
+
+function spawnRecorder() {
+    new WinBox({
+        title: '<img src="assets/images/recorder-logo.png" /> <span>Sound Recorder</span>',
+        width: Math.min(400, document.body.clientWidth-6),
+        height: Math.min(150, document.body.clientHeight-54),
+        url: "https://98.js.org/programs/sound-recorder/"
+    });
+}
+
 function spawnMinesweeper() {
-    var mineWin = new WinBox({
+    new WinBox({
         title: '<img src="assets/images/minesweeper-logo.png" /> <span>Minesweeper</span>',
-        width: 280,
-        height: 372,
+        width: Math.min(280, document.body.clientWidth-6),
+        height: Math.min(372, document.body.clientHeight-54),
         url: "https://98.js.org/programs/minesweeper/"
+    });
+}
+
+function spawnSolitaire() {
+    new WinBox({
+        title: '<img src="assets/images/solitaire-logo.png" /> <span>Solitaire</span>',
+        width: Math.min(600, document.body.clientWidth-6),
+        height: Math.min(300, document.body.clientHeight-54),
+        url: "https://98.js.org/programs/js-solitaire/"
     });
 }
 
@@ -167,7 +216,7 @@ function browserNav(browser) {
     if (!/^https?:\/\//i.test(url)) {
         url = 'https://' + url;
     }
-    url = 'https://web.archive.org/web/' + waybackDate.replace(/-/g, '') + '/' + url;
+    url = 'https://web.archive.org/web/' + localStorage.getItem("waybackDate").replace(/-/g, '') + '/' + url;
     browser.parentElement.nextSibling.nextSibling.src = url;
     browser.previousSibling.value = '';
     return false; // don't submit form
@@ -185,6 +234,7 @@ function toggleStart() {
         var startmenu = document.getElementById('gde-startmenu-404');
         var notstartmenu = document.getElementById('gde-startmenu-real');
     }
+    var extras = document.getElementById('gde-extras');
 
     if (startmenu.style.display == "block" || notstartmenu.style.display == "block") {
         startmenu.style.display = "none";
@@ -192,6 +242,16 @@ function toggleStart() {
         startmenu.style.display = "block";
     }
     notstartmenu.style.display = "none";
+    extras.style.display = "none";
+}
+function toggleExtras() {
+    var extras = document.getElementById('gde-extras');
+
+    if (extras.style.display == "block") {
+        extras.style.display = "none";
+    } else {
+        extras.style.display = "block";
+    }
 }
 
 function setVolume(v) {

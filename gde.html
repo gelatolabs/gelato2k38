@@ -35,9 +35,7 @@
                 <button onclick="toggleStart(); spawnBrowser()"><img src="../assets/images/mozzarella-logo.png" /><span>Mozzarella</span></button>
                 <button onclick="toggleStart(); spawnTerm()"><img src="../assets/images/gelatoterm-logo.png" /><span>GelatoTerm</span></button>
                 <button onclick="toggleStart(); clippi()"><img src="../assets/images/clippi-logo.png" /><span>CLIPPI</span></button>
-                <button onclick="toggleStart(); spawnMinesweeper()"><img src="../assets/images/minesweeper-logo.png" /><span>Minesweeper</span></button>
-                <button onclick="toggleStart(); lowRes()"><img src="../assets/images/debug-logo.png" /><span>Debug lowres</span></button>
-                <button onclick="toggleStart(); fullRes()"><img src="../assets/images/debug-logo.png" /><span>Debug fullres</span></button>
+                <button id="gde-extras-btn" onclick="toggleExtras();"><img src="../assets/images/extras-logo.png" /><span>Extras...</span></button>
                 <button onclick="toggleStart(); spawnAbout()" style="padding-left: 8px"><img src="../assets/images/about-logo.png" /><span>About your Gelato System</span></button>
                 <button onclick="toggleStart(); window.location.href = 'reboot.html'"><img src="../assets/images/reboot-logo.png" /><span>Reboot</span></button>
                 <button onclick="toggleStart(); window.location.href = 'reboot.html'"><img src="../assets/images/shutdown-logo.png" /><span>Shutdown</span></button>
@@ -45,6 +43,19 @@
             <div class="status-bar">
                 <p class="status-bar-field">Gelato System 2K38</p>
                 <p class="status-bar-field">A <a onclick="toggleStart(); spawnBrowser('https://gelatolabs.xyz/')">Gelato Labs</a> production for <a onclick="toggleStart(); spawnBrowser('https://ldjam.com/events/ludum-dare/49')">LD49</a></p>
+            </div>
+        </div>
+        <div id="gde-extras" class="window gde-startmenu">
+            <div class="window-body">
+                <button onclick="toggleStart(); spawnNotepad()"><img src="../assets/images/notepad-logo.png" /><span>Notepad</span></button>
+                <button onclick="toggleStart(); spawnCalculator()"><img src="../assets/images/calculator-logo.png" /><span>Calculator</span></button>
+                <button onclick="toggleStart(); spawnPaint()"><img src="../assets/images/paint-logo.png" /><span>Paint</span></button>
+                <button onclick="toggleStart(); spawnRecorder()"><img src="../assets/images/recorder-logo.png" /><span>Sound Recorder</span></button>
+                <button onclick="toggleStart(); spawnMinesweeper()"><img src="../assets/images/minesweeper-logo.png" /><span>Minesweeper</span></button>
+                <button onclick="toggleStart(); spawnSolitaire()"><img src="../assets/images/solitaire-logo.png" /><span>Solitaire</span></button>
+            </div>
+            <div class="status-bar">
+                <p class="status-bar-field">Extras powered by <a onclick="toggleStart(); spawnBrowser('https://web.archive.org/web/https://github.com/1j01/98/tree/master/programs')">98.js</a></p>
             </div>
         </div>
         <div id="gde-startmenu-404" class="window gde-startmenu">

@@ -117,6 +117,14 @@ html, body {
 #gde-startmenu-404 {
     padding-left: 14px;
 }
+#gde-extras {
+    top: 150px;
+    left: 186px;
+    width: 180px;
+}
+#gde-extras-btn {
+    display: none;
+}
 
 #gde-volume {
     float: right;
