@@ -176,8 +176,8 @@ commands.date.run = function(args, term, echo) {
     if (args.length == 0) {
         echo.println(localStorage.getItem("waybackDate"));
     } else if (/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(args[0])) {
-        localStorage.write("waybackDate", args[0]);
-        echo.println("Date changed to " + waybackDate);
+        localStorage.setItem("waybackDate", args[0]);
+        echo.println("Date changed to " + args[0]);
     } else {
         echo.println("date: invalid date. Please format as 'yyyy-mm-dd'.");
     }
