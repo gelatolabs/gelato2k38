@@ -1,0 +1,457 @@
+commands = {
+    cd: { description: "print file contents" },
+    cat: { description: "print file contents" },
+    cd: { description: "change the working directory" },
+    clear: { description: "clear the terminal screen" },
+    clippi: { description: "clerk of learning and information for perpetual purgatorial imprisonment" },
+    date: { description: "print the system date and time" },
+    devicelook: { description: "look up devices by ID" },
+    dispdrv: { description: "set display driver" },
+    gde: { description: "start the gelato desktop environment" },
+    help: { description: "get some help" },
+    history: { description: "return command history" },
+    ls: { description: "list directory contents" },
+    man: { description: "an interface to the system reference manuals" },
+    mkdir: { description: "make directories" },
+    pview: { description: "view image files" },
+    pwd: { description: "return working directory name" },
+    reboot: { description: "reboot the machine" },
+    reset: { description: "clear the terminal screen" },
+    rm: { description: "remove files or directories" },
+    screenfetch: { description: "nothing of interest" },
+    shutdown: { description: "shutdown the machine" },
+    sndplay: { description: "play audio files" },
+    uptime: { description: "tell how long the system has been running" },
+    ver: { description: "display gsh version" },
+    whatis: { description: "describe commands" }
+};
+
+
+commands.cd.manual = `
+SYNOPSIS
+    cd [DIR]
+ 
+DESCRIPTION
+    Change the shell working directory.
+ Change the current directory to [DIR].  If omitted, the
+    default [DIR] is the root of the filesystem, '/'.
+ 
+    If [DIR] begins with a slash (/), it is interpreted as an
+    absolute path. If not, it is interpreted relative to the
+    current working directory.
+ 
+    '..' in [DIR] moves to the parent directory.
+ 
+EXAMPLES
+    > pwd
+    /starting_directory
+    > cd child/directories
+    > pwd
+    /starting_directory/child/directories
+    > cd ..
+    > pwd
+    /starting_directory/child
+    > cd /somewhere/else
+    > pwd
+    /somewhere/else
+ 
+SEE ALSO
+    man pwd
+ 
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`;
+
+commands.ls.manual = `
+SYNOPSIS
+    ls [DIR]...
+ 
+DESCRIPTION
+    List the contents of the directory specified. If no directory is specified, list the contents of the current working directory.
+ 
+EXAMPLES:
+    > ls
+    foo
+    bar
+    > ls foo
+    lorem
+    ipsum
+ 
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`;
+
+commands.pwd.manual = `
+SYNOPSIS
+    pwd
+ 
+DESCRIPTION
+    Print the full path name of the current working directory.
+ 
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`;
+
+commands.mkdir.manual = `
+SYNOPSIS
+    mkdir [DIR]...
+ 
+DESCRIPTION
+    Create the DIRECTORY, if it does not already exist. Its parent directory must already exist.
+ 
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`;
+
+commands.rm.manual = `
+SYNOPSIS
+    rm [FILE]...
+ 
+DESCRIPTION
+    rm removes each specified file or directory.
+ 
+IMPLEMENTATION
+    Gelato gsh, version 5.0.17(1)-release
+    Copyright (C) 2021 Gelato Labs
+    Distributed under the ISC license`;
+
+
+commands.cat.run = function(args, term, echo) {
+    for (var i = 0; i < args.length; i++) {
+        file = localStorage.getItem(traversePath(term.pwd, args[i]));
+        if (file.startsWith(["f", "plain"])) {
+            echo.println(file.split(",").slice(2));
+        }
+    }
+}
+
+commands.cd.run = function(args, term, echo) {
+    if (args.length == 0) {
+        term.pwd = "/";
+    } else if (args.length == 1) {
+        dir = traversePath(term.pwd, args[0]);
+        if (localStorage.getItem(dir) == "d") {
+            term.pwd = dir;
+        } else {
+            echo.println("cd: " + args[0] + ": No such file or directory");
+        }
+    } else {
+        echo.println("cd: too many arguments");
+    }
+};
+
+commands.clear.run = function(args, term, echo) {
+    echo.print('\x9B2J\x9BH');
+};
+
+commands.clippi.run = function(args, term, echo) {
+    clippi();
+};
+
+commands.date.run = function(args, term, echo) {
+    if (args.length == 0) {
+        echo.println(waybackDate);
+    } else if (/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(args[0])) {
+        waybackDate = args[0];
+        localStorage.write("waybackDate", waybackDate);
+        echo.println("Date changed to " + waybackDate);
+    } else {
+        echo.println("date: invalid date. Please format as 'yyyy-mm-dd'.");
+    }
+}
+
+commands.devicelook.run = function(args, term, echo) {
+    if (args.length == 0) {
+        echo.println("devicelook: please enter a device ID to lookup");
+    }
+    else {
+        var cardFound;
+        for (var i = 0; i < cardID.length; i++) {
+            if (args[0] == cardID[i][0]){
+                echo.println("Device name found: "+cardID[i][1]);
+                cardFound = true;
+                break;
+            }
+        }
+        if (!cardFound) {
+            echo.println("Unknown device.");
+        }
+    }
+    if (args[0] == "10DE:1D69" && clippiPhase == 2) {
+        clippiPhase = 3;
+        localStorage.setItem("clippiPhase", 3);
+        clippi();
+    }
+};
+
+commands.dispdrv.run = function(args, term, echo) {
+    if (args.length == 0) {
+        echo.println("dispdrv: No driver specified. Use 'dispdrv list' to list all available drivers.");
+    }
+    else if (args[0] == "list") {
+        echo.println(`aaaaaaaaaaa: Display driver for embracing eternal suffering
+basicdis: Basic Display Driver (no acceleration)
+cats: Display driver to only show pictures of cats
+cga: Display driver for IBM CGA (160x100)
+dummyvid: Completely disable video output
+matrox: Display drivers for GPUs no one has used since 2001
+mach: Display driver for ATS mach cards
+poop: only show pictures of poop
+ps2x: Display driver for very old Chlamydia GooForce2 cards
+ps3x: Display driver for very old Chlamydia GooForce3 cards
+radvid: Display driver for all modern ATS RadVidOn video cards`);
+    }
+    else if (args[0].length > 0) {
+        var dispDrv;
+        var availableDrv = ["aaaaaaaaaaa", "basicdis", "cats", "cga", "dummyvid", "matrox", "mach", "poop", "ps2x", "ps3x", "radvid"];
+        for (var i = 0; i < availableDrv.length; i++) {
+            if (args[0] == availableDrv[i]) {
+                dispDrv = availableDrv[i];
+            }
+        }
+        if (dispDrv) {
+            localStorage.setItem("dispDrv", dispDrv);
+            echo.println("dispdrv: New display driver loaded. Please reboot to take effect.");
+        }
+        else {
+            echo.println("dispdrv: Unrecognized driver. Use 'dispdrv list' to list all available drivers.")
+        }
+    }
+};
+
+commands.gde.run = function(args, term, echo) {
+    document.location.href = "gde.html";
+};
+
+commands.help.run = function(args, term, echo) {
+    if (args.length == 0) {
+        echo.println("Type 'help' followed by a command to learn more about it, e.g. 'help cd'");
+        echo.println("");
+        for (var i in commands) {
+            echo.println(`${i}: ${commands[i].description}`);
+        }
+    } else if (args[0] in commands) {
+        echo.println("NAME\n    " + args[0] + " - " + commands[args[0]].description);
+
+        if ("manual" in commands[args[0]]) {
+            echo.println(commands[args[0]].manual);
+        } else {
+            echo.println("\nBUGS\n    Documentation lacking.");
+        }
+    } else {
+        echo.println("No manual entry for " + args[0]);
+    }
+};
+
+commands.history.run = function(args, term, echo) {
+    for (var i = 0; i < term.history.length; i++) {
+        echo.println(term.history[i]);
+    }
+};
+
+commands.ls.run = function(args, term, echo) {
+    var files = [];
+    for (var i = 0; i < localStorage.length; i++) {
+        files.push(localStorage.key(i));
+    }
+    files.sort();
+
+    var paths = args;
+    if (paths.length == 0) {
+        paths[0] = ".";
+    }
+
+    for (var i = 0; i < paths.length; i++) {
+        var path = traversePath(term.pwd, paths[i]);
+        if (localStorage.getItem(path) == "d") {
+            if (paths.length > 1) {
+                if (i > 0) {
+                    echo.println();
+                }
+                echo.println(paths[i] + ":");
+            }
+            var output = [];
+            for (var j = 0; j < files.length; j++) {
+                var file = files[j];
+                var parent = file.substr(0, file.lastIndexOf("/")).replace(/^$/, '/');
+                if (parent == path && parent != file) {
+                    if (localStorage.getItem(file) == "d") {
+                        output.push(file.substr(file.lastIndexOf("/") + 1) + "/");
+                    } else if (file.startsWith("/")) {
+                        output.push(file.substr(file.lastIndexOf("/") + 1));
+                    }
+                }
+            }
+            echo.printWide(output);
+        } else if (localStorage.getItem(path)[0] == "f") {
+            echo.println(path.substr(path.lastIndexOf("/") + 1));
+        } else {
+            echo.println("ls: cannot access '" + paths[i] + "': No such file or directory");
+        }
+    }
+};
+
+commands.man.run = function(args, term, echo) {
+    if (args.length == 0) {
+        echo.println("What manual page do you want?\nFor example, try 'man man'.");
+    } else if (args[0] in commands) {
+        echo.println("NAME\n    " + args[0] + " - " + commands[args[0]].description);
+
+        if ("manual" in commands[args[0]]) {
+            echo.println(commands[args[0]].manual);
+        } else {
+            echo.println("\nBUGS\n    Documentation lacking.");
+        }
+    } else {
+        echo.println("No manual entry for " + args[0]);
+    }
+};
+
+commands.mkdir.run = function(args, term, echo) {
+    for (var i = 0; i < args.length; i++) {
+        var dir = traversePath(term.pwd, args[i]);
+        var parent = localStorage.getItem(dir.substr(0, dir.lastIndexOf("/")).replace(/^$/, '/'));
+
+        if (parent == "d") {
+            localStorage.setItem(dir, "d");
+        } else if (parent == "f") {
+            echo.println("mkdir: cannot create directory '" + args[i] + "': Not a directory");
+        } else {
+            echo.println("mkdir: cannot create directory '" + args[i] + "': No such file or directory");
+        }
+    }
+};
+
+commands.pview.run = function(args, term, echo) {
+    console.log(term.pwd+'/'+args[0]);
+    if (args.length == 0) {
+        echo.println("pview: please enter an image filename to open");
+    }
+    else {
+        file = traversePath(term.pwd, args[0]);
+        if (localStorage.getItem(file) == ["f", "image"]) {
+            spawnPhotoView(file);
+        }
+        else {
+            echo.println("pview: Filetype not recognized or file does not exist.");
+        }
+    }
+};
+
+commands.pwd.run = function(args, term, echo) {
+    echo.println(term.pwd);
+};
+
+commands.reboot.run = function(args, term, echo) {
+    document.location.href = "reboot.html";
+};
+
+commands.reset.run = function(args, term, echo) {
+    echo.print('\x9B2J\x9BH');
+};
+
+commands.rm.run = function(args, term, echo) {
+    var files = [];
+    for (var i = 0; i < localStorage.length; i++) {
+        files.push(localStorage.key(i));
+    }
+
+    var opwd = term.pwd;
+    var paths = args;
+    if (paths.length > 0) {
+        for (var i = 0; i < paths.length; i++) {
+            var path = traversePath(opwd, paths[i]);
+            localStorage.removeItem(path);
+            for (var j = 0; j < files.length; j++) {
+                file = files[j];
+                if (file.startsWith(path.replace(/([^\/])$/, '$1/'))) {
+                    localStorage.removeItem(file);
+                }
+            }
+            while (term.pwd.startsWith(path)) {
+                term.pwd = term.pwd.substr(0, term.pwd.lastIndexOf("/"));
+            }
+        }
+    } else {
+        echo.println("rm: missing operand");
+    }
+};
+
+commands.screenfetch.run = function(args, term, echo) {
+    if (clippiPhase == 0) {
+        var GPUname = "[2m10DE:1D69";
+    }
+    else {
+        var GPUname = "[0mChlamydia GooForce STI4090";
+    }
+    echo.println(`
+[0m[1m            #########           [0m[0m[37m [0m[37mroot[0m[1m@[0m[0m[37mgelato[0m[0m
+[0m[1m        #################       [0m[0m[37m [0m[37mOS:[0m Gelato System 2K38 [0m[0m
+[0m[1m     ####               ####    [0m[0m[37m [0m[37mKernel:[0m gelato 2.4.20-uc0[0m
+[0m[1m   ###       #######       ###  [0m[0m[37m [0m[37mUptime:[0m `+uptime()+`[0m[0m
+[0m[1m  ###     #############     ### [0m[0m[37m [0m[37mShell:[0m gsh 5.0.17[0m[0m
+[0m[1m ###     ###############     ###[0m[0m[37m [0m[37mResolution:[0m `+window.innerWidth+`x`+window.innerHeight+`[0m[0m
+[0m[1m ###     ###############     ###[0m[0m[37m [0m[37mWM:[0m WinBox.js[0m[0m
+[0m[1m ###     ###############     ###[0m[0m[37m [0m[37mCSS Theme:[0m 98.css [0m
+[0m[1m  ###  ###################  ### [0m[0m[37m [0m[37mTerminal:[0m Xterm.js[0m[0m
+[0m[1m   ###  ###  ### ###  ###  ###  [0m[0m[37m [0m[37mFont:[0m Pixelated MS Sans Serif 11[0m[0m
+[0m[1m     ####               ####    [0m[0m[37m [0m[37mCPU:[0m RED SUS PT69 revision 1[0m
+[0m[1m        #################       [0m[0m[37m [0m[37mGPU: ${GPUname}[0m
+[0m[1m            #########          [0m[0m
+        `);
+        if (clippiPhase == 0){
+            clippiPhase = 2;
+            localStorage.setItem("clippiPhase", 2);
+            clippi();
+        }
+};
+
+commands.shutdown.run = function(args, term, echo) {
+    document.location.href = "shutdown.html";
+};
+
+commands.sndplay.run = function(args, term, echo) {
+    console.log(term.pwd+'/'+args[0]);
+    if (args.length == 0) {
+        echo.println("sndplay: please enter an audio filename to open");
+    }
+    else {
+        file = traversePath(term.pwd, args[0]);
+        if (localStorage.getItem(file) == ["f", "audio"]) {
+            spawnAudioPlayer(file);
+        }
+        else {
+            echo.println("sndplay: Filetype not recognized or file does not exist.");
+        }
+    }
+};
+
+commands.uptime.run = function(args, term, echo) {
+    echo.println(uptime());
+};
+
+commands.ver.run = function(args, term, echo) {
+    echo.println(`gsh -- Gelato SHell
+version 5.0.17(1)-release
+
+Running on Gelato kernel 2.4.20-uc0
+
+Copyright (C) 2021 Gelato Labs
+Distributed under the ISC license`);
+};
+
+commands.whatis.run = function(args, term, echo) {
+    if (args.length == 0) {
+        echo.println("whatis what?");
+    } else {
+        for (var i = 0; i < args.length; i++) {
+            if (args[i] in commands) {
+                echo.println(args[i] + ": " + commands[args[i]].description);
+            }
+        }
+    }
+};
