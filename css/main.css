@@ -156,7 +156,7 @@ html, body {
     background: none;
     box-shadow: none !important;
 }
-.clippiWin .wb-title, .clippiWin .wb-min, .clippiWin .wb-max, .clippiWin .wb-n, .clippiWin .wb-s, .clippiWin .wb-w, .clippiWin .wb-e, .clippiWin .wb-nw, .clippiWin .wb-ne, .clippiWin .wb-se, .clippiWin .wb-sw {
+.clippiWin .wb-header, .clippiWin .wb-n, .clippiWin .wb-s, .clippiWin .wb-w, .clippiWin .wb-e, .clippiWin .wb-nw, .clippiWin .wb-ne, .clippiWin .wb-se, .clippiWin .wb-sw {
     display: none;
 }
 .clippiWin .wb-icon {
@@ -170,6 +170,7 @@ html, body {
     border: 1px solid #000;
     border-radius: 4px;
     padding: 1em;
+    margin-left: 2px;
     margin-bottom: 8px;
 }
 .wisdom:before {
@@ -189,7 +190,7 @@ html, body {
 .wisdom:after {
     content: '';
     position: absolute;
-    bottom: -1px;
+    bottom: 0;
     right: 23px;
     width: 0;
     height: 0;
@@ -199,6 +200,12 @@ html, body {
     border-left: 0;
     margin-left: -10px;
     margin-bottom: -12px;
+}
+.wisdom a {
+    display: inline-block;
+    float: right;
+    text-decoration: underline;
+    cursor: pointer;
 }
 .clippi {
     width: 100%;

@@ -80,7 +80,7 @@ async function spawnClippi(wisdom) {
         y: document.body.clientHeight-Math.min(300, document.body.clientHeight-54),
         width: Math.min(200, document.body.clientWidth-6),
         height: Math.min(300, document.body.clientHeight-54),
-        html: `<div class="wisdom">${wisdom}</div><img class="clippi" src="assets/images/clippi.png" />`
+        html: `<div class="wisdom">${wisdom} <a onclick="this.parentElement.parentElement.parentElement.remove()">Thanks</a></div><img class="clippi" src="assets/images/clippi.png" />`
     });
 }
 
