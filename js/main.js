@@ -8,7 +8,8 @@ function init(m) {
         "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
         "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the Basic Display Driver for now. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!",
         "Moment of truth! Start the desktop environment and see if the driver works!",
-        "Good job! Thank the Creators for mandatory display standards. This is kinda cramped though… but now you have a web browser! Visit the Gelato Wiki and try to find the proper driver!"
+        "Good job! Thank the Creators for mandatory display standards. This is kinda cramped though… but now you have a web browser! Visit the Gelato Wiki and try to find the proper driver!",
+        "You did it! Behold GDE in glorious high definition."
     ];
     unwisdoms = [
         "Sometimes I show up for no reason at all! Like right now!",
@@ -82,6 +83,13 @@ function init(m) {
         }
     }
     if (localStorage.getItem("clippiPhase") == 4 && mode == "gde") {
+        if (localStorage.getItem("dispDrv") == "sti4xxx.driver") {
+            localStorage.setItem("clippiPhase", 5);
+        } else {
+            setTimeout(function() { clippi() }, 1000);
+        }
+    }
+    if (localStorage.getItem("clippiPhase") == 5 && mode == "gde") {
         setTimeout(function() { clippi() }, 1000);
     }
 
@@ -249,6 +257,8 @@ function setDisplay() {
                 document.body.classList.add("crt");
                 document.body.style.filter = "hue-rotate(180deg) blur(0.5px) brightness(2) contrast(8) saturate(100)";
             }
+            break;
+        case "sti4xxx.driver":
             break;
         default:
             if (mode == "gde") {

@@ -24,6 +24,7 @@ commands = {
     sndplay: { description: "play audio files" },
     uptime: { description: "tell how long the system has been running" },
     ver: { description: "display gsh version" },
+    wget: { description: "download files from the world wide web" },
     whatis: { description: "describe commands" }
 };
 
@@ -226,6 +227,11 @@ radvid: Display driver for all modern ATS RadVidOn video cards`);
     else if (args[0].length > 0) {
         var dispDrv;
         var availableDrv = ["aaaaaaaaaaa", "basicdis", "cats", "cga", "dummyvid", "matrox", "mach", "poop", "ps2x", "ps3x", "radvid"];
+
+        if (localStorage.getItem(term.pwd + "/sti4xxx.driver") == ["f", "driver"]) {
+            availableDrv.push("sti4xxx.driver");
+        }
+
         for (var i = 0; i < availableDrv.length; i++) {
             if (args[0] == availableDrv[i]) {
                 dispDrv = availableDrv[i];
@@ -497,6 +503,23 @@ Running on Gelato kernel 2.4.20-uc0
 
 Copyright (C) 2021 Gelato Labs
 Distributed under the ISC license`);
+};
+
+commands.wget.run = function(args, term, echo) {
+    if (args.length == 0) {
+        echo.println("wget: missing URL");
+    } else {
+        switch(args[0]) {
+            case "https://chlamydia.com/downloads/sti4xxx.driver":
+                localStorage.setItem(term.pwd + "/sti4xxx.driver", ["f", "driver"]);
+                echo.println("'sti4xxx.driver' saved");
+                break;
+
+            default:
+                echo.println("ERROR 404: Not Found");
+                break;
+        }
+    }
 };
 
 commands.whatis.run = function(args, term, echo) {
