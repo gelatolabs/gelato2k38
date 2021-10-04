@@ -200,9 +200,8 @@ commands.devicelook.run = function(args, term, echo) {
             echo.println("Unknown device.");
         }
     }
-    if (args[0] == "10DE:1D69" && clippiPhase == 2) {
-        clippiPhase = 3;
-        localStorage.setItem("clippiPhase", 3);
+    if (args[0] == "10DE:1D69" && localStorage.getItem("clippiPhase") == 1) {
+        localStorage.setItem("clippiPhase", 2);
         clippi();
     }
 };
@@ -439,7 +438,7 @@ commands.rm.run = function(args, term, echo) {
 };
 
 commands.screenfetch.run = function(args, term, echo) {
-    if (localStorage.getItem("clippiPhase") == 0) {
+    if (localStorage.getItem("clippiPhase") < 2) {
         var GPUname = "[2m10DE:1D69";
     }
     else {
@@ -461,7 +460,7 @@ commands.screenfetch.run = function(args, term, echo) {
 [0m[1m            #########          [0m[0m
         `);
     if (localStorage.getItem("clippiPhase") == 0) {
-        localStorage.setItem("clippiPhase", 2);
+        localStorage.setItem("clippiPhase", 1);
         clippi();
     }
 };

@@ -5,10 +5,18 @@ function init(m) {
 
     wisdoms = [
         "Oh no, Looks like you’re missing video drivers! You’re gonna need those, unless you want to live your life in this green text world like me! You might want to find what card is in this thing!",
-        "Sometimes I show up for no reason at all! Like right now!",
         "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
-        "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!",
-        "Good job! Thank the Creators for mandatory display standards. This is kinda cramped though… but now you have a web browser! Go to the Gelato Wiki and find how to get the driver!"
+        "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the Basic Display Driver for now. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!",
+        "Moment of truth! Start the desktop environment and see if the driver works!",
+        "Good job! Thank the Creators for mandatory display standards. This is kinda cramped though… but now you have a web browser! Visit the Gelato Wiki and try to find the proper driver!"
+    ];
+    unwisdoms = [
+        "Sometimes I show up for no reason at all! Like right now!",
+        "CLIPPI stands for 'Clerk of Learning and Information for Perpetual Purgatorial Imprisonment'. The more you know!",
+        "Stuck? Check out the Gelato System wiki at https://2k38wiki.gelatolabs.xyz!",
+        "When in doubt, type 'help'!",
+        "Have you tried turning it off and on again?",
+        "Sometimes the best option is to give up and install Windows."
     ];
 
     cardID = [
@@ -63,9 +71,18 @@ function init(m) {
         fullRes();
     }
 
+    if (localStorage.getItem("clippiPhase") == 2 && (localStorage.getItem("dispDrv") == "basicdis" || localStorage.getItem("dispDrv") == "radvid")) {
+        localStorage.setItem("clippiPhase", 3);
+    }
     if (localStorage.getItem("clippiPhase") == 3) {
-        localStorage.setItem("clippiPhase", 4);
-        setTimeout(function() { clippi() }, 2000);
+        if (mode == "gde") {
+            localStorage.setItem("clippiPhase", 4);
+        } else {
+            setTimeout(function() { clippi() }, 8000);
+        }
+    }
+    if (localStorage.getItem("clippiPhase") == 4 && mode == "gde") {
+        setTimeout(function() { clippi() }, 1000);
     }
 
     setInterval(function() {
@@ -73,9 +90,9 @@ function init(m) {
         if (randomEvent == 0) {
             window.location.href = "gsod.html";
         }
-        else if (randomEvent < 5) {
+        else if (randomEvent < 5 && mode == "gde") {
             var clippiPhaseOrig = localStorage.getItem("clippiPhase");
-            localStorage.setItem("clippiPhase", 1);
+            localStorage.setItem("clippiPhase", -1);
             clippi();
             localStorage.setItem("clippiPhase", clippiPhaseOrig);
         }
@@ -153,7 +170,13 @@ function initLocalStorage() {
 }
 
 function clippi() {
-    wisdom = wisdoms[parseInt(localStorage.getItem("clippiPhase"))];
+    var phase = parseInt(localStorage.getItem("clippiPhase"));
+    var wisdom;
+    if (phase == -1) {
+        wisdom = unwisdoms[Math.floor(Math.random() * unwisdoms.length)];
+    } else {
+        wisdom = wisdoms[phase];
+    }
 
     if (mode == "gde") {
         var oldClippies = document.getElementsByClassName("clippiWin");
@@ -229,7 +252,7 @@ function setDisplay() {
             break;
         default:
             if (mode == "gde") {
-                window.location.href = "index.html";
+                window.location.href = "gsod.html";
             }
             break;
     }
