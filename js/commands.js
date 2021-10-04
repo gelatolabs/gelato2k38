@@ -19,7 +19,7 @@ commands = {
     reboot: { description: "reboot the machine" },
     reset: { description: "reset your gelato system to the factory defaults" },
     rm: { description: "remove files or directories" },
-    screenfetch: { description: "nothing of interest" },
+    screenfetch: { description: "display system information" },
     shutdown: { description: "shutdown the machine" },
     sndplay: { description: "play audio files" },
     uptime: { description: "tell how long the system has been running" },
@@ -174,7 +174,7 @@ commands.clippi.run = function(args, term, echo) {
 
 commands.date.run = function(args, term, echo) {
     if (args.length == 0) {
-        echo.println(localStorage.get("waybackDate"));
+        echo.println(localStorage.getItem("waybackDate"));
     } else if (/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(args[0])) {
         localStorage.write("waybackDate", args[0]);
         echo.println("Date changed to " + waybackDate);
@@ -439,7 +439,7 @@ commands.rm.run = function(args, term, echo) {
 };
 
 commands.screenfetch.run = function(args, term, echo) {
-    if (clippiPhase == 0) {
+    if (localStorage.getItem("clippiPhase") == 0) {
         var GPUname = "[2m10DE:1D69";
     }
     else {
@@ -460,11 +460,10 @@ commands.screenfetch.run = function(args, term, echo) {
 [0m[1m        #################       [0m[0m[37m [0m[37mGPU: ${GPUname}[0m
 [0m[1m            #########          [0m[0m
         `);
-        if (clippiPhase == 0) {
-            clippiPhase = 2;
-            localStorage.setItem("clippiPhase", 2);
-            clippi();
-        }
+    if (localStorage.getItem("clippiPhase") == 0) {
+        localStorage.setItem("clippiPhase", 2);
+        clippi();
+    }
 };
 
 commands.shutdown.run = function(args, term, echo) {
