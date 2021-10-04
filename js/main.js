@@ -11,7 +11,8 @@ function init(m) {
         "Good job! Thank the Creators for mandatory display standards. This is kinda cramped though… but now you have a web browser! Visit the Gelato Wiki and try to find the proper driver!",
         "You did it! Behold GDE in glorious high definition. But sorry Neckbeard, but your audio is still in another castle! You're gonna have to find a solution for that too. I'd say that's on the wiki too, but I'm just a hellbound paperclip.",
         "Aww yeah, we got working audio now! I got a reward for ya!",
-        ":)))))))))))"
+        ":)))))))))))",
+        "Congrats on your mostly working system! Emphasis on 'mostly': still gotta enable the start menu now, if you want to. You know the drill by now. But my job here is done. Once again, good job Installing Gelato."
     ];
     unwisdoms = [
         "Sometimes I show up for no reason at all! Like right now!",
@@ -204,6 +205,11 @@ function clippi() {
             setTimeout(function() {spawnBrowser('http://emilyisaway.com/youtoob/dQw4w9WgXcQ/')}, 3000);
             localStorage.setItem("clippiPhase", 7);
             setTimeout(function() {clippi()}, 6000);
+            setTimeout(function() {
+                localStorage.setItem("clippiPhase", 8);
+                clippi();
+                spawnAbout(); 
+            }, 10000);
         }
     } else {
         bootEcho.println("");
