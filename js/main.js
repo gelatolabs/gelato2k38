@@ -250,10 +250,10 @@ function setDisplay() {
             }
             break;
         case "cats":
-            window.location.href = "assets/images/cats.jpg";
+            window.location.href = "baddriver.html";
             break;
         case "cga":
-            window.location.href = "blank.html";
+            window.location.href = "baddriver.html";
             break;
         case "matrox":
             window.location.href = "gsod.html";
@@ -262,7 +262,7 @@ function setDisplay() {
             window.location.href = "gsod.html";
             break;
         case "poop":
-            window.location.href = "assets/images/emojipoo.png";
+            window.location.href = "baddriver.html";
             break;
         case "ps2x":
             window.location.href = "gsod.html";

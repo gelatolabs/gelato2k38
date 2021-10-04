@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Gelato System 2K38</title>
+        <link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+        <link rel="stylesheet" href="css/main.css" />
+        <link rel="stylesheet" href="css/crt.css" />
+
+        <script src="node_modules/xterm/lib/xterm.js"></script>
+        <script src="node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+        <script src="js/patches/local-echo.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/shell.js"></script>
+        <script src="js/commands.js"></script>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=1000, user-scalable=no" />
+    </head>
+    <body>
+        <div id="terminal" class="crt" style="height:100%;">
+            <div class="scanline"></div>
+        </div>
+        <script>
+            function badDrivers() {
+                switch(localStorage.getItem("dispDrv")) {
+                    case("aaaaaaaaaaa"):
+                        slowText(bootEcho, loadFile("assets/text/aaa.txt"), 1.5);
+                        break;
+                    case("cats"):
+                        var victimElement = document.getElementsByClassName('xterm-screen')[0];
+                        var newElement = document.createElement('img');
+                        newElement.style.cssText = "position:absolute;top:0;left:0";
+                        newElement.src = "/assets/images/cats.jpg";
+                        victimElement.replaceChild(newElement, document.getElementsByClassName('xterm-helpers')[0]);
+                        break;
+                        break;
+                    case("cga"):
+                        break;
+                    case("poop"):
+                        var victimElement = document.getElementsByClassName('xterm-screen')[0];
+                        var newElement = document.createElement('img');
+                        newElement.style.cssText = "position:absolute;top:0;left:0";
+                        newElement.src = "/assets/images/emojipoo.png";
+                        victimElement.replaceChild(newElement, document.getElementsByClassName('xterm-helpers')[0]);
+                        break;
+                }
+                setTimeout(function() {
+                        initLocalStorage();
+                        window.location.href = "index.html";
+                    }, 5000);
+            }
+            bootTerm = new Terminal({
+                fontSize: 30,
+                theme: {
+                    foreground: '#0F0'
+                },
+                bellStyle: 'sound',
+                rendererType: "dom"
+            });
+            const termFit = new FitAddon.FitAddon();
+            bootEcho = new LocalEchoController();
+            bootTerm.loadAddon(termFit);
+
+            bootTerm.open(document.getElementById('terminal'));
+            bootTerm.loadAddon(bootEcho);
+            termFit.fit();
+            bootTerm.focus();
+            init();
+            setTimeout(function() {badDrivers()}, 5000);
+        </script>
+    </body>
+</html>

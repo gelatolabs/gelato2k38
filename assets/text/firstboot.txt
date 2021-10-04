@@ -114,13 +114,8 @@ no support
 /> hub.c: connect-debounce failed, port 1 disabled
 new USB device :80fb8086-fed8008
 probing video subsystem...
-FAIL
-Unknown device: Chlamydia GooForce STI4090
 continuing in text-mode...
 probing audio subsystem...
-FAIL
-Unknown device: Fanciful Audio Cannon Z5
-audio output is not available.
 
 gelato version 2.4.20-uc0 (root@gelato) (gcc version 3.0) October 1 08:30:46 CST 2021
 
