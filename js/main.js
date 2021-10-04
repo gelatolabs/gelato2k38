@@ -1,84 +1,151 @@
-version = "2K38"
-buildDate = "October 4, 2021"
-inGDE = false;
+function init(m) {
+    mode = m;
+    window.inGDE = m;
+    version = "2K38"
+    buildDate = "October 4, 2021"
 
-commands = [
-    ["cat", "print file contents"],
-    ["cd", "change the working directory"],
-    ["clear", "clear the terminal screen"],
-    ["clippi", "clerk of learning and information for perpetual purgatorial imprisonment"],
-    ["date", "print the system date and time"],
-    ["devicelook", "look up an unknown component ID"],
-    ["dispdrv", "set display driver"],
-    ["gde", "start the gelato desktop environment"],
-    ["help", "get some help"],
-    ["history", "return command history"],
-    ["ls", "list directory contents"],
-    ["man", "an interface to the system reference manuals"],
-    ["mkdir", "make directories"],
-    ["pview", "view image files"],
-    ["pwd", "return working directory name"],
-    ["reboot", "reboot the machine"],
-    ["reset", "clear the terminal screen"],
-    ["rm", "remove files or directories"],
-    ["screenfetch", "nothing of interest"],
-    ["shutdown", "shutdown the machine"],
-    ["sndplay", "play audio files"],
-    ["uptime", "tell how long the system has been running"],
-    ["ver", "display gsh version"],
-    ["whatis", "describe commands"]
-];
-
-wisdoms = [
-    "Oh no, Looks like you’re missing video drivers! You’re gonna need those, unless you want to live your life in this green text world like me! You might want to find what card is in this thing!",
-    "Sometimes I show up for no reason at all! Like right now!",
-    "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
-    "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!"
-];
-
-cardID = [
-    ["1002:1D61","Macrosoft Basic Display Adapter"],
-    ["1002:1D62","ATS RadVidOn R6200"],
-    ["1002:1D63","ATS RadVidOn R6300"],
-    ["1002:1D64","ATS RadVidOn R6400"],
-    ["1002:1D65","ATS RadVidOn RD6500"],
-    ["1002:1D66","ATS RadVidOn RD6600"],
-    ["1002:1D67","ATS RadVidOn RD6700"],
-    ["1002:1D68","ATS RadVidOn RD6800"],
-    ["10DE:1B61","NE555 Timer"],
-    ["10DE:1B62","Chlamydia GooForce S2020"],
-    ["10DE:1B63","Chlamydia GooForce ST2020"],
-    ["10DE:1B64","Chlamydia GooForce ST2020"],
-    ["10DE:1B65","Chlamydia GooForce ST2050"],
-    ["10DE:1B66","Chlamydia GooForce STI2060"],
-    ["10DE:1B67","Chlamydia GooForce STI2070"],
-    ["10DE:1B68","Chlamydia GooForce STI2080"],
-    ["10DE:1B69","Chlamydia GooForce STI2090"],
-    ["10DE:1C61","Slower than a TI-82"],
-    ["10DE:1C62","Chlamydia GooForce S3020"],
-    ["10DE:1C63","Chlamydia GooForce ST3030"],
-    ["10DE:1C64","Chlamydia GooForce ST3030"],
-    ["10DE:1C65","Chlamydia GooForce ST3050"],
-    ["10DE:1C66","Chlamydia GooForce STI3060"],
-    ["10DE:1C67","Chlamydia GooForce STI3070"],
-    ["10DE:1C68","Chlamydia GooForce STI3080"],
-    ["10DE:1C69","Chlamydia GooForce STI3090"],
-    ["10DE:1D61","Just play games on your phone instead."],
-    ["10DE:1D62","Chlamydia GooForce S4020"],
-    ["10DE:1D63","Chlamydia GooForce ST4030"],
-    ["10DE:1D64","Chlamydia GooForce ST4040"],
-    ["10DE:1D65","Chlamydia GooForce ST4050"],
-    ["10DE:1D66","Chlamydia GooForce STI4060"],
-    ["10DE:1D67","Chlamydia GooForce STI4070"],
-    ["10DE:1D68","Chlamydia GooForce STI4080"],
-    ["10DE:1D69","Chlamydia GooForce STI4090"]
+    commands = [
+        ["cat", "print file contents"],
+        ["cd", "change the working directory"],
+        ["clear", "clear the terminal screen"],
+        ["clippi", "clerk of learning and information for perpetual purgatorial imprisonment"],
+        ["date", "print the system date and time"],
+        ["dispdrv", "set display driver"],
+        ["gde", "start the gelato desktop environment"],
+        ["help", "get some help"],
+        ["history", "return command history"],
+        ["ls", "list directory contents"],
+        ["man", "an interface to the system reference manuals"],
+        ["mkdir", "make directories"],
+        ["pview", "view image files"],
+        ["pwd", "return working directory name"],
+        ["reboot", "reboot the machine"],
+        ["reset", "clear the terminal screen"],
+        ["rm", "remove files or directories"],
+        ["screenfetch", "nothing of interest"],
+        ["shutdown", "shutdown the machine"],
+        ["sndplay", "play audio files"],
+        ["uptime", "tell how long the system has been running"],
+        ["ver", "display gsh version"],
+        ["whatis", "describe commands"]
     ];
+
+    wisdoms = [
+        "Oh no, Looks like you’re missing video drivers! You’re gonna need those, unless you want to live your life in this green text world like me! You might want to find what card is in this thing!",
+        "Sometimes I show up for no reason at all! Like right now!",
+        "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
+        "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!"
+    ];
+
+    cardID = [
+        ["1002:1D61","Macrosoft Basic Display Adapter"],
+        ["1002:1D62","ATS RadVidOn R6200"],
+        ["1002:1D63","ATS RadVidOn R6300"],
+        ["1002:1D64","ATS RadVidOn R6400"],
+        ["1002:1D65","ATS RadVidOn RD6500"],
+        ["1002:1D66","ATS RadVidOn RD6600"],
+        ["1002:1D67","ATS RadVidOn RD6700"],
+        ["1002:1D68","ATS RadVidOn RD6800"],
+        ["10DE:1B61","NE555 Timer"],
+        ["10DE:1B62","Chlamydia GooForce S2020"],
+        ["10DE:1B63","Chlamydia GooForce ST2020"],
+        ["10DE:1B64","Chlamydia GooForce ST2020"],
+        ["10DE:1B65","Chlamydia GooForce ST2050"],
+        ["10DE:1B66","Chlamydia GooForce STI2060"],
+        ["10DE:1B67","Chlamydia GooForce STI2070"],
+        ["10DE:1B68","Chlamydia GooForce STI2080"],
+        ["10DE:1B69","Chlamydia GooForce STI2090"],
+        ["10DE:1C61","Slower than a TI-82"],
+        ["10DE:1C62","Chlamydia GooForce S3020"],
+        ["10DE:1C63","Chlamydia GooForce ST3030"],
+        ["10DE:1C64","Chlamydia GooForce ST3030"],
+        ["10DE:1C65","Chlamydia GooForce ST3050"],
+        ["10DE:1C66","Chlamydia GooForce STI3060"],
+        ["10DE:1C67","Chlamydia GooForce STI3070"],
+        ["10DE:1C68","Chlamydia GooForce STI3080"],
+        ["10DE:1C69","Chlamydia GooForce STI3090"],
+        ["10DE:1D61","Just play games on your phone instead."],
+        ["10DE:1D62","Chlamydia GooForce S4020"],
+        ["10DE:1D63","Chlamydia GooForce ST4030"],
+        ["10DE:1D64","Chlamydia GooForce ST4040"],
+        ["10DE:1D65","Chlamydia GooForce ST4050"],
+        ["10DE:1D66","Chlamydia GooForce STI4060"],
+        ["10DE:1D67","Chlamydia GooForce STI4070"],
+        ["10DE:1D68","Chlamydia GooForce STI4080"],
+        ["10DE:1D69","Chlamydia GooForce STI4090"]
+        ];
+
+    bootTime = new Date();
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    startTime = localStorage.getItem("startTime");
+    if (startTime == null) {
+        startTime = new Date();
+        localStorage.setItem("startTime", startTime);
+    }
+
+    dispDrv = localStorage.getItem("dispDrv");
+    if (dispDrv == null) {
+        dispDrv = "none";
+        localStorage.setItem("dispDrv", dispDrv);
+    }
+
+    clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
+    if (isNaN(clippiPhase)) {
+        clippiPhase = 0;
+        localStorage.setItem("clippiPhase", clippiPhase);
+    }
+
+    var resMode = localStorage.getItem("resMode");
+    if (resMode == null) {
+        resMode = "full";
+        localStorage.setItem("resMode", resMode);
+    }
+
+    localStorage.setItem("/", "d");
+    localStorage.setItem("/Images", "d");
+    localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
+    localStorage.setItem("/Music", "d");
+    localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
+    localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
+
+    setInterval(function() {
+        randomEvent = Math.floor(Math.random() * 100);
+        if (randomEvent == 0) {
+            window.location.href = "gsod.html";
+        }
+        else if (randomEvent < 5) {
+            var clippiPhaseOrig = clippiPhase;
+            localStorage.setItem("clippiPhase", 1);
+            clippi();
+            localStorage.setItem("clippiPhase", clippiPhaseOrig);
+        }
+    }, 15000);
+
+    if (mode == "gde") {
+        document.addEventListener("keyup", (e) => {
+            if (e.code === "Escape") {
+               toggleStart();
+            }
+        });
+
+        clickSnd = new Audio("assets/sound/click.ogg");
+        document.addEventListener("click", () => {
+            clickSnd.play();
+        }, true);
+
+        if (resMode == "low") {lowRes()};
+    }
+}
+
+
     
 
 function clippi() {
     wisdom = wisdoms[parseInt(localStorage.getItem("clippiPhase"))];
 
-    if (inGDE) {
+    if (mode == "gde") {
         var oldClippies = document.getElementsByClassName("clippiWin");
         for (var i = 0; i < oldClippies.length; i++) {
             oldClippies[i].remove();
@@ -106,6 +173,7 @@ function clippi() {
               \\___/`);
     }
 }
+
 
 async function spawnTerm() {
     const term = new Terminal({
@@ -409,7 +477,7 @@ function toggleStart() {
 }
 
 function updateClock() {
-    if (inGDE){
+    if (mode == "gde"){
         document.getElementById('gde-clock').innerHTML = new Date().toLocaleTimeString();
     }
 }
@@ -714,7 +782,7 @@ IMPLEMENTATION
             break;
 
         case "screenfetch":
-            if(clippiPhase == 0){
+            if (clippiPhase == 0) {
                 var GPUname = "[2m10DE:1D69";
             }
             else {
@@ -732,14 +800,14 @@ IMPLEMENTATION
 [0m[1m  ###  ###################  ### [0m[0m[37m [0m[37mTerminal:[0m Xterm.js[0m[0m
 [0m[1m   ###  ###  ### ###  ###  ###  [0m[0m[37m [0m[37mFont:[0m Pixelated MS Sans Serif 11[0m[0m
 [0m[1m     ####               ####    [0m[0m[37m [0m[37mCPU:[0m RED SUS PT69 revision 1[0m
-[0m[1m        #################       [0m[0m[37m [0m[37mGPU: `+ GPUname + `[0m
+[0m[1m        #################       [0m[0m[37m [0m[37mGPU:${GPUname}[0m
 [0m[1m            #########          [0m[0m
                 `);
-            if (clippiPhase == 0) {
-                clippiPhase = 2;
-                localStorage.setItem("clippiPhase", 2);
-                clippi();
-            }
+                if (clippiPhase == 0){
+                    clippiPhase = 2;
+                    localStorage.setItem("clippiPhase", 2);
+                    clippi();
+                }    
             break;
 
         case "history":
@@ -923,7 +991,7 @@ function setDisplay() {
     switch (dispDrv) {
         case "aaaaaaaaaaa":
         case "basicdis":
-            if (!inGDE) {
+            if (window.inGDE = "gde") {
                 localStorage.setItem("resMode", "low");
                 window.location.href = "gde.html";
             }
@@ -955,62 +1023,4 @@ function setDisplay() {
     }
 }
 
-const bootTime = new Date();
-console.log("foo1");
-updateClock();
-setInterval(updateClock, 1000);
 
-var startTime = localStorage.getItem("startTime");
-if (startTime == null) {
-    startTime = new Date();
-    localStorage.setItem("startTime", startTime);
-}
-
-var dispDrv = localStorage.getItem("dispDrv");
-if (dispDrv == undefined) {
-   dispDrv = "none";
-   localStorage.setItem("dispDrv", dispDrv);
-}
-
-var clippiPhase = parseInt(localStorage.getItem("clippiPhase"));
-if (isNaN(clippiPhase)) {
-    clippiPhase = 0;
-    localStorage.setItem("clippiPhase", clippiPhase);
-}
-
-var resMode = parseInt(localStorage.getItem("resMode"));
-if (resMode == "undefined") {
-    resMode = "full";
-    localStorage.setItem("resMode", resMode);
-}
-
-localStorage.setItem("/", "d");
-localStorage.setItem("/Images", "d");
-localStorage.setItem("/Images/crycat.jpg", ["f", "image"]);
-localStorage.setItem("/Music", "d");
-localStorage.setItem("/Music/bluesky.mp3", ["f", "audio"]);
-localStorage.setItem("/hello.txt", ["f", "plain", "Hello,\nworld!"]);
-
-
-
-setInterval(function() {
-    randomEvent = Math.floor(Math.random() * 300);
-    if (randomEvent == 0) {
-        window.location.href = "gsod.html";
-    }
-    else if (randomEvent < 5) {
-        var clippiPhaseOrig = clippiPhase;
-        localStorage.setItem("clippiPhase", 1);
-        clippi();
-        localStorage.setItem("clippiPhase", clippiPhaseOrig);
-    }
-}, 5000);
-
-if (inGDE) {
-    var clickSnd = new Audio("assets/sound/click.ogg");
-    document.body.addEventListener("click", function() {
-        clickSnd.play();
-    }, true);
-
-    if (resMode == "low") { lowRes()}
-}
