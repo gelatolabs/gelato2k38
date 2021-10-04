@@ -16,7 +16,7 @@ commands = {
     pview: { description: "view image files" },
     pwd: { description: "return working directory name" },
     reboot: { description: "reboot the machine" },
-    reset: { description: "clear the terminal screen" },
+    reset: { description: "reset your gelato system to the factory defaults" },
     rm: { description: "remove files or directories" },
     screenfetch: { description: "nothing of interest" },
     shutdown: { description: "shutdown the machine" },
@@ -351,7 +351,8 @@ commands.reboot.run = function(args, term, echo) {
 };
 
 commands.reset.run = function(args, term, echo) {
-    echo.print('\x9B2J\x9BH');
+    localStorage.clear();
+    document.location.href = "index.html";
 };
 
 commands.rm.run = function(args, term, echo) {
@@ -403,7 +404,7 @@ commands.screenfetch.run = function(args, term, echo) {
 [0m[1m        #################       [0m[0m[37m [0m[37mGPU: ${GPUname}[0m
 [0m[1m            #########          [0m[0m
         `);
-        if (clippiPhase == 0){
+        if (clippiPhase == 0) {
             clippiPhase = 2;
             localStorage.setItem("clippiPhase", 2);
             clippi();

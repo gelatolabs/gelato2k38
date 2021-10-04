@@ -43,7 +43,8 @@
                 bootTerm.history = [];
                 bootTerm.pwd = "/";
 
-                //slowText(bootEcho, loadFile("assets/text/firstboot.txt"), 1.5);
+                slowText(bootEcho, loadFile("assets/text/firstboot.txt"), 1.5);
+                setTimeout(function() {setDisplay()}, 10000);
                 bootTerm.onKey(e => {input = termKeyEvent(e, bootTerm, bootEcho)});
 
                 await bootEcho.read("")
