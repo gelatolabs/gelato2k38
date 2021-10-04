@@ -118,12 +118,30 @@ html, body {
     padding-left: 14px;
 }
 
+#gde-volume {
+    float: right;
+    padding: 6px 0;
+}
+#gde-volume img {
+    height: 28px;
+}
 #gde-clock {
     display: inline-block;
     float: right;
     margin: 1em;
     font-family: "Pixelated MS Sans Serif";
     font-size: 14px;
+}
+
+.volumeWin {
+    background-color: silver;
+}
+.volumeWin .wb-body {
+    padding: 9px;
+    background-color: silver;
+}
+.volumeWin .wb-min, .volumeWin .wb-max {
+    display: none;
 }
 
 .clippiWin, .clippiWin .wb-header, .clippiWin .wb-body {

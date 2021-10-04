@@ -99,7 +99,24 @@ function spawnAbout() {
                        Ryan Refcio<br></p>
                    </div>
                </div>`
-    })
+    });
+}
+
+function spawnVolume() {
+    var volumeWin = new WinBox({
+        title: '<img src="assets/images/volume-logo.png" /> <span>Volume Mixer</span>',
+        class: ['volumeWin'],
+        x: document.body.clientWidth-206,
+        width: 200,
+        height: 68,
+        html: `<div class="field-row">
+                   <input class="has-box-indicator" type="range" min="0" max="1" step="0.1" value="${localStorage.getItem('volume')}" />
+               </div>`
+    });
+
+    volumeWin.g.getElementsByTagName("input")[0].addEventListener("input", function() {
+        setVolume(this.value);
+    });
 }
 
 function spawnPhotoView(file) {
