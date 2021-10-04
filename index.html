@@ -25,6 +25,15 @@
         <script>
             init();
 
+            async function bootTermInput() {
+                while (true) {
+                    await bootEcho.read(bootTerm.pwd + "> ")
+                        .then(input => commandHandler(bootTerm, bootEcho, input))
+                        .catch(error => void(0));
+                }
+                bootTerm.onKey(e => {input = termKeyEvent(e, bootTerm, bootEcho)});
+            }
+
             async function boot() {
                 bootTerm = new Terminal({
                     fontSize: 30,
@@ -48,17 +57,7 @@
 
                 slowText(bootEcho, loadFile("assets/text/firstboot.txt"), 1.5);
                 setTimeout(function() {setDisplay()}, 10000);
-                bootTerm.onKey(e => {input = termKeyEvent(e, bootTerm, bootEcho)});
-
-                await bootEcho.read("")
-                    .then(input => commandHandler(bootTerm, bootEcho, input))
-                    .catch(error => void(0));
-
-                while (true) {
-                    await bootEcho.read(bootTerm.pwd + "> ")
-                        .then(input => commandHandler(bootTerm, bootEcho, input))
-                        .catch(error => void(0));
-                }
+                setTimeout(function() {bootTermInput()}, 11000)
             }
             var bootTerm;
             var bootEcho;
