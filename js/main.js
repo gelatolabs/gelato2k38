@@ -202,9 +202,9 @@ function clippi() {
         popupAudio.volume = parseFloat(localStorage.getItem("volume"));
         popupAudio.play();
         if (localStorage.getItem("clippiPhase") == 6) {
-            setTimeout(function() {spawnBrowser('http://emilyisaway.com/youtoob/dQw4w9WgXcQ/')}, 3000);
+            setTimeout(function() {spawnBrowser('https://2k38wiki.gelatolabs.xyz/youtoob/index.html')}, 4000);
             localStorage.setItem("clippiPhase", 7);
-            setTimeout(function() {clippi()}, 6000);
+            setTimeout(function() {clippi()}, 7000);
             setTimeout(function() {
                 localStorage.setItem("clippiPhase", 8);
                 clippi();
