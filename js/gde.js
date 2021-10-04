@@ -16,6 +16,10 @@ function initGDE() {
         audio.volume = parseFloat(localStorage.getItem("volume"));
         audio.play();
     }, true);
+
+    var startup = new Audio("assets/sound/startup.ogg");
+    startup.volume = parseFloat(localStorage.getItem("volume"));
+    startup.play();
 }
 
 function spawnBrowser(url) {
