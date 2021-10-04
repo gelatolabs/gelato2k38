@@ -34,7 +34,8 @@ function init(m) {
         "Oh no, Looks like you’re missing video drivers! You’re gonna need those, unless you want to live your life in this green text world like me! You might want to find what card is in this thing!",
         "Sometimes I show up for no reason at all! Like right now!",
         "Yup! No idea what that thing is! Good thing there’s an App For That! Put that number thingy into the “devicelook” command and see what it gives you!",
-        "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!"
+        "Oh boy… somebody’s got Chlamydia! And probably paid a lot to get it… but not enough to not get it? Guess I shouldn’t judge, my tail’s never been bent…\n\n\rAnyway, you’re gonna have a “fun” time with that. Let’s just get you onto the basic drivers. It won’t be pretty, but it’ll at least get us in the right direction. Go find the driver list and install the right one.  I’d help you, but I hate being in text form!",
+        "Good job! Thank the Creators for mandatory display standards. This is kinda cramped though… but now you have a web browser! Go to the Gelato Wiki and find how to get the driver!"
     ];
 
     cardID = [
@@ -136,6 +137,12 @@ function init(m) {
         }, true);
 
         if (resMode == "low") {lowRes()};
+
+        if (clippiPhase == 3) {
+            clippiPhase = 4;
+            localStorage.setItem("clippiPhase", 4);
+            setTimeout(function() {clippi()}, 2000);
+        }
     }
 }
 
