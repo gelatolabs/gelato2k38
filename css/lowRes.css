@@ -9,3 +9,11 @@ body {
  
     /*transform: scale(0.5);*/
 }
+
+.gde-background {
+    height:480px;
+    width:640px;
+    position:absolute;
+ 
+    /*transform: scale(0.5);*/
+}
