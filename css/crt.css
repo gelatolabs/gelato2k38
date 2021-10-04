@@ -301,6 +301,7 @@
     background-size: 100% 8px;
     z-index: 999;
     pointer-events: none;
+    animation: flicker 0.15s infinite;
 }
 
 .crt .terminal {
