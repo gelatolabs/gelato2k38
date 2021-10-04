@@ -58,7 +58,7 @@ async function spawnTerm() {
     term.focus();
 
     term.history = [];
-    term.pwd = "/";
+    term.pwd = "/home/root";
 
     localEcho.addAutocompleteHandler(autocomplete, term);
 

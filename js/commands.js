@@ -33,9 +33,8 @@ SYNOPSIS
     cd [DIR]
  
 DESCRIPTION
-    Change the shell working directory.
- Change the current directory to [DIR].  If omitted, the
-    default [DIR] is the root of the filesystem, '/'.
+    Change the current directory to [DIR].  If omitted, the
+    default [DIR] is the user's home directory.
  
     If [DIR] begins with a slash (/), it is interpreted as an
     absolute path. If not, it is interpreted relative to the
@@ -64,36 +63,42 @@ SYNOPSIS
     falseaudio [OPTIONS]
  
 DESCRIPTION
-       FalseAudio is a networked low-latency sound server for Gelato 2K38 systems.
+    FalseAudio is a networked low-latency sound server for
+    Gelato 2K38 systems.
 
 OPTIONS
 --sos         Show help.
 
 --version     Show version information.
 
---dump-conf   Load the daemon configuration file daemon.conf (see below),
-              parse remaining configuration options on the command line and
-              dump the resulting daemon configuration, in a format that is
-              compatible with daemon.conf.
+--dump-conf   Load the daemon configuration file daemon.conf
+              (see below), parse remaining configuration
+              options on the command line and dump the
+              resulting daemon configuration, in a format that
+              is compatible with daemon.conf.
               
 --twerk       Shake your tailfeather.
 
---start       Start FalseAudio if it is not running yet. This is different
-              from starting FalseAudio without --start which would fail if PA
-              is already running. FalseAudio is guaranteed to be fully
-              initialized when this call returns. Implies --daemonize.
+--start       Start FalseAudio if it is not running yet. This
+              is different from starting FalseAudio without
+              --start which would fail if PA is already
+              running. FalseAudio is guaranteed to be fully
+              initialized when this call returns. Implies
+              --daemonize.
 
--k | --kill   Kill an already running FalseAudio daemon of the calling user
-              (Equivalent to sending a SIGTERM).
+-k | --kill   Kill an already running FalseAudio daemon of the
+              calling user (Equivalent to sending a SIGTERM).
 
---check       Return 0 as return code when the FalseAudio daemon is already
-              running for the calling user, or non-zero otherwise. Produces no
-              output on the console except for errors to stderr.
+--check       Return 0 as return code when the FalseAudio
+              daemon is already running for the calling user,
+              or non-zero otherwise. Produces no output on the
+              console except for errors to stderr.
 
---fail[=BOOL] Fail startup when any of the commands specified in the startup
-              script default.pa (see below) fails.
+--fail[=BOOL] Fail startup when any of the commands specified
+              in the startup script default.pa (see below) fails.
               
---log         Show log history of successful/unsuccessful installs/uninstalls.
+--log         Show log history of successful/unsuccessful
+              installs/uninstalls.
 
 SEE ALSO
     <https://2k38wiki.gelatolabs.xyz/falseaudio>`
@@ -113,19 +118,19 @@ EXAMPLES:
     lorem
     ipsum`;
 
-commands.pwd.manual = `
-SYNOPSIS
-    pwd
- 
-DESCRIPTION
-    Print the full path name of the current working directory.`;
-
 commands.mkdir.manual = `
 SYNOPSIS
     mkdir [DIR]...
  
 DESCRIPTION
     Create the DIRECTORY, if it does not already exist. Its parent directory must already exist.`;
+
+commands.pwd.manual = `
+SYNOPSIS
+    pwd
+ 
+DESCRIPTION
+    Print the full path name of the current working directory.`;
 
 commands.rm.manual = `
 SYNOPSIS
@@ -146,7 +151,7 @@ commands.cat.run = function(args, term, echo) {
 
 commands.cd.run = function(args, term, echo) {
     if (args.length == 0) {
-        term.pwd = "/";
+        term.pwd = "/home/root";
     } else if (args.length == 1) {
         dir = traversePath(term.pwd, args[0]);
         if (localStorage.getItem(dir) == "d") {
