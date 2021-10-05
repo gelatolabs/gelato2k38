@@ -49,6 +49,20 @@
 
                 slowText(bootEcho, loadFile("assets/text/gsod.txt"), 1);
                 setTimeout(function() {window.location.href = "index.html";}, 5000);
+                switch (localStorage.getItem("dispDrv")) {
+                    case("matrox"):
+                        localStorage.setItem("dispDrv", "none");
+                        break;
+                    case("mach"):
+                        localStorage.setItem("dispDrv", "none");
+                        break;
+                    case("ps2x"):
+                        localStorage.setItem("dispDrv", "none");
+                        break;
+                    case("ps3x"):
+                        localStorage.setItem("dispDrv", "none");
+                        break;
+                }
             }
             var bootTerm;
             var bootEcho;
