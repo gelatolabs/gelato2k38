@@ -1,0 +1,103 @@
+html{
+cursor: crosshair;
+background:url(/images/bg-daimidalar.jpg);
+}
+
+body{
+	width:960px;
+	margin:0 auto;
+	position:relative;
+}
+
+/*.info_area{
+color: #333; background: #fff; font-family:"ƒqƒ‰ƒMƒmŠpƒS Pro W3", "‚l‚r ‚oƒSƒVƒbƒN", "ƒƒCƒŠƒI", sans-serif; font-size: 87.5%;
+}
+*/
+#container{
+	width:960px;
+	margin:0 auto;
+	position:relative;
+}
+
+a:link    { color: #00FFFF; }
+a:visited { color: #00FFFF; }
+a:hover,
+a:focus,
+a:active  { color: #FF2626 !important; }
+
+p {
+line-height:180%;
+letter-spacing:1px;
+}
+
+.special p{
+line-height:280%;
+}
+
+.ticker_area{
+width: 850px !important;
+height:27px !important;
+background: #fff;
+border: 1px #ccc solid;
+overflow: hidden;
+position:relative;
+font-family:"ƒqƒ‰ƒMƒmŠpƒS Pro W3", "‚l‚r ‚oƒSƒVƒbƒN", "ƒƒCƒŠƒI", sans-serif; font-size: 87.5%;
+}
+
+.tick_sentence{
+font-size:155%;
+font-weight:bold;
+color:#000;
+}
+
+.info_sentence{
+	font-family:"ƒqƒ‰ƒMƒmŠpƒS Pro W3", "‚l‚r ‚oƒSƒVƒbƒN", "ƒƒCƒŠƒI", sans-serif; font-size: 87.5%;
+}
+
+.sent{
+font-size: 93%;
+line-height: 1.4;
+color:#ff0000;
+}
+
+.info_sentence a:link{ color: #06c !important; }
+.info_sentence a:visited { color: #06c !important; }
+.info_sentence a:hover{ color: #FF0000 !important; }
+.info_sentence a:focus{ color: #FF0000 !important; }
+.info_sentence a:active  { color: #FF0000 !important; }
+
+.news a:link{ color: #FF7F00 !important; }
+.news a:visited{ color: #FF7F00 !important; }
+.news a:hover{ color: #FF0000 !important; }
+.news a:focus{ color: #FF0000 !important; }
+.news a:active{ color: #FF0000 !important; }
+
+table{
+	line-height: 150%;
+}
+
+.line1{
+line-height: 120%;
+}
+
+.special table{
+line-height:180%;
+letter-spacing:1px;
+}
+
+.center{
+text-align:center;
+}
+
+.ddimg{
+	padding:10px 10px 0 10px;
+	background-color:rgba(255,255,255,0.6);
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#AAFFFFFF,EndColorStr=#AAFFFFFF);	
+}
+
+
+.ddimg2{
+	padding:0 5px;
+	background-color:rgba(255,255,255,0.6);
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#AAFFFFFF,EndColorStr=#AAFFFFFF);	
+}
